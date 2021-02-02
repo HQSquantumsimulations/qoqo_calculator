@@ -37,7 +37,7 @@ static RTOL: f64 = 1e-8;
 pub enum CalculatorFloat {
     /// Floating point value
     Float(f64),
-    /// Symbolic expression in String form 
+    /// Symbolic expression in String form
     Str(String),
 }
 

@@ -109,9 +109,7 @@ impl TryFrom<CalculatorComplex> for f64 {
         match value.im {
             CalculatorFloat::Float(x) => {
                 if x != 0.0 {
-                    return Err(CalculatorError::ComplexCanNotBeConvertedToFloat {
-                        val: value,
-                    });
+                    return Err(CalculatorError::ComplexCanNotBeConvertedToFloat { val: value });
                 }
             }
             _ => return Err(CalculatorError::ComplexSymbolicNotConvertable { val: value }),

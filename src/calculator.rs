@@ -17,7 +17,6 @@ use std::str::FromStr;
 use std::vec::Vec;
 static ATOL: f64 = f64::EPSILON;
 
-
 /// Match name of function to number of arguments
 /// Returns result with CalculatorError when function name is not known
 fn function_argument_numbers(input: &str) -> Result<usize, CalculatorError> {
@@ -67,8 +66,7 @@ fn function_argument_numbers(input: &str) -> Result<usize, CalculatorError> {
     }
 }
 
-
-/// Match name of function with one argument to rust funtion and return Result 
+/// Match name of function with one argument to rust funtion and return Result
 fn function_1_argument(input: &str, arg0: f64) -> Result<f64, CalculatorError> {
     match input {
         "sin" => Ok(arg0.sin()),
@@ -123,8 +121,7 @@ fn function_1_argument(input: &str, arg0: f64) -> Result<f64, CalculatorError> {
     }
 }
 
-
-/// Match name of function with two arguments to rust funtion and return Result 
+/// Match name of function with two arguments to rust funtion and return Result
 fn function_2_arguments(input: &str, arg0: f64, arg1: f64) -> Result<f64, CalculatorError> {
     match input {
         "atan2" => Ok(arg0.atan2(arg1)),
@@ -137,7 +134,6 @@ fn function_2_arguments(input: &str, arg0: f64, arg1: f64) -> Result<f64, Calcul
         }),
     }
 }
-
 
 /// Struct for parsing string expressions to floats
 #[derive(Debug, Clone)]
@@ -188,7 +184,6 @@ impl Calculator {
             })?)
     }
 
-
     ///  Parse a string expression.
     ///
     /// # Arguments
@@ -212,17 +207,13 @@ impl Calculator {
     ///
     /// 1. `parse_variable` - Parsed string CalculatorFloat or returns float value
     ///
-    pub fn parse_get(
-        &mut self,
-        parse_variable: CalculatorFloat,
-    ) -> Result<f64, CalculatorError> {
+    pub fn parse_get(&mut self, parse_variable: CalculatorFloat) -> Result<f64, CalculatorError> {
         match parse_variable {
             CalculatorFloat::Float(x) => Ok(x),
             CalculatorFloat::Str(expression) => self.parse_str(&expression),
         }
     }
 }
-
 
 /// Enum combining different types of Tokens in an Expression
 ///
@@ -295,9 +286,8 @@ impl fmt::Display for Token {
 /// Struct implementing Iterator trait to lex string
 /// to computational Tokens
 struct TokenIterator<'a> {
-    // save current expression as a slice of a string so we do not 
+    // save current expression as a slice of a string so we do not
     // need to copy but only modify (shorten) the slice
-
     /// * `current_expression` - Current str expression begin lexed
     current_expression: &'a str,
 }
@@ -482,7 +472,6 @@ where
 
 // helper methods not in standard iterator trait
 impl<'a> TokenIterator<'a> {
- 
     fn next_token_and_str(&mut self) -> (Option<Token>, &'a str) {
         let next_token = self.next();
         let next_str = self.current_expression;
@@ -497,8 +486,6 @@ impl<'a> TokenIterator<'a> {
         }
     }
 }
-
-
 
 /// Parses string to float using TokenIterator lexer
 ///
@@ -517,7 +504,6 @@ impl<'a, 'b> Parser<'a>
 where
     'b: 'a,
 {
-
     /// Initialize Parser
     fn new(expression: &'a str, calculator: &'b mut Calculator) -> Self {
         let (next_token, next_str) = (TokenIterator {
@@ -564,7 +550,6 @@ where
         Ok(current_value)
     }
 
- 
     /// Initialize the evaluation of an expression
     fn evaluate_init(&mut self) -> Result<Option<f64>, CalculatorError> {
         if self.current_token == Token::EndOfExpression || self.current_token == Token::EndOfString
@@ -572,16 +557,15 @@ where
             Err(CalculatorError::UnexpetedEndOfExpression)
         } else {
             if let Token::VariableAssign(ref vs) = (*self).current_token {
-                    let vsnew = vs.to_owned();
-                    self.next_token()?;
-                    let res = self.evaluate_binary_1()?;
-                    self.calculator.set_variable(&vsnew, res);
-                    return Ok(Some(res));
+                let vsnew = vs.to_owned();
+                self.next_token()?;
+                let res = self.evaluate_binary_1()?;
+                self.calculator.set_variable(&vsnew, res);
+                return Ok(Some(res));
             }
             Ok(Some(self.evaluate_binary_1()?))
         }
     }
-
 
     /// Evaluate least preference binary expression (+, -)
     fn evaluate_binary_1(&mut self) -> Result<f64, CalculatorError> {
@@ -618,7 +602,6 @@ where
         Ok(res)
     }
 
-
     /// Evaluate least preference binary expression (^, !)
     fn evaluate_binary_3(&mut self) -> Result<f64, CalculatorError> {
         let mut res = self.evaluate_unary()?;
@@ -639,7 +622,6 @@ where
         }
         Ok(res)
     }
-
 
     /// Handle any unary + or - signs
     fn evaluate_unary(&mut self) -> Result<f64, CalculatorError> {

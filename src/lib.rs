@@ -1,4 +1,3 @@
-
 // Copyright © 2020-2021 HQS Quantum Simulations GmbH. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
@@ -25,33 +24,19 @@ pub enum CalculatorError {
     #[error("Input can not be converted to CalculatorFloat")]
     NotConvertable,
     #[error("Symbolic value {val:?} can not be converted to float")]
-    FloatSymbolicNotConvertable {
-        val: String,
-    },
+    FloatSymbolicNotConvertable { val: String },
     #[error("Symbolic value {val:?} can not be converted to complex")]
-    ComplexSymbolicNotConvertable {
-        val: CalculatorComplex,
-    },
+    ComplexSymbolicNotConvertable { val: CalculatorComplex },
     #[error("Imaginary part of CalculatorComplex {val:?} not zero")]
-    ComplexCanNotBeConvertedToFloat{
-        val: CalculatorComplex,
-    },
+    ComplexCanNotBeConvertedToFloat { val: CalculatorComplex },
     #[error("Parsing error: {msg:?}")]
-    ParsingError{
-        msg: &'static str,
-    },
+    ParsingError { msg: &'static str },
     #[error("Function {fct:?} not implemented.")]
-    NotImplementedError{
-        fct: &'static str,
-    },
+    NotImplementedError { fct: &'static str },
     #[error("Function {fct:?} not found.")]
-    FunctionNotFound{
-        fct: String,
-    },
+    FunctionNotFound { fct: String },
     #[error("Variable {name:?} not set.")]
-    VariableNotSet{
-        name: String,
-    },
+    VariableNotSet { name: String },
     #[error("Parsing error: Unexpected end of expression")]
     UnexpetedEndOfExpression,
     #[error("Division by zero error")]
