@@ -14,10 +14,10 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: actions-rs/toolchain@v1
-      with:
-        profile: minimal
-        toolchain: stable
-        components: clippy
+        with:
+          profile: minimal
+          toolchain: stable
+          components: clippy
       -run: cargo clippy -- -D warnings
 
   unittests_check:
@@ -34,11 +34,11 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: actions-rs/toolchain@v1
-      with:
-        profile: minimal
-        toolchain: stable
-        target: ${{ matrix.combinations.rust }}
-        default: true
+        with:
+          profile: minimal
+          toolchain: stable
+          target: ${{ matrix.combinations.rust }}
+          default: true
       -run: cargo test
   
   format_check:
@@ -46,8 +46,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: actions-rs/toolchain@v1
-      with:
-        profile: minimal
-        toolchain: stable
-        components: rust-fmt
+        with:
+          profile: minimal
+          toolchain: stable
+          components: rust-fmt
       -run: cargo fmt --all --check
