@@ -2,11 +2,9 @@ name: ci_tests
 
 on:
   push:
-    branches:
-      main
-  pull:
-    branches:
-      main
+    branches: [main]
+  pull_request:
+    branches: [main]
 
 jobs:
   clippy_check:
@@ -18,13 +16,12 @@ jobs:
           profile: minimal
           toolchain: stable
           components: clippy
-      -run: cargo clippy -- -D warnings
+      - run: cargo clippy -- -D warnings
 
   unittests_check:
-    name: unittests_check-${{ matrix.combinations.os }}
+    name: unittests_check-${{ matrix.combinations.runs_on }}
     runs-on: ${{ matrix.combinations.runs_on }}
     strategy:
-      fail-fast: false  # If one platform fails, allow the rest to keep testing.
       matrix:
         combinations: [
           { runs_on: "macOS-latest", rust: "x86_64-apple-darwin" },
@@ -39,7 +36,7 @@ jobs:
           toolchain: stable
           target: ${{ matrix.combinations.rust }}
           default: true
-      -run: cargo test
+      - run: cargo test
   
   format_check:
     runs-on: ubuntu-latest
@@ -50,4 +47,4 @@ jobs:
           profile: minimal
           toolchain: stable
           components: rust-fmt
-      -run: cargo fmt --all --check
+      - run: cargo fmt --all --check
