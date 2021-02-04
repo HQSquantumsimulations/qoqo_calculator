@@ -1,6 +1,6 @@
 # qoqo-calculator
 
-qoqo-calculator is the calculator backend of the qoqo quantum computing toolkit by [HQS Quantum Simulations](quantumsimulations.de).
+qoqo-calculator is the calculator backend of the qoqo quantum computing toolkit by [HQS Quantum Simulations](https://quantumsimulations.de).
 
 qoqo-calculator provides
 * A calculator that evaluates symbolic string expressions to float values
