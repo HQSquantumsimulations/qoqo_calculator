@@ -5,6 +5,9 @@ authors = ["HQS Quantum Simulations <info@quantumsimulations.de>"]
 license = "Apache-2.0"
 edition = "2018"
 categories = ["science", "simulation"]
+readme = "README.md"
+repository = "https://github.com/HQSquantumsimulations/qoqo_calculator"
+description = "qoqo-calculator is the calculator backend of the qoqo quantum computing toolkit by HQS Quantum Simulations"
 
 [lib]
 name = "qoqo_calculator"
@@ -12,7 +15,7 @@ crate-type = ["rlib"]
 
 [dependencies]
 num-complex = "0.3"
-serde = {version = '=1.0.123', features = ["derive"]}
+serde = { version = '=1.0.123', features = ["derive"] }
 thiserror = "1.0"
 
 [dev-dependencies]
