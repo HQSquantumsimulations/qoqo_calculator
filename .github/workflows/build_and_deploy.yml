@@ -1,25 +1,24 @@
 # This workflow will upload a Python Package using Twine when a release is created
 # For more information see: https://help.github.com/en/actions/language-and-framework-guides/using-python-with-github-actions#publishing-to-package-registries
 # name: Build and deploy
-# name: build_and_deploy
+name: build_and_deploy
 
-# on:
-#   release:
-#     types: [created]
+on:
+  release:
+    types: [created]
 
-# jobs:
-#   deploy_cratesio:
-#     runs-on: ubuntu-latest
-#     steps:
-#     - uses: actions/checkout@v2
-#     - uses: actions-rs/toolchain@v1
-#       with:
-#         profile: minimal
-#         toolchain: stable
-#         default: true
-#     - name: setup cargo
-#       run: |
-#         cargo login ${{ secrets.CARGO_TOKEN }}
-#         cargo package
-#         cargo publish
+jobs:
+  deploy_cratesio:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions-rs/toolchain@v1
+      with:
+        profile: minimal
+        toolchain: stable
+        default: true
+    - name: setup cargo
+      run: |
+        cargo login ${{ secrets.CRATES_IO_API_TOKEN }}
+        cargo publish
 
