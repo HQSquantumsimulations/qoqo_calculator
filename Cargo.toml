@@ -15,7 +15,7 @@ crate-type = ["rlib"]
 
 [dependencies]
 num-complex = "0.3"
-serde = { version = '=1.0.123', features = ["derive"] }
+serde = { version = '=1.0.124', features = ["derive"] }
 thiserror = "1.0"
 
 [dev-dependencies]
