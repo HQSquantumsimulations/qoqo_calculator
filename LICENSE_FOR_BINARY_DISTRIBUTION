@@ -2,35 +2,28 @@ The source of this software is licensed under the Apache 2.0 license (see below)
 In building the binary distribution other products the following software are also used and linked
 For Copyright notices provided by the packages see NOTIC file
 
-
-This product in binary form bundles proc-macro2 1.0.24 (https://github.com/alexcrichton/proc-macro2), 
-which is available under the Apache 2.0 license.
-
-This product in binary form bundles unicode-xid 0.2.1 ( https://github.com/unicode-rs/unicode-xid), 
-which is available under the Apache 2.0 license.
-
-This product in binary form bundles syn 1.0.60 ( https://github.com/dtolnay/syn), 
-which is available under the Apache 2.0 license.
-
 This product in binary form bundles autocfg 1.0.1 ( https://github.com/cuviper/autocfg), 
 which is available under the Apache 2.0 license.
 
-This product in binary form bundles serde_derive 1.0.123 ( https://github.com/serde-rs/serde), 
-which is available under the Apache 2.0 license.
-
-This product in binary form bundles serde 1.0.123 ( https://github.com/serde-rs/serde), 
-which is available under the Apache 2.0 license.
-
-This product in binary form bundles smallvec 1.6.1 (https://github.com/servo/rust-smallvec), 
+This product in binary form bundles num-complex 0.3.1 ( https://github.com/rust-num/num-complex), 
 which is available under the Apache 2.0 license.
 
 This product in binary form bundles num-traits 0.2.14 ( https://github.com/rust-num/num-traits), 
 which is available under the Apache 2.0 license.
 
-This product in binary form bundles quote 1.0.8 ( https://github.com/dtolnay/quote), 
+This product in binary form bundles proc-macro2 1.0.24 (https://github.com/alexcrichton/proc-macro2), 
 which is available under the Apache 2.0 license.
 
-This product in binary form bundles num-complex 0.3.1 ( https://github.com/rust-num/num-complex), 
+This product in binary form bundles quote 1.0.9 ( https://github.com/dtolnay/quote), 
+which is available under the Apache 2.0 license.
+
+This product in binary form bundles serde 1.0.123 ( https://github.com/serde-rs/serde), 
+which is available under the Apache 2.0 license.
+
+This product in binary form bundles serde_derive 1.0.123 ( https://github.com/serde-rs/serde), 
+which is available under the Apache 2.0 license.
+
+This product in binary form bundles syn 1.0.60 ( https://github.com/dtolnay/syn), 
 which is available under the Apache 2.0 license.
 
 This product in binary form bundles thiserror 1.0.23 ( https://github.com/dtolnay/thiserror), 
@@ -39,6 +32,8 @@ which is available under the Apache 2.0 license.
 This product in binary form bundles thiserror-impl 1.0.23 ( https://github.com/dtolnay/thiserror), 
 which is available under the Apache 2.0 license.
 
+This product in binary form bundles unicode-xid 0.2.1 ( https://github.com/unicode-rs/unicode-xid), 
+which is available under the Apache 2.0 license.
 
 
                                  Apache License

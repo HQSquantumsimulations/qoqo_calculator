@@ -14,9 +14,15 @@ name = "qoqo_calculator"
 crate-type = ["rlib"]
 
 [dependencies]
-num-complex = "0.3"
-serde = { version = '=1.0.123', features = ["derive"] }
-thiserror = "1.0"
+autocfg = "=1.0.1"
+num-complex = "=0.4.0"
+num-traits = "=0.2.14"
+proc-macro2 = "=1.0.24"
+quote = "=1.0.9"
+serde = { version = '=1.0.124', features = ["derive"] }
+syn = "=1.0.60"
+thiserror = "=1.0"
+unicode-xid = "=0.2.1"
 
 [dev-dependencies]
-serde_test = "1.0.123"
+serde_test = "=1.0.124"
