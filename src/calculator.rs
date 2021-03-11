@@ -83,8 +83,8 @@ fn function_1_argument(input: &str, arg0: f64) -> Result<f64, CalculatorError> {
         "asinh" => Ok(arg0.asinh()),
         "atanh" => Ok(arg0.atanh()),
         "arcosh" => Ok(arg0.acosh()),
-        "arsinh" => Ok(arg0.acosh()),
-        "artanh" => Ok(arg0.acosh()),
+        "arsinh" => Ok(arg0.asinh()),
+        "artanh" => Ok(arg0.atanh()),
         "exp" => Ok(arg0.exp()),
         "exp2" => Ok(arg0.exp2()),
         "expm1" => Ok(arg0.exp_m1()), //< exponential minus 1
