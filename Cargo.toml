@@ -1,6 +1,6 @@
 [package]
 name = "qoqo_calculator"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["HQS Quantum Simulations <info@quantumsimulations.de>"]
 license = "Apache-2.0"
 edition = "2018"
@@ -15,8 +15,8 @@ crate-type = ["rlib"]
 
 [dependencies]
 num-complex = "0.3"
-serde = { version = '=1.0.123', features = ["derive"] }
+serde = { version = '1.0', features = ["derive"] }
 thiserror = "1.0"
 
 [dev-dependencies]
-serde_test = "1.0.123"
+serde_test = "1.0"

@@ -518,7 +518,7 @@ where
     }
 
     /// Get next token via TokenIterator
-    fn next_token(&mut self) -> Result<(), CalculatorError> {
+    fn next_token(&mut self) {
         let (next_token, next_str) = (TokenIterator {
             current_expression: self.remaining_expression,
         })
@@ -527,12 +527,10 @@ where
             None => {
                 self.current_token = Token::EndOfString;
                 self.remaining_expression = "";
-                Ok(())
             }
             Some(t) => {
                 self.current_token = t;
                 self.remaining_expression = next_str;
-                Ok(())
             }
         }
     }
@@ -544,7 +542,7 @@ where
         while self.current_token != Token::EndOfString {
             current_value = self.evaluate_init()?;
             while self.current_token == Token::EndOfExpression {
-                self.next_token()?;
+                self.next_token();
             }
         }
         Ok(current_value)
@@ -558,7 +556,7 @@ where
         } else {
             if let Token::VariableAssign(ref vs) = (*self).current_token {
                 let vsnew = vs.to_owned();
-                self.next_token()?;
+                self.next_token();
                 let res = self.evaluate_binary_1()?;
                 self.calculator.set_variable(&vsnew, res);
                 return Ok(Some(res));
@@ -572,7 +570,7 @@ where
         let mut res = self.evaluate_binary_2()?;
         while self.current_token == Token::Plus || self.current_token == Token::Minus {
             let bsum: bool = self.current_token == Token::Plus;
-            self.next_token()?;
+            self.next_token();
             let val = self.evaluate_binary_2()?;
             if bsum {
                 res += val;
@@ -588,7 +586,7 @@ where
         let mut res = self.evaluate_binary_3()?;
         while self.current_token == Token::Multiply || self.current_token == Token::Divide {
             let bmul: bool = self.current_token == Token::Multiply;
-            self.next_token()?;
+            self.next_token();
             let val = self.evaluate_binary_3()?;
             if bmul {
                 res *= val;
@@ -615,7 +613,7 @@ where
                 return Err(CalculatorError::NotImplementedError { fct: "Factorial" })
             }
             Token::Power => {
-                self.next_token()?;
+                self.next_token();
                 res = res.powf(self.evaluate_unary()?);
             }
             _ => (),
@@ -628,11 +626,11 @@ where
         let mut prefactor: f64 = 1.0;
         match self.current_token {
             Token::Minus => {
-                self.next_token()?;
+                self.next_token();
                 prefactor = -1.0;
             }
             Token::Plus => {
-                self.next_token()?;
+                self.next_token();
             }
             _ => (),
         }
@@ -643,7 +641,7 @@ where
     fn evaluate(&mut self) -> Result<f64, CalculatorError> {
         match (*self).current_token {
             Token::BracketOpen => {
-                self.next_token()?;
+                self.next_token();
                 let res_init = self.evaluate_init()?.ok_or(CalculatorError::ParsingError {
                     msg: "Unexpected None return",
                 })?;
@@ -653,22 +651,22 @@ where
                         msg: "Expected Braket close",
                     })
                 } else {
-                    self.next_token()?;
+                    self.next_token();
                     Ok(res_init)
                 }
             }
             Token::Number(vf) => {
-                self.next_token()?;
+                self.next_token();
                 Ok(vf)
             }
             Token::Variable(ref vs) => {
                 let vsnew = vs.to_owned();
-                self.next_token()?;
+                self.next_token();
                 self.calculator.get_variable(&vsnew)
             }
             Token::Function(ref vs) => {
                 let vsnew = vs.to_owned();
-                self.next_token()?;
+                self.next_token();
                 let mut heap = Vec::new();
                 let number_arguments = function_argument_numbers(&vsnew)?;
                 for argument_number in 0..number_arguments {
@@ -683,7 +681,7 @@ where
                                 msg: "expected comma in function arguments",
                             });
                         } else {
-                            self.next_token()?;
+                            self.next_token();
                         }
                     }
                     //self.next_token()?;
@@ -693,7 +691,7 @@ where
                         msg: "Expected braket close.",
                     });
                 }
-                self.next_token()?;
+                self.next_token();
                 match number_arguments {
                     1 => function_1_argument(
                         &vsnew,
