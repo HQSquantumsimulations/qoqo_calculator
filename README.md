@@ -1,8 +1,8 @@
 # qoqo-calculator
 
-![Crates.io](https://img.shields.io/crates/v/qoqo_calculator)
-![GitHub Workflow Status](https://img.shields.io/github/workflow/status/HQSquantumsimulations/qoqo_calculator/ci_tests)
-![docs.rs](https://img.shields.io/docsrs/qoqo_calculator)
+[![Crates.io](https://img.shields.io/crates/v/qoqo_calculator)](https://crates.io/crates/qoqo_calculator)
+[![GitHub Workflow Status](https://github.com/HQSquantumsimulations/qoqo_calculator/workflows/ci_tests/badge.svg)](https://github.com/HQSquantumsimulations/qoqo_calculator/actions)
+[![docs.rs](https://img.shields.io/docsrs/qoqo_calculator)](https://docs.rs/qoqo_calculator/)
 ![Crates.io](https://img.shields.io/crates/l/qoqo_calculator)
 
 qoqo-calculator is the calculator backend of the qoqo quantum computing toolkit by [HQS Quantum Simulations](https://quantumsimulations.de).
@@ -17,4 +17,4 @@ This software is still in the beta stage. Functions and documentation are not ye
 
 ## Contributing
 
-At the moment we are still finalising contributor guidelines for this project. If you are interested in contributing to the project please contact us first before you start working on a pull request.
+At the moment we are still finalizing contributor guidelines for this project. If you are interested in contributing to the project please contact us first before you start working on a pull request.
