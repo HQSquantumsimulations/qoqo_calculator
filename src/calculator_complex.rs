@@ -190,7 +190,7 @@ impl CalculatorComplex {
     pub fn norm_sqr(&self) -> CalculatorFloat {
         (self.re.clone() * &self.re) + (self.im.clone() * &self.im)
     }
-    /// Return norm of complex number x |x|^2=x.re^2+x.im^2
+    /// Return norm of complex number x |x|=(x.re^2+x.im^2)^1/2
     ///
     pub fn norm(&self) -> CalculatorFloat {
         ((self.re.clone() * &self.re) + (self.im.clone() * &self.im)).sqrt()
@@ -398,9 +398,10 @@ mod tests {
     use super::CalculatorFloat;
     use num_complex::Complex;
     use std::convert::TryFrom;
+
+    // Test the initialisation of CalculatorComplex from integer input
     #[test]
     fn from_int() {
-        // Int init
         let x = CalculatorComplex::from(3);
         assert_eq!(x.re, CalculatorFloat::from(3));
         assert_eq!(x.im, CalculatorFloat::from(0));
@@ -413,9 +414,10 @@ mod tests {
         );
         assert_eq!(f64::try_from(x).unwrap(), 3.0)
     }
+
+    // Test the initialisation of CalculatorComplex from float input
     #[test]
     fn from_float() {
-        // Float init
         let x = CalculatorComplex::from(3.1);
         assert_eq!(x.re, CalculatorFloat::from(3.1));
         assert_eq!(x.im, CalculatorFloat::from(0));
@@ -427,9 +429,10 @@ mod tests {
             }
         );
     }
+
+    // Test the initialisation of CalculatorComplex from string input
     #[test]
     fn from_str() {
-        // Str init
         let x = CalculatorComplex::from("3.1");
         assert_eq!(x.re, CalculatorFloat::from("3.1"));
         assert_eq!(x.im, CalculatorFloat::from(0));
@@ -441,12 +444,73 @@ mod tests {
             }
         );
     }
+
+    // Test the initialisation of CalculatorComplex from complex input
+    #[test]
+    fn from_complex() {
+        let x = CalculatorComplex::from(Complex::new(1.0, 2.0));
+        assert_eq!(x.re, CalculatorFloat::from(1.0));
+        assert_eq!(x.im, CalculatorFloat::from(2.00));
+        assert_eq!(
+            x,
+            CalculatorComplex {
+                re: CalculatorFloat::from(1.0),
+                im: CalculatorFloat::from(2.0)
+            }
+        );
+    }
+
+    // Test the initialisation of CalculatorComplex from Calculatorcomplex reference input
+    #[test]
+    fn from_calculator_complex() {
+        let x = CalculatorComplex::new(1, 1);
+        assert_eq!(CalculatorComplex::from(&x), x);
+    }
+
+    // Test the default of CalculatorComplex
+    #[test]
+    fn default() {
+        let x = CalculatorComplex::default();
+        assert_eq!(x, CalculatorComplex::new(0, 0));
+    }
+
+    // Test the conversion of CalculatorComplex to Float
+    #[test]
+    fn try_from_float() {
+        let x = CalculatorComplex::new(1.0, 0.0);
+        assert_eq!(<f64>::try_from(x).unwrap(), 1.0);
+
+        let x = CalculatorComplex::new(0.0, 1.0);
+        assert!(f64::try_from(x).is_err());
+
+        let x = CalculatorComplex::new("x", 0.0);
+        assert!(f64::try_from(x).is_err());
+
+        let x = CalculatorComplex::new(1.0, "x");
+        assert!(f64::try_from(x).is_err());
+    }
+
+    // Test the conversion of CalculatorComplex to Complex
     #[test]
     fn try_from_complex() {
         let x = CalculatorComplex::new(1, 1);
-        assert_eq!(Complex::<f64>::try_from(x).unwrap(), Complex::new(1.0, 1.0))
+        assert_eq!(Complex::<f64>::try_from(x).unwrap(), Complex::new(1.0, 1.0));
+
+        let x = CalculatorComplex::new(0.0, "x");
+        assert!(Complex::<f64>::try_from(x).is_err());
+
+        let x = CalculatorComplex::new("x", 0.0);
+        assert!(Complex::<f64>::try_from(x).is_err());
     }
 
+    // Test the Display functionality of CalculatorComplex
+    #[test]
+    fn display() {
+        let x = CalculatorComplex::new(-3, 2);
+        assert_eq!(format!("{}", x), "(-3e0 + i * 2e0)");
+    }
+    
+    // Test the addition functionality of CalculatorComplex
     #[test]
     fn try_add() {
         let x = CalculatorComplex::new(1, 1);
@@ -454,6 +518,7 @@ mod tests {
         assert_eq!(x + y, CalculatorComplex::new(3.0, "(1e0 + test)"));
     }
 
+    // Test the add_assign functionality of CalculatorComplex
     #[test]
     fn try_iadd() {
         let mut x = CalculatorComplex::new(1, 1);
@@ -462,6 +527,7 @@ mod tests {
         assert_eq!(x, CalculatorComplex::new(3.0, "(1e0 + test)"));
     }
 
+    // Test the subtract functionality of CalculatorComplex
     #[test]
     fn try_sub() {
         let x = CalculatorComplex::new(1, 1);
@@ -469,6 +535,7 @@ mod tests {
         assert_eq!(x - y, CalculatorComplex::new(-1.0, "(1e0 - test)"));
     }
 
+    // Test the sub_assign functionality of CalculatorComplex
     #[test]
     fn try_isub() {
         let mut x = CalculatorComplex::new(1, 1);
@@ -477,6 +544,7 @@ mod tests {
         assert_eq!(x, CalculatorComplex::new(-1.0, "(1e0 - test)"));
     }
 
+    // Test the multiply functionality of CalculatorComplex
     #[test]
     fn try_mul() {
         let x = CalculatorComplex::new(1, 1);
@@ -484,6 +552,8 @@ mod tests {
         assert_eq!(x * y, CalculatorComplex::new(0.0, 4.0));
     }
 
+
+    // Test the mul_assign functionality of CalculatorComplex
     #[test]
     fn try_imul() {
         let mut x = CalculatorComplex::new(1, 1);
@@ -491,6 +561,8 @@ mod tests {
         x *= y;
         assert_eq!(x, CalculatorComplex::new(0.0, 4.0));
     }
+
+    // Test the division functionality of CalculatorComplex
     #[test]
     fn try_div() {
         let x = CalculatorComplex::new(1, 1);
@@ -498,6 +570,7 @@ mod tests {
         assert_eq!(x / y, CalculatorComplex::new(7.0 / 25.0, -1.0 / 25.0));
     }
 
+    // Test the div_assign functionality of CalculatorComplex
     #[test]
     fn try_idiv() {
         let mut x = CalculatorComplex::new(1, 1);
@@ -505,4 +578,105 @@ mod tests {
         x /= y;
         assert_eq!(x, CalculatorComplex::new(7.0 / 25.0, -1.0 / 25.0));
     }
+
+    // Test the arg functionality of CalculatorComplex with all possible input types
+    #[test]
+    fn arg() {
+        let x = CalculatorComplex::new(1, 2);
+        let y = Complex::new(1.0, 2.0);
+        assert_eq!(x.arg(), CalculatorFloat::from(y.arg()));
+
+        let x = CalculatorComplex::new("x", 2);
+        assert_eq!(x.arg(), CalculatorFloat::from("atan2(2e0, x)"));
+
+        let x = CalculatorComplex::new(1, "2x");
+        assert_eq!(x.arg(), CalculatorFloat::from("atan2(2x, 1e0)"));
+
+        let x = CalculatorComplex::new("x", "2t");
+        assert_eq!(x.arg(), CalculatorFloat::from("atan2(2t, x)"));
+    }
+
+    // Test the square norm functionality of CalculatorComplex
+    #[test]
+    fn norm_sqr() {
+        let x = CalculatorComplex::new(1, 2);
+        let y = Complex::new(1.0, 2.0);
+        assert_eq!(x.norm_sqr(), CalculatorFloat::from(y.norm_sqr()));
+    }
+
+    // Test the norm functionality of CalculatorComplex
+    #[test]
+    fn norm() {
+        let x = CalculatorComplex::new(1, 2);
+        let y = Complex::new(1.0, 2.0);
+        assert_eq!(x.norm(), CalculatorFloat::from(y.norm()));
+    }
+
+    // Test the conjugate functionality of CalculatorComplex
+    #[test]
+    fn conj() {
+        let x = CalculatorComplex::new(1, 2);
+        let y = Complex::new(1.0, 2.0);
+        assert_eq!(x.conj(), CalculatorComplex::new(y.conj().re, y.conj().im));
+    }
+
+    // Test the isclose functionality of CalculatorComplex
+    #[test]
+    fn is_close() {
+        let x = CalculatorComplex::new(1, 2);
+        let y = Complex::new(1.0, 2.0);
+        assert!(x.isclose(y));
+
+        let y = 1.0;
+        assert!(!x.isclose(y));
+    }
+
+    // // Test the negative sign (*-1) functionality of CalculatorComplex
+    #[test]
+    // fn neg() {
+    //     let x = CalculatorComplex::new(1, 2);
+    //     assert_eq!(x.neg(), CalculatorComplex::new(-1, -2));
+    // }
+
+    // Test the inverse functionality of CalculatorComplex
+    #[test]
+    fn inv() {
+        let x = CalculatorComplex::new(3, 4);
+        assert_eq!(x.recip(), CalculatorComplex::new(0.12, -0.16));
+    }
+
+    // Test the Debug trait for CalculatorComplex
+    #[test]
+    fn debug() {
+        let x = CalculatorComplex::from(3.0);
+        assert_eq!(format!("{:?}", x), "CalculatorComplex { re: Float(3.0), im: Float(0.0) }");
+
+        let xs = CalculatorComplex::from("3x");
+        assert_eq!(format!("{:?}", xs), "CalculatorComplex { re: Str(\"3x\"), im: Float(0.0) }");
+    }
+
+    // Test the Clone trait for CalculatorComplex
+    #[test]
+    fn clone_trait() {
+        let x = CalculatorComplex::from(3.0);
+        assert_eq!(x.clone(), x);
+
+        let xs = CalculatorComplex::from("3x");
+        assert_eq!(xs.clone(), xs);
+    }
+
+    // Test the PartialEq trait for CalculatorComplex
+    #[test]
+    fn partial_eq() {
+        let x1 = CalculatorComplex::from(3.0);
+        let x2 = CalculatorComplex::from(3.0);
+        assert!(x1 == x2);
+        assert!(x2 == x1);
+
+        let x1s = CalculatorComplex::from("3x");
+        let x2s = CalculatorComplex::from("3x");
+        assert!(x1s == x2s);
+        assert!(x2s == x1s);
+    }
+    
 }
