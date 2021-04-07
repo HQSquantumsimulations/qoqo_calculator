@@ -1,2 +1,6 @@
 Cargo.lock
 target/*
+*.profraw
+coverage.lcov
+coverage/*
+coveragehtml/*

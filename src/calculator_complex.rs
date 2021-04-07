@@ -22,6 +22,7 @@ use serde::{Deserialize, Serialize};
 use std::convert::TryFrom;
 use std::fmt;
 use std::ops;
+use std::ops::Neg;
 
 /// Struct CalculatorComplex
 ///
@@ -291,7 +292,7 @@ where
 }
 
 /// Implement minus sign for CalculatorComplex.
-impl ops::Neg for CalculatorComplex {
+impl Neg for CalculatorComplex {
     type Output = CalculatorComplex;
 
     fn neg(self) -> Self {
@@ -398,6 +399,7 @@ mod tests {
     use super::CalculatorFloat;
     use num_complex::Complex;
     use std::convert::TryFrom;
+    use std::ops::Neg;
 
     // Test the initialisation of CalculatorComplex from integer input
     #[test]
@@ -471,6 +473,8 @@ mod tests {
     #[test]
     fn default() {
         let x = CalculatorComplex::default();
+        assert_eq!(x.re, CalculatorFloat::from(0.0));
+        assert_eq!(x.im, CalculatorFloat::from(0.0));
         assert_eq!(x, CalculatorComplex::new(0, 0));
     }
 
@@ -633,10 +637,10 @@ mod tests {
 
     // // Test the negative sign (*-1) functionality of CalculatorComplex
     #[test]
-    // fn neg() {
-    //     let x = CalculatorComplex::new(1, 2);
-    //     assert_eq!(x.neg(), CalculatorComplex::new(-1, -2));
-    // }
+    fn neg() {
+        let x = CalculatorComplex::new(1, 2);
+        assert_eq!(x.neg(), CalculatorComplex::new(-1, -2));
+    }
 
     // Test the inverse functionality of CalculatorComplex
     #[test]
@@ -680,3 +684,4 @@ mod tests {
     }
     
 }
+//End of tests

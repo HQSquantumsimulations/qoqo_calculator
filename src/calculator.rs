@@ -66,7 +66,7 @@ fn function_argument_numbers(input: &str) -> Result<usize, CalculatorError> {
     }
 }
 
-/// Match name of function with one argument to rust funtion and return Result
+/// Match name of function with one argument to Rust function and return Result
 fn function_1_argument(input: &str, arg0: f64) -> Result<f64, CalculatorError> {
     match input {
         "sin" => Ok(arg0.sin()),
@@ -121,7 +121,7 @@ fn function_1_argument(input: &str, arg0: f64) -> Result<f64, CalculatorError> {
     }
 }
 
-/// Match name of function with two arguments to rust funtion and return Result
+/// Match name of function with two arguments to Rust function and return Result
 fn function_2_arguments(input: &str, arg0: f64, arg1: f64) -> Result<f64, CalculatorError> {
     match input {
         "atan2" => Ok(arg0.atan2(arg1)),
@@ -460,9 +460,9 @@ where
                 '!' => match self.current_expression.chars().next().unwrap_or(' ') {
                     '!' => {
                         self.current_expression = &self.current_expression[1..];
-                        Token::Factorial
+                        Token::DoubleFactorial
                     }
-                    _ => Token::DoubleFactorial,
+                    _ => Token::Factorial,
                 },
                 _ => Token::Unrecognized,
             });
@@ -552,7 +552,7 @@ where
     fn evaluate_init(&mut self) -> Result<Option<f64>, CalculatorError> {
         if self.current_token == Token::EndOfExpression || self.current_token == Token::EndOfString
         {
-            Err(CalculatorError::UnexpetedEndOfExpression)
+            Err(CalculatorError::UnexpectedEndOfExpression)
         } else {
             if let Token::VariableAssign(ref vs) = (*self).current_token {
                 let vsnew = vs.to_owned();
@@ -637,7 +637,7 @@ where
         Ok(prefactor * self.evaluate()?)
     }
 
-    /// Handle numbers, variables, functions and parentesis
+    /// Handle numbers, variables, functions and parentheses
     fn evaluate(&mut self) -> Result<f64, CalculatorError> {
         match (*self).current_token {
             Token::BracketOpen => {
@@ -727,6 +727,7 @@ mod tests {
     use super::function_2_arguments;
     use super::function_argument_numbers;
     use super::Calculator;
+    use super::CalculatorFloat;
     use super::Token;
     use super::TokenIterator;
 
@@ -759,6 +760,7 @@ mod tests {
         };
         assert_eq!(t_iterator3.next().unwrap(), Token::Minus);
     }
+
     #[test]
     fn test_number() {
         // Float init
@@ -779,6 +781,7 @@ mod tests {
         };
         assert_eq!(t_iterator4.next().unwrap(), Token::Number(1.74E-10));
     }
+
     #[test]
     fn test_multiply() {
         let mut t_iterator = TokenIterator {
@@ -786,6 +789,15 @@ mod tests {
         };
         assert_eq!(t_iterator.next().unwrap(), Token::Multiply);
     }
+
+    #[test]
+    fn test_divide() {
+        let mut t_iterator = TokenIterator {
+            current_expression: " /",
+        };
+        assert_eq!(t_iterator.next().unwrap(), Token::Divide);
+    }
+
     #[test]
     fn test_power() {
         let mut t_iterator = TokenIterator {
@@ -797,6 +809,63 @@ mod tests {
         };
         assert_eq!(t_iterator2.next().unwrap(), Token::Power);
     }
+
+    #[test]
+    fn test_brackets() {
+        let mut t_iterator = TokenIterator {
+            current_expression: " (",
+        };
+        assert_eq!(t_iterator.next().unwrap(), Token::BracketOpen);
+        let mut t_iterator = TokenIterator {
+            current_expression: ") ",
+        };
+        assert_eq!(t_iterator.next().unwrap(), Token::BracketClose);
+    }
+
+    #[test]
+    fn test_assign() {
+        let mut t_iterator = TokenIterator {
+            current_expression: " =",
+        };
+        assert_eq!(t_iterator.next().unwrap(), Token::Assign);
+    }
+
+    #[test]
+    fn test_comma() {
+        let mut t_iterator = TokenIterator {
+            current_expression: ", ",
+        };
+        assert_eq!(t_iterator.next().unwrap(), Token::Comma);
+    }
+
+    #[test]
+    fn test_semi_colon() {
+        let mut t_iterator = TokenIterator {
+            current_expression: ";",
+        };
+        assert_eq!(t_iterator.next().unwrap(), Token::EndOfExpression);
+    }
+
+    #[test]
+    fn test_factorial() {
+        let mut t_iterator = TokenIterator {
+            current_expression: "!",
+        };
+        assert_eq!(t_iterator.next().unwrap(), Token::Factorial);
+        let mut t_iterator = TokenIterator {
+            current_expression: "!!",
+        };
+        assert_eq!(t_iterator.next().unwrap(), Token::DoubleFactorial);
+    }
+
+    #[test]
+    fn test_unrecognized() {
+        let mut t_iterator = TokenIterator {
+            current_expression: "|",
+        };
+        assert_eq!(t_iterator.next().unwrap(), Token::Unrecognized);
+    }
+
     #[test]
     fn test_variable() {
         let mut t_iterator = TokenIterator {
@@ -838,11 +907,34 @@ mod tests {
     fn test_calculator_new() {
         let _calculator = Calculator::new();
     }
+
+    #[test]
+    fn test_calculator_default() {
+        let _calculator = Calculator::default();
+        assert_eq!(_calculator.variables, Calculator::new().variables);
+    }
+
+    #[test]
+    fn test_calculator_debug() {
+        let mut calculator = Calculator::new();
+        calculator.set_variable("x", 0.1);
+        assert_eq!(format!("{:?}", calculator), "Calculator { variables: {\"x\": 0.1} }");
+    }
+
+    #[test]
+    fn test_calculator_clone() {
+        let mut calculator = Calculator::new();
+        calculator.set_variable("x", 0.1);
+        let c_clone = calculator.clone();
+        assert_eq!(c_clone.get_variable("x").unwrap(), 0.1);
+        assert_eq!(calculator.variables, c_clone.variables);
+    }
+
     #[test]
     fn test_set_value() {
         let mut calculator = Calculator::new();
         calculator.set_variable("test", 0.1);
-        assert_eq!(*calculator.variables.get("test").unwrap(), 0.1)
+        assert_eq!(*calculator.variables.get("test").unwrap(), 0.1);
     }
 
     #[test]
@@ -858,7 +950,7 @@ mod tests {
         let mut calculator = Calculator::new();
         let value = calculator.parse_str("a=3; 2*(a+1);");
         assert_eq!(value.unwrap(), 8.0);
-        assert_eq!(calculator.get_variable("a").unwrap(), 3.0)
+        assert_eq!(calculator.get_variable("a").unwrap(), 3.0);
     }
 
     #[test]
@@ -866,7 +958,7 @@ mod tests {
         let mut calculator = Calculator::new();
         let value = calculator.parse_str("a_1=3; 2*(a_1+1);");
         assert_eq!(value.unwrap(), 8.0);
-        assert_eq!(calculator.get_variable("a_1").unwrap(), 3.0)
+        assert_eq!(calculator.get_variable("a_1").unwrap(), 3.0);
     }
 
     #[test]
@@ -886,22 +978,160 @@ mod tests {
         let mut calculator = Calculator::new();
         let value = calculator.parse_str("1+1");
         assert_eq!(value.unwrap(), 2.0);
+
+        let cf_float = CalculatorFloat::from(3.0);
+        let value_cf_float = calculator.parse_get(cf_float);
+        assert_eq!(value_cf_float.unwrap(), 3.0);
+
+        let cf_string = CalculatorFloat::from("3+0");
+        let value_cf_string = calculator.parse_get(cf_string);
+        assert_eq!(value_cf_string.unwrap(), 3.0);
     }
 
+    #[test]
+    fn test_evaluate_functions() {
+        let mut calculator = Calculator::new();
+
+        // Evaluate unary: + and -
+        let value = calculator.parse_str("-2");
+        assert_eq!(value.unwrap(), -2.0);
+        let value = calculator.parse_str("+2");
+        assert_eq!(value.unwrap(), 2.0);
+
+        // Evaluate binary3: **/^, ! and !!
+        let value = calculator.parse_str("2^3");
+        assert_eq!(value.unwrap(), 8.0);
+        let value = calculator.parse_str("2**3");
+        assert_eq!(value.unwrap(), 8.0);
+        let value = calculator.parse_str("3!");
+        assert!(value.is_err());
+        let value = calculator.parse_str("3!!");
+        assert!(value.is_err());
+
+        // Evaluate binary2: * and /
+        let value = calculator.parse_str("2*3");
+        assert_eq!(value.unwrap(), 6.0);
+        let value = calculator.parse_str("3/2");
+        assert_eq!(value.unwrap(), 1.5);
+        let value = calculator.parse_str("3/0");
+        assert!(value.is_err());
+
+        // Evaluate binary1: + and -
+        let value = calculator.parse_str("1+1");
+        assert_eq!(value.unwrap(), 2.0);
+        let value = calculator.parse_str("1-1");
+        assert_eq!(value.unwrap(), 0.0);
+
+        // Evaluate initialization
+        let value = calculator.parse_str(";3");
+        assert!(value.is_err());
+
+        // Evaluate
+        let value = calculator.parse_str("(3");
+        assert!(value.is_err());
+        let value = calculator.parse_str("(3)");
+        assert_eq!(value.unwrap(), 3.0);
+        let value = calculator.parse_str("3");
+        assert_eq!(value.unwrap(), 3.0);
+        let value = calculator.parse_str("x=3; x+2");
+        assert_eq!(value.unwrap(), 5.0);
+        let value = calculator.parse_str("max(3, 2)");
+        assert_eq!(value.unwrap(), 3.0);
+        let value = calculator.parse_str("max(3 2)");
+        assert!(value.is_err());
+        let value = calculator.parse_str("max(3, 2");
+        assert!(value.is_err());
+        let value = calculator.parse_str(")");
+        assert!(value.is_err());
+    }
+
+    // Testing that all functions get matched with the correct nummber of arguments (1 or 2)
     #[test]
     fn test_function_argument_numbers() {
         assert_eq!(function_argument_numbers("sin").unwrap(), 1);
+        assert_eq!(function_argument_numbers("cos").unwrap(), 1);
+        assert_eq!(function_argument_numbers("abs").unwrap(), 1);
+        assert_eq!(function_argument_numbers("tan").unwrap(), 1);
+        assert_eq!(function_argument_numbers("acos").unwrap(), 1);
+        assert_eq!(function_argument_numbers("asin").unwrap(), 1);
+        assert_eq!(function_argument_numbers("atan").unwrap(), 1);
+        assert_eq!(function_argument_numbers("cosh").unwrap(), 1);
+        assert_eq!(function_argument_numbers("sinh").unwrap(), 1);
+        assert_eq!(function_argument_numbers("tanh").unwrap(), 1);
+        assert_eq!(function_argument_numbers("acosh").unwrap(), 1);
+        assert_eq!(function_argument_numbers("asinh").unwrap(), 1);
+        assert_eq!(function_argument_numbers("atanh").unwrap(), 1);
+        assert_eq!(function_argument_numbers("arcosh").unwrap(), 1);
+        assert_eq!(function_argument_numbers("arsinh").unwrap(), 1);
+        assert_eq!(function_argument_numbers("artanh").unwrap(), 1);
+        assert_eq!(function_argument_numbers("exp").unwrap(), 1);
+        assert_eq!(function_argument_numbers("exp2").unwrap(), 1);
+        assert_eq!(function_argument_numbers("expm1").unwrap(), 1);
+        assert_eq!(function_argument_numbers("log").unwrap(), 1);
+        assert_eq!(function_argument_numbers("log10").unwrap(), 1);
+        assert_eq!(function_argument_numbers("sqrt").unwrap(), 1);
+        assert_eq!(function_argument_numbers("cbrt").unwrap(), 1);
+        assert_eq!(function_argument_numbers("ceil").unwrap(), 1);
+        assert_eq!(function_argument_numbers("floor").unwrap(), 1);
+        assert_eq!(function_argument_numbers("fract").unwrap(), 1);
+        assert_eq!(function_argument_numbers("round").unwrap(), 1);
+        assert_eq!(function_argument_numbers("erf").unwrap(), 1);
+        assert_eq!(function_argument_numbers("tgamma").unwrap(), 1);
+        assert_eq!(function_argument_numbers("lgamma").unwrap(), 1);
+        assert_eq!(function_argument_numbers("sign").unwrap(), 1);
+        assert_eq!(function_argument_numbers("delta").unwrap(), 1);
+        assert_eq!(function_argument_numbers("theta").unwrap(), 1);
+        assert_eq!(function_argument_numbers("parity").unwrap(), 1);
         assert_eq!(function_argument_numbers("atan2").unwrap(), 2);
+        assert_eq!(function_argument_numbers("hypot").unwrap(), 2);
+        assert_eq!(function_argument_numbers("pow").unwrap(), 2);
+        assert_eq!(function_argument_numbers("max").unwrap(), 2);
+        assert_eq!(function_argument_numbers("min").unwrap(), 2);
         assert!(function_argument_numbers("test").is_err());
     }
 
+    // Testing that all functions with 1 argument get matched with the correct Rust function
     #[test]
     fn test_function_1_argument() {
         let f: f64 = 0.1;
+        let f1: f64 = 1.5;
         assert_eq!(function_1_argument("sin", 0.1).unwrap(), f.sin());
+        assert_eq!(function_1_argument("cos", 0.1).unwrap(), f.cos());
+        assert_eq!(function_1_argument("abs", 0.1).unwrap(), f.abs());
+        assert_eq!(function_1_argument("tan", 0.1).unwrap(), f.tan());
+        assert_eq!(function_1_argument("acos", 0.1).unwrap(), f.acos());
+        assert_eq!(function_1_argument("asin", 0.1).unwrap(), f.asin());
+        assert_eq!(function_1_argument("atan", 0.1).unwrap(), f.atan());
+        assert_eq!(function_1_argument("cosh", 0.1).unwrap(), f.cosh());
+        assert_eq!(function_1_argument("sinh", 0.1).unwrap(), f.sinh());
+        assert_eq!(function_1_argument("tanh", 0.1).unwrap(), f.tanh());
+        assert_eq!(function_1_argument("acosh", 1.5).unwrap(), f1.acosh());
+        assert_eq!(function_1_argument("asinh", 0.1).unwrap(), f.asinh());
+        assert_eq!(function_1_argument("atanh", 0.1).unwrap(), f.atanh());
+        assert_eq!(function_1_argument("arcosh", 1.5).unwrap(), f1.acosh());
+        assert_eq!(function_1_argument("arsinh", 0.1).unwrap(), f.asinh());
+        assert_eq!(function_1_argument("artanh", 0.1).unwrap(), f.atanh());
+        assert_eq!(function_1_argument("exp", 0.1).unwrap(), f.exp());
+        assert_eq!(function_1_argument("exp2", 0.1).unwrap(), f.exp2());
+        assert_eq!(function_1_argument("expm1", 0.1).unwrap(), f.exp_m1());
+        assert_eq!(function_1_argument("log", 0.1).unwrap(), f.ln());
+        assert_eq!(function_1_argument("log10", 0.1).unwrap(), f.log10());
+        assert_eq!(function_1_argument("sqrt", 0.1).unwrap(), f.sqrt());
+        assert_eq!(function_1_argument("cbrt", 0.1).unwrap(), f.cbrt());
+        assert_eq!(function_1_argument("ceil", 0.1).unwrap(), f.ceil());
+        assert_eq!(function_1_argument("floor", 0.1).unwrap(), f.floor());
+        assert_eq!(function_1_argument("fract", 0.1).unwrap(), f.fract());
+        assert_eq!(function_1_argument("round", 0.1).unwrap(), f.round());
+        assert_eq!(function_1_argument("sign", 0.1).unwrap(), f.signum());
+        assert_eq!(function_1_argument("delta", 0.0).unwrap(), 1.0);
+        assert_eq!(function_1_argument("delta", 0.1).unwrap(), 0.0);
+        assert_eq!(function_1_argument("theta", 0.0).unwrap(), 0.5);
+        assert_eq!(function_1_argument("theta", -0.1).unwrap(), 0.0);
+        assert_eq!(function_1_argument("theta", 0.1).unwrap(), 1.0);
         assert!(function_1_argument("test", 1.0).is_err());
     }
 
+    // Testing that all functions with 2 arguments get matched with the correct Rust function
     #[test]
     fn test_function_2_argument() {
         let f: f64 = 0.1;
@@ -909,6 +1139,64 @@ mod tests {
             function_2_arguments("atan2", 0.1, 0.2).unwrap(),
             f.atan2(0.2)
         );
+        assert_eq!(
+            function_2_arguments("hypot", 0.1, 0.2).unwrap(),
+            f.hypot(0.2)
+        );
+        assert_eq!(
+            function_2_arguments("pow", 0.1, 0.2).unwrap(),
+            f.powf(0.2)
+        );
+        assert_eq!(
+            function_2_arguments("max", 0.1, 0.2).unwrap(),
+            f.max(0.2)
+        );
+        assert_eq!(
+            function_2_arguments("min", 0.1, 0.2).unwrap(),
+            f.min(0.2)
+        );
         assert!(function_2_arguments("test", 1.0, 1.0).is_err());
     }
+
+    // Testing display function for all possible inputs
+    #[test]
+    fn test_display() {
+        let f = Token::Number(0.1);
+        assert_eq!(format!("{}", f), "Token::Number(1e-1)");
+        let f = Token::VariableAssign(String::from("x"));
+        assert_eq!(format!("{}", f), "Token::VariableAssign(x)");
+        let f = Token::Variable(String::from("3t"));
+        assert_eq!(format!("{}", f), "Token::Variable(3t)");
+        let f = Token::Function(String::from("2s"));
+        assert_eq!(format!("{}", f), "Token::Function(2s)");
+        let f = Token::Plus;
+        assert_eq!(format!("{}", f), "Token::Plus");
+        let f = Token::Minus;
+        assert_eq!(format!("{}", f), "Token::Minus");
+        let f = Token::Multiply;
+        assert_eq!(format!("{}", f), "Token::Multiply");
+        let f = Token::Divide;
+        assert_eq!(format!("{}", f), "Token::Divide");
+        let f = Token::Power;
+        assert_eq!(format!("{}", f), "Token::Power");
+        let f = Token::Factorial;
+        assert_eq!(format!("{}", f), "Token::Factorial");
+        let f = Token::DoubleFactorial;
+        assert_eq!(format!("{}", f), "Token::DoubleFactorial");
+        let f = Token::BracketOpen;
+        assert_eq!(format!("{}", f), "Token::BracketOpen");
+        let f = Token::BracketClose;
+        assert_eq!(format!("{}", f), "Token::BracketClose");
+        let f = Token::Assign;
+        assert_eq!(format!("{}", f), "Token::Assign");
+        let f = Token::Comma;
+        assert_eq!(format!("{}", f), "Token::Comma");
+        let f = Token::EndOfExpression;
+        assert_eq!(format!("{}", f), "Token::EndOfExpression");
+        let f = Token::EndOfString;
+        assert_eq!(format!("{}", f), "Token::EndOfString");
+        let f = Token::Unrecognized;
+        assert_eq!(format!("{}", f), "Token::Unrecognized");
+    }
 }
+//End of tests
