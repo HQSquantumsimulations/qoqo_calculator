@@ -10,6 +10,11 @@
 // express or implied. See the License for the specific language governing permissions and
 // limitations underthe License.
 
+//! qoqo_calculator module
+//!
+//! Provides CalculatorError enum for all custom errors relating to
+//! Calculator, CalculatorFloat and CalculatorComplex.
+
 mod calculator_float;
 pub use calculator_float::CalculatorFloat;
 mod calculator;
@@ -18,7 +23,7 @@ mod calculator_complex;
 pub use calculator_complex::CalculatorComplex;
 use thiserror::Error;
 
-/// Defines custom errors for Calculator
+/// Define custom errors for Calculator.
 #[derive(Error, Debug, PartialEq)]
 pub enum CalculatorError {
     #[error("Input cannot be converted to CalculatorFloat")]
@@ -52,7 +57,7 @@ mod tests {
     use super::CalculatorError;
     use super::CalculatorComplex;
 
-    // Testing all CalculatorErrors give the correct output (debug)
+    // Test all CalculatorErrors give the correct output (debug)
     #[test]
     fn test_debug() {
         let not_conv = CalculatorError::NotConvertable;

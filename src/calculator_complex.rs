@@ -13,7 +13,7 @@
 //! calculator_complex module
 //!
 //! Provides CalculatorComplex struct and methods for parsing and evaluating
-//! mathematical expressions in string form to complex
+//! mathematical expressions in string form to complex.
 
 use crate::CalculatorError;
 use crate::CalculatorFloat;
@@ -22,14 +22,13 @@ use serde::{Deserialize, Serialize};
 use std::convert::TryFrom;
 use std::fmt;
 use std::ops;
-use std::ops::Neg;
 
-/// Struct CalculatorComplex
+/// Struct CalculatorComplex.
 ///
 /// # Fields
 ///
-/// * `re` - CalculatorFloat value of real part
-/// * `im` - CalculatorFloat value of imaginary part
+/// * `re` - CalculatorFloat value of real part of CalculatorComplex
+/// * `im` - CalculatorFloat value of imaginary part of CalculatorComplex
 ///
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct CalculatorComplex {
@@ -37,8 +36,7 @@ pub struct CalculatorComplex {
     pub im: CalculatorFloat,
 }
 
-/// Implement Default value 0 for CalculatorComplex
-///
+/// Implement Default value 0 for CalculatorComplex.
 impl Default for CalculatorComplex {
     fn default() -> Self {
         CalculatorComplex {
@@ -48,7 +46,7 @@ impl Default for CalculatorComplex {
     }
 }
 
-/// Initialize CalculatorComplex from CalculatorComplex reference &CalculatorComplex
+/// Initialize CalculatorComplex from CalculatorComplex reference &CalculatorComplex.
 ///
 /// # Returns
 ///
@@ -60,7 +58,7 @@ impl<'a> From<&'a CalculatorComplex> for CalculatorComplex {
     }
 }
 
-/// Initialize CalculatorComplex from type that can be cast to CalculatorFloat
+/// Initialize CalculatorComplex from type that can be cast to CalculatorFloat.
 ///
 /// # Returns
 ///
@@ -78,7 +76,7 @@ where
     }
 }
 
-/// Initialize CalculatorComplex from Complex
+/// Initialize CalculatorComplex from Complex.
 ///
 /// # Returns
 ///
@@ -93,7 +91,7 @@ impl From<Complex<f64>> for CalculatorComplex {
     }
 }
 
-/// Try turning CalculatorComplex into f64 float
+/// Try turning CalculatorComplex into f64 float.
 ///
 /// # Returns
 ///
@@ -124,7 +122,7 @@ impl TryFrom<CalculatorComplex> for f64 {
     }
 }
 
-/// Try turning CalculatorComplex into Complex<f64> float
+/// Try turning CalculatorComplex into Complex<f64> float.
 ///
 /// # Returns
 ///
@@ -152,7 +150,7 @@ impl TryFrom<CalculatorComplex> for Complex<f64> {
     }
 }
 
-/// Implement Display trait for CalculatorComplex
+/// Implement Display trait for CalculatorComplex.
 ///
 /// Allows use of simple text formating
 ///
@@ -163,12 +161,12 @@ impl fmt::Display for CalculatorComplex {
 }
 
 impl CalculatorComplex {
-    /// Return CalculatorComplex constructed form pair of real values
+    /// Return CalculatorComplex constructed form pair of real values.
     ///
     /// # Arguments
     ///
-    /// 1. `re` - Real part given as type that can be converted to CalculatorFloat
-    /// 1. `im` - Imaginary part given as type that can be converted to CalculatorFloat
+    /// * `re` - Real part given as type that can be converted to CalculatorFloat
+    /// * `im` - Imaginary part given as type that can be converted to CalculatorFloat
     ///
     pub fn new<T1, T2>(re: T1, im: T2) -> Self
     where
@@ -181,31 +179,26 @@ impl CalculatorComplex {
         }
     }
 
-    /// Return phase of complex number x arg(x)
-    ///
+    /// Return phase of complex number x: arg(x).
     pub fn arg(&self) -> CalculatorFloat {
         self.im.atan2(&self.re)
     }
-    /// Return square norm of complex number x |x|^2=x.re^2+x.im^2
-    ///
+    /// Return square norm of complex number x: |x|^2=x.re^2+x.im^2.
     pub fn norm_sqr(&self) -> CalculatorFloat {
         (self.re.clone() * &self.re) + (self.im.clone() * &self.im)
     }
-    /// Return norm of complex number x |x|=(x.re^2+x.im^2)^1/2
-    ///
+    /// Return norm of complex number x: |x|=(x.re^2+x.im^2)^1/2.
     pub fn norm(&self) -> CalculatorFloat {
         ((self.re.clone() * &self.re) + (self.im.clone() * &self.im)).sqrt()
     }
-    /// Return complex conjugate of x x*=x.re-i*x.im
-    ///
+    /// Return complex conjugate of x: x*=x.re-i*x.im.
     pub fn conj(&self) -> CalculatorComplex {
         Self {
             re: self.re.clone(),
             im: -self.im.clone(),
         }
     }
-    /// Return true when x is close to y
-    ///
+    /// Return true when x is close to y.
     pub fn isclose<T>(&self, other: T) -> bool
     where
         CalculatorComplex: From<T>,
@@ -219,7 +212,7 @@ impl CalculatorComplex {
 ///
 /// # Arguments
 ///
-/// 1. `other` - Any type T for which CalculatorComplex::From<T> trait is implemented
+/// * `other` - Any type T for which CalculatorComplex::From<T> trait is implemented
 ///
 impl<T> ops::Add<T> for CalculatorComplex
 where
@@ -238,7 +231,7 @@ where
 ///
 /// # Arguments
 ///
-/// 1. `other` - Any type T for which CalculatorComplex::From<T> trait is implemented
+/// * `other` - Any type T for which CalculatorComplex::From<T> trait is implemented
 ///
 impl<T> ops::AddAssign<T> for CalculatorComplex
 where
@@ -257,7 +250,7 @@ where
 ///
 /// # Arguments
 ///
-/// 1. `other` - Any type T for which CalculatorComplex::From<T> trait is implemented
+/// * `other` - Any type T for which CalculatorComplex::From<T> trait is implemented
 ///
 impl<T> ops::Sub<T> for CalculatorComplex
 where
@@ -276,7 +269,7 @@ where
 ///
 /// # Arguments
 ///
-/// 1. `other` - Any type T for which CalculatorComplex::From<T> trait is implemented
+/// * `other` - Any type T for which CalculatorComplex::From<T> trait is implemented
 ///
 impl<T> ops::SubAssign<T> for CalculatorComplex
 where
@@ -292,7 +285,7 @@ where
 }
 
 /// Implement minus sign for CalculatorComplex.
-impl Neg for CalculatorComplex {
+impl ops::Neg for CalculatorComplex {
     type Output = CalculatorComplex;
 
     fn neg(self) -> Self {
@@ -307,7 +300,7 @@ impl Neg for CalculatorComplex {
 ///
 /// # Arguments
 ///
-/// 1. `other` - Any type T for which CalculatorComplex::From<T> trait is implemented
+/// * `other` - Any type T for which CalculatorComplex::From<T> trait is implemented
 ///
 impl<T> ops::Mul<T> for CalculatorComplex
 where
@@ -326,7 +319,7 @@ where
 ///
 /// # Arguments
 ///
-/// 1. `other` - Any type T for which CalculatorComplex::From<T> trait is implemented
+/// * `other` - Any type T for which CalculatorComplex::From<T> trait is implemented
 ///
 impl<T> ops::MulAssign<T> for CalculatorComplex
 where
@@ -345,7 +338,7 @@ where
 ///
 /// # Arguments
 ///
-/// 1. `other` - Any type T for which CalculatorComplex::From<T> trait is implemented
+/// * `other` - Any type T for which CalculatorComplex::From<T> trait is implemented
 ///
 impl<T> ops::Div<T> for CalculatorComplex
 where
@@ -365,7 +358,7 @@ where
 ///
 /// # Arguments
 ///
-/// 1. `other` - Any type T for which CalculatorComplex::From<T> trait is implemented
+/// * `other` - Any type T for which CalculatorComplex::From<T> trait is implemented
 ///
 impl<T> ops::DivAssign<T> for CalculatorComplex
 where
@@ -382,7 +375,6 @@ where
 }
 
 /// Implement Inverse `1/x` for CalculatorFloat.
-///
 impl CalculatorComplex {
     pub fn recip(&self) -> CalculatorComplex {
         let norm = self.norm_sqr();
@@ -469,7 +461,7 @@ mod tests {
         assert_eq!(CalculatorComplex::from(&x), x);
     }
 
-    // Test the default of CalculatorComplex
+    // Test the default function of CalculatorComplex
     #[test]
     fn default() {
         let x = CalculatorComplex::default();
@@ -507,7 +499,7 @@ mod tests {
         assert!(Complex::<f64>::try_from(x).is_err());
     }
 
-    // Test the Display functionality of CalculatorComplex
+    // Test the Display trait of CalculatorComplex
     #[test]
     fn display() {
         let x = CalculatorComplex::new(-3, 2);
@@ -556,7 +548,6 @@ mod tests {
         assert_eq!(x * y, CalculatorComplex::new(0.0, 4.0));
     }
 
-
     // Test the mul_assign functionality of CalculatorComplex
     #[test]
     fn try_imul() {
@@ -583,7 +574,7 @@ mod tests {
         assert_eq!(x, CalculatorComplex::new(7.0 / 25.0, -1.0 / 25.0));
     }
 
-    // Test the arg functionality of CalculatorComplex with all possible input types
+    // Test the arg(x) functionality of CalculatorComplex with all possible input types
     #[test]
     fn arg() {
         let x = CalculatorComplex::new(1, 2);
@@ -684,4 +675,3 @@ mod tests {
     }
     
 }
-//End of tests

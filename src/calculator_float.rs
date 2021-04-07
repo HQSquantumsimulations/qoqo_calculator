@@ -13,7 +13,7 @@
 //! calculator_float module
 //!
 //! Provides CalculatorFloat enum and methods for parsing and evaluating
-//! mathematical expressions in string form to float
+//! mathematical expressions in string form to float.
 
 use serde::de::{Deserializer, Error, Visitor};
 use serde::ser::Serializer;
@@ -22,17 +22,18 @@ use std::convert::TryFrom;
 use std::fmt;
 use std::ops;
 use std::str::FromStr;
-
 use crate::CalculatorError;
 
 static ATOL: f64 = f64::EPSILON;
 static RTOL: f64 = 1e-8;
-/// Enum combining Float and String
+
+/// CalculatorFloat is an enum combining Float and String.
 ///
 /// # Variants
 ///
 /// * `Float` - f64 value
 /// * `Str` - String instance
+///
 #[derive(Debug, Clone, PartialEq)]
 pub enum CalculatorFloat {
     /// Floating point value
@@ -42,9 +43,9 @@ pub enum CalculatorFloat {
 }
 
 // Implementing serde serialization
-// writing directly to string or f64
+// writing directly to string or f64.
 impl Serialize for CalculatorFloat {
-    // Serialization function for CalculatorFloat according to float or string type
+    // Serialization function for CalculatorFloat according to float or string type.
     //
     // # Arguments
     //
@@ -55,6 +56,7 @@ impl Serialize for CalculatorFloat {
     //
     // `S::Ok` - Serialized instance of CalculatorFloat
     // `S::Error` - Error in the serialization process
+    //
     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
     where
         S: Serializer,
@@ -66,9 +68,9 @@ impl Serialize for CalculatorFloat {
     }
 }
 
-// Deserializing directly from string or f64
+// Deserializing directly from string or f64.
 impl<'de> Deserialize<'de> for CalculatorFloat {
-    // Deserialization function for CalculatorFloat
+    // Deserialization function for CalculatorFloat.
     //
     // # Arguments
     //
@@ -79,6 +81,7 @@ impl<'de> Deserialize<'de> for CalculatorFloat {
     //
     // `CalculatorFloat` - Deserialized instance of CalculatorFloat
     // `D::Error` - Error in the deserialization process
+    //
     fn deserialize<D>(deserializer: D) -> Result<CalculatorFloat, D::Error>
     where
         D: Deserializer<'de>,
@@ -87,7 +90,7 @@ impl<'de> Deserialize<'de> for CalculatorFloat {
         impl<'de> Visitor<'de> for TemporaryVisitor {
             type Value = CalculatorFloat;
 
-            // Visit expectation for CalculatorFloatVisitor
+            // Visit expectation for CalculatorFloatVisitor.
             //
             // # Arguments
             //
@@ -97,10 +100,22 @@ impl<'de> Deserialize<'de> for CalculatorFloat {
             // # Returns
             //
             // `str` - What TemporaryVisitor should expect
+            //
             fn expecting(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
                 formatter.write_str("float or string")
             }
 
+            // Visit function for string value.
+            //
+            // # Arguments
+            //
+            // * `self` - Error
+            // * `value` - value to be deserialized
+            //
+            // # Returns
+            //
+            // `Result<CalculatorFloat, E>` - CalculatorFloat of value or corresponding error
+            //
             fn visit_str<E>(self, value: &str) -> Result<CalculatorFloat, E>
             where
                 E: Error,
@@ -108,6 +123,17 @@ impl<'de> Deserialize<'de> for CalculatorFloat {
                 Ok(CalculatorFloat::from(value))
             }
 
+            // Visit function for f64 value.
+            //
+            // # Arguments
+            //
+            // * `self` - Error
+            // * `value` - value to be deserialized
+            //
+            // # Returns
+            //
+            // `Result<CalculatorFloat, E>` - CalculatorFloat of value or corresponding error
+            //
             fn visit_f64<E>(self, value: f64) -> Result<CalculatorFloat, E>
             where
                 E: Error,
@@ -115,12 +141,35 @@ impl<'de> Deserialize<'de> for CalculatorFloat {
                 Ok(CalculatorFloat::from(value))
             }
 
+            // Visit function for i32 value.
+            //
+            // # Arguments
+            //
+            // * `self` - Error
+            // * `value` - value to be deserialized
+            //
+            // # Returns
+            //
+            // `Result<CalculatorFloat, E>` - CalculatorFloat of value or corresponding error
+            //
             fn visit_i32<E>(self, value: i32) -> Result<CalculatorFloat, E>
             where
                 E: Error,
             {
                 Ok(CalculatorFloat::from(value))
             }
+
+            // Visit function for u32 value.
+            //
+            // # Arguments
+            //
+            // * `self` - Error
+            // * `value` - value to be deserialized
+            //
+            // # Returns
+            //
+            // `Result<CalculatorFloat, E>` - CalculatorFloat of value or corresponding error
+            //
             fn visit_u32<E>(self, value: u32) -> Result<CalculatorFloat, E>
             where
                 E: Error,
@@ -221,7 +270,7 @@ impl From<String> for CalculatorFloat {
     }
 }
 
-/// Initialize CalculatorFloat from string reference &String
+/// Initialize CalculatorFloat from string reference &String.
 ///
 /// # Returns
 ///
@@ -237,7 +286,7 @@ impl From<&String> for CalculatorFloat {
     }
 }
 
-/// Initialize CalculatorFloat from str reference &str
+/// Initialize CalculatorFloat from str reference &str.
 ///
 /// # Returns
 ///
@@ -253,7 +302,7 @@ impl From<&str> for CalculatorFloat {
     }
 }
 
-/// Try turning CalculatorFloat into f64 float
+/// Try turning CalculatorFloat into f64 float.
 ///
 /// # Returns
 ///
@@ -274,7 +323,7 @@ impl TryFrom<CalculatorFloat> for f64 {
     }
 }
 
-/// Returns CalculatorFloat as String.
+/// Return CalculatorFloat as String.
 ///
 /// # Returns
 ///
@@ -286,7 +335,7 @@ impl From<CalculatorFloat> for String {
     }
 }
 
-/// Initialize CalculatorFloat from CalculatorFloat reference &CalculatorFloat
+/// Initialize CalculatorFloat from CalculatorFloat reference &CalculatorFloat.
 ///
 /// # Returns
 ///
@@ -298,7 +347,7 @@ impl<'a> From<&'a CalculatorFloat> for CalculatorFloat {
     }
 }
 
-/// Implement Display trait for CalculatorFloat
+/// Implement Display trait for CalculatorFloat.
 ///
 /// Allows use of simple text formating
 ///
@@ -312,25 +361,25 @@ impl fmt::Display for CalculatorFloat {
 }
 
 impl CalculatorFloat {
-    /// Returns True when CalculatorFloat does not contain symbolic expression.
+    /// Return True when CalculatorFloat does not contain symbolic expression.
     pub fn is_float(&self) -> bool {
         match self {
             CalculatorFloat::Float(_) => true,
             CalculatorFloat::Str(_) => false,
         }
     }
-    /// Returns square root of CalculatorFloat.
+    /// Return square root of CalculatorFloat.
     pub fn sqrt(&self) -> CalculatorFloat {
         match self {
             CalculatorFloat::Float(f) => CalculatorFloat::Float(f.sqrt()),
             CalculatorFloat::Str(s) => CalculatorFloat::Str(format!("sqrt({})", s)),
         }
     }
-    /// Returns atan2 for CalculatorFloat and generic type `T`.
+    /// Return atan2 for CalculatorFloat and generic type `T`.
     ///
     /// # Arguments
     ///
-    /// 1. `other` - Any type T for which CalculatorFloat::From<T> trait is implemented
+    /// * `other` - Any type T for which CalculatorFloat::From<T> trait is implemented
     ///
     pub fn atan2<T>(&self, other: T) -> CalculatorFloat
     where
@@ -349,11 +398,11 @@ impl CalculatorFloat {
         }
     }
 
-    /// Returns Power for CalculatorFloat and generic type `T` that can be cast to CalculatorFloat.
+    /// Return Power for CalculatorFloat and generic type `T`.
     ///
     /// # Arguments
     ///
-    /// 1. `other` - Any type T for which CalculatorFloat::From<T> trait is implemented
+    /// * `other` - Any type T for which CalculatorFloat::From<T> trait is implemented
     ///
     pub fn powf<T>(&self, other: T) -> CalculatorFloat
     where
@@ -372,49 +421,49 @@ impl CalculatorFloat {
         }
     }
 
-    /// Returns exponential function exp(x) for CalculatorFloat.
+    /// Return exponential function exp(x) for CalculatorFloat.
     pub fn exp(&self) -> CalculatorFloat {
         match self {
             Self::Float(x) => CalculatorFloat::Float(x.exp()),
             Self::Str(y) => Self::Str(format!("exp({})", y)),
         }
     }
-    /// Returns sine function sin(x) for CalculatorFloat.
+    /// Return sine function sin(x) for CalculatorFloat.
     pub fn sin(&self) -> CalculatorFloat {
         match self {
             Self::Float(x) => CalculatorFloat::Float(x.sin()),
             Self::Str(y) => Self::Str(format!("sin({})", y)),
         }
     }
-    /// Returns cosine function cos(x) for CalculatorFloat.
+    /// Return cosine function cos(x) for CalculatorFloat.
     pub fn cos(&self) -> CalculatorFloat {
         match self {
             Self::Float(x) => CalculatorFloat::Float(x.cos()),
             Self::Str(y) => Self::Str(format!("cos({})", y)),
         }
     }
-    /// Returns arccosine function acos(x) for CalculatorFloat.
+    /// Return arccosine function acos(x) for CalculatorFloat.
     pub fn acos(&self) -> CalculatorFloat {
         match self {
             Self::Float(x) => CalculatorFloat::Float(x.acos()),
             Self::Str(y) => Self::Str(format!("acos({})", y)),
         }
     }
-    /// Returns absolute value abs(x) for CalculatorFloat.
+    /// Return absolute value abs(x) for CalculatorFloat.
     pub fn abs(&self) -> CalculatorFloat {
         match self {
             Self::Float(x) => CalculatorFloat::Float(x.abs()),
             Self::Str(y) => Self::Str(format!("abs({})", y)),
         }
     }
-    /// Returns signum value sign(x) for CalculatorFloat.
+    /// Return signum value sign(x) for CalculatorFloat.
     pub fn signum(&self) -> CalculatorFloat {
         match self {
             Self::Float(x) => CalculatorFloat::Float(x.signum()),
             Self::Str(y) => Self::Str(format!("sign({})", y)),
         }
     }
-    /// Returns True if self value is close to other value.
+    /// Return True if self value is close to other value.
     pub fn isclose<T>(&self, other: T) -> bool
     where
         CalculatorFloat: From<T>,
@@ -436,7 +485,7 @@ impl CalculatorFloat {
 ///
 /// # Arguments
 ///
-/// 1. `other` - Any type T for which CalculatorFloat::From<T> trait is implemented
+/// * `other` - Any type T for which CalculatorFloat::From<T> trait is implemented
 ///
 impl<T> ops::Add<T> for CalculatorFloat
 where
@@ -474,7 +523,7 @@ where
 ///
 /// # Arguments
 ///
-/// 1. `other` - Any type T for which CalculatorFloat::From<T> trait is implemented
+/// * `other` - Any type T for which CalculatorFloat::From<T> trait is implemented
 ///
 impl<T> ops::AddAssign<T> for CalculatorFloat
 where
@@ -518,7 +567,7 @@ where
 ///
 /// # Arguments
 ///
-/// 1. `other` - Any type T for which CalculatorFloat::From<T> trait is implemented
+/// * `other` - Any type T for which CalculatorFloat::From<T> trait is implemented
 ///
 impl<'a, T> ops::Add<T> for &'a CalculatorFloat
 where
@@ -556,7 +605,7 @@ where
 ///
 /// # Arguments
 ///
-/// 1. `other` - Any type T for which CalculatorFloat::From<T> trait is implemented
+/// * `other` - Any type T for which CalculatorFloat::From<T> trait is implemented
 ///
 /// # Panics
 ///
@@ -607,7 +656,7 @@ where
 ///
 /// # Arguments
 ///
-/// 1. `other` - Any type T for which CalculatorFloat::From<T> trait is implemented
+/// * `other` - Any type T for which CalculatorFloat::From<T> trait is implemented
 ///
 /// # Panics
 ///
@@ -673,7 +722,7 @@ impl CalculatorFloat {
 ///
 /// # Arguments
 ///
-/// 1. `other` - Any type T for which CalculatorFloat::From<T> trait is implemented
+/// * `other` - Any type T for which CalculatorFloat::From<T> trait is implemented
 ///
 impl<T> ops::Mul<T> for CalculatorFloat
 where
@@ -715,7 +764,7 @@ where
 ///
 /// # Arguments
 ///
-/// 1. `other` - Any type T for which CalculatorFloat::From<T> trait is implemented
+/// * `other` - Any type T for which CalculatorFloat::From<T> trait is implemented
 ///
 impl<T> ops::MulAssign<T> for CalculatorFloat
 where
@@ -762,7 +811,7 @@ where
 ///
 /// # Arguments
 ///
-/// 1. `other` - Any type T for which CalculatorFloat::From<T> trait is implemented
+/// * `other` - Any type T for which CalculatorFloat::From<T> trait is implemented
 ///
 impl<T> ops::Sub<T> for CalculatorFloat
 where
@@ -800,7 +849,7 @@ where
 ///
 /// # Arguments
 ///
-/// 1. `other` - Any type T for which CalculatorFloat::From<T> trait is implemented
+/// * `other` - Any type T for which CalculatorFloat::From<T> trait is implemented
 ///
 impl<T> ops::SubAssign<T> for CalculatorFloat
 where
@@ -1036,7 +1085,7 @@ mod tests {
     // Test the divide functionality of CalculatorFloat with all possible input types
     #[test]
     fn div() {
-        // Test simple divide function: x + y
+        // Test simple divide function: x / y
         let mut x3 = CalculatorFloat::from(3);
         let x2 = CalculatorFloat::from(3.0);
         assert_eq!(x3.clone() / x2.clone(), CalculatorFloat::Float(1.0));
@@ -1102,7 +1151,7 @@ mod tests {
         let _x4 = x2 / 0.0;
     }
 
-    // Test the division of CalculatorFloat from float by zero (should panic)
+    // Test the div_assign of CalculatorFloat from float by zero (should panic)
     #[test]
     #[should_panic]
     fn fail_div_assign_by_zero_float() {
@@ -1110,7 +1159,7 @@ mod tests {
         x1 /= 0.0;
     }
 
-    // Test the division of CalculatorFloat from string by zero (should panic)
+    // Test the div_assign of CalculatorFloat from string by zero (should panic)
     #[test]
     #[should_panic]
     fn fail_div_assign_by_zero_str() {
@@ -1246,7 +1295,6 @@ mod tests {
     // Test the negative (*-1) functionality of CalculatorFloat with all possible input types
     #[test]
     fn neg() {
-        // Float init
         let x3 = CalculatorFloat::from(3);
         let x2 = -x3.clone();
         assert_eq!(x2, CalculatorFloat::Float(-3.0));
@@ -1337,7 +1385,7 @@ mod tests {
         );
     }
 
-    // Test the arctangent functionality of CalculatorFloat with all possible input types
+    // Test the sign functionality of CalculatorFloat with all possible input types
     #[test]
     fn signum() {
         let x2 = CalculatorFloat::from(-3);
@@ -1377,7 +1425,7 @@ mod tests {
         assert_eq!(format!("{}", x3), "-3t");
     }  
     
-    // Test the arctangent functionality of CalculatorFloat with all possible input types
+    // Test the isclose functionality of CalculatorFloat with all possible input types
     #[test]
     fn isclose() {
         let x2 = CalculatorFloat::from(-3);
@@ -1456,4 +1504,3 @@ mod tests {
     }
 
 }
-//End of tests
