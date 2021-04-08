@@ -54,8 +54,8 @@ pub enum CalculatorError {
 
 #[cfg(test)]
 mod tests {
-    use super::CalculatorError;
     use super::CalculatorComplex;
+    use super::CalculatorError;
 
     // Test all CalculatorErrors give the correct output (debug)
     #[test]
@@ -63,34 +63,54 @@ mod tests {
         let not_conv = CalculatorError::NotConvertable;
         assert_eq!(format!("{:?}", not_conv), "NotConvertable");
 
-        let float_sym = CalculatorError::FloatSymbolicNotConvertable { val: String::from("2x")};
-        assert_eq!(format!("{:?}", float_sym), "FloatSymbolicNotConvertable { val: \"2x\" }");
+        let float_sym = CalculatorError::FloatSymbolicNotConvertable {
+            val: String::from("2x"),
+        };
+        assert_eq!(
+            format!("{:?}", float_sym),
+            "FloatSymbolicNotConvertable { val: \"2x\" }"
+        );
 
         let complex_sym = CalculatorError::ComplexSymbolicNotConvertable {
-            val: CalculatorComplex::from("2x")};
+            val: CalculatorComplex::from("2x"),
+        };
         assert_eq!(
             format!("{:?}", complex_sym),
             "ComplexSymbolicNotConvertable { val: CalculatorComplex { re: Str(\"2x\"), im: Float(0.0) } }"
         );
 
         let complex_im_sym = CalculatorError::ComplexSymbolicNotConvertable {
-            val: CalculatorComplex::new(1, 3)};
+            val: CalculatorComplex::new(1, 3),
+        };
         assert_eq!(
             format!("{:?}", complex_im_sym),
             "ComplexSymbolicNotConvertable { val: CalculatorComplex { re: Float(1.0), im: Float(3.0) } }"
         );
 
-        let parse = CalculatorError::ParsingError { msg: "test"};
+        let parse = CalculatorError::ParsingError { msg: "test" };
         assert_eq!(format!("{:?}", parse), "ParsingError { msg: \"test\" }");
 
-        let not_impl = CalculatorError::NotImplementedError { fct: "Test"};
-        assert_eq!(format!("{:?}", not_impl), "NotImplementedError { fct: \"Test\" }");
+        let not_impl = CalculatorError::NotImplementedError { fct: "Test" };
+        assert_eq!(
+            format!("{:?}", not_impl),
+            "NotImplementedError { fct: \"Test\" }"
+        );
 
-        let func_not_found = CalculatorError::FunctionNotFound { fct: String::from("Test")};
-        assert_eq!(format!("{:?}", func_not_found), "FunctionNotFound { fct: \"Test\" }");
+        let func_not_found = CalculatorError::FunctionNotFound {
+            fct: String::from("Test"),
+        };
+        assert_eq!(
+            format!("{:?}", func_not_found),
+            "FunctionNotFound { fct: \"Test\" }"
+        );
 
-        let var_not_set = CalculatorError::VariableNotSet { name: String::from("Test")};
-        assert_eq!(format!("{:?}", var_not_set), "VariableNotSet { name: \"Test\" }");
+        let var_not_set = CalculatorError::VariableNotSet {
+            name: String::from("Test"),
+        };
+        assert_eq!(
+            format!("{:?}", var_not_set),
+            "VariableNotSet { name: \"Test\" }"
+        );
 
         let end_of_exp = CalculatorError::UnexpectedEndOfExpression;
         assert_eq!(format!("{:?}", end_of_exp), "UnexpectedEndOfExpression");

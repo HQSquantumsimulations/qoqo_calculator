@@ -15,6 +15,7 @@
 //! Provides CalculatorFloat enum and methods for parsing and evaluating
 //! mathematical expressions in string form to float.
 
+use crate::CalculatorError;
 use serde::de::{Deserializer, Error, Visitor};
 use serde::ser::Serializer;
 use serde::{Deserialize, Serialize};
@@ -22,7 +23,6 @@ use std::convert::TryFrom;
 use std::fmt;
 use std::ops;
 use std::str::FromStr;
-use crate::CalculatorError;
 
 static ATOL: f64 = f64::EPSILON;
 static RTOL: f64 = 1e-8;
@@ -930,40 +930,47 @@ mod tests {
         // Float (f64, &f64, String but is float) init
         let x = CalculatorFloat::from(3.0);
         if let CalculatorFloat::Float(y) = x {
-            assert!((y - 3.0).abs() < f64::EPSILON)}
+            assert!((y - 3.0).abs() < f64::EPSILON)
+        }
         assert!(x.is_float());
 
         let x = CalculatorFloat::from(&3.0);
         if let CalculatorFloat::Float(y) = x {
-            assert!((y - 3.0).abs() < f64::EPSILON)}
+            assert!((y - 3.0).abs() < f64::EPSILON)
+        }
         assert!(x.is_float());
 
         // Integer (i32, u32, &i32, &u32) init
         let x = CalculatorFloat::from(-3);
         if let CalculatorFloat::Float(y) = x {
-            assert!((y + 3.0).abs() < f64::EPSILON)}
+            assert!((y + 3.0).abs() < f64::EPSILON)
+        }
         assert!(x.is_float());
 
         let x = CalculatorFloat::from(3u32);
         if let CalculatorFloat::Float(y) = x {
-            assert!((y - 3.0).abs() < f64::EPSILON)}
+            assert!((y - 3.0).abs() < f64::EPSILON)
+        }
         assert!(x.is_float());
 
         let x = CalculatorFloat::from(&-3);
         if let CalculatorFloat::Float(y) = x {
-            assert!((y + 3.0).abs() < f64::EPSILON)}
+            assert!((y + 3.0).abs() < f64::EPSILON)
+        }
         assert!(x.is_float());
 
         let x = CalculatorFloat::from(&3u32);
         if let CalculatorFloat::Float(y) = x {
-            assert!((y - 3.0).abs() < f64::EPSILON)}
+            assert!((y - 3.0).abs() < f64::EPSILON)
+        }
         assert!(x.is_float());
 
         // String (String, &String, &str) init
         let inp: &str = "3t";
         let x = CalculatorFloat::from(inp);
         if let CalculatorFloat::Str(y) = x.clone() {
-            assert_eq!(y, "3t")}
+            assert_eq!(y, "3t")
+        }
         assert!(!x.is_float());
 
         let inp2: &str = "3";
@@ -975,20 +982,23 @@ mod tests {
         let x = CalculatorFloat::from(&test_string);
         test_string.push_str(&String::from("2t"));
         if let CalculatorFloat::Str(y) = x.clone() {
-            assert_eq!(y, "3t")}
+            assert_eq!(y, "3t")
+        }
         assert!(!x.is_float());
 
         let test_string = String::from("3t");
         let x = CalculatorFloat::from(test_string);
         if let CalculatorFloat::Str(y) = x.clone() {
-            assert_eq!(y, "3t")}
+            assert_eq!(y, "3t")
+        }
         assert!(!x.is_float());
 
         let mut test_string = String::new();
         test_string.push_str("3t");
         let x = CalculatorFloat::from(test_string);
         if let CalculatorFloat::Str(y) = x.clone() {
-            assert_eq!(y, "3t")}
+            assert_eq!(y, "3t")
+        }
         assert!(!x.is_float());
 
         let inp2 = String::from("3");
@@ -1050,51 +1060,66 @@ mod tests {
         let mut x3 = CalculatorFloat::from(3);
         let x2 = CalculatorFloat::from(2.0);
         if let CalculatorFloat::Float(y) = x3.clone() + x2.clone() {
-            assert!((y - 5.0).abs() < f64::EPSILON)}
+            assert!((y - 5.0).abs() < f64::EPSILON)
+        }
         if let CalculatorFloat::Float(y) = x3.clone() + 2 {
-            assert!((y - 5.0).abs() < f64::EPSILON)}
+            assert!((y - 5.0).abs() < f64::EPSILON)
+        }
         if let CalculatorFloat::Float(y) = x3.clone() + 2.0 {
-            assert!((y - 5.0).abs() < f64::EPSILON)}
+            assert!((y - 5.0).abs() < f64::EPSILON)
+        }
 
         let x2 = CalculatorFloat::from(0.0);
         if let CalculatorFloat::Str(y) = x2.clone() + "3t" {
-            assert_eq!(y, "3t")}
+            assert_eq!(y, "3t")
+        }
 
         let x2 = CalculatorFloat::from("3t");
         if let CalculatorFloat::Str(y) = x2.clone() + 0.0 {
-            assert_eq!(y, "3t")}
+            assert_eq!(y, "3t")
+        }
         if let CalculatorFloat::Str(y) = x2.clone() + "2x" {
-            assert_eq!(y, "(3t + 2x)")}
+            assert_eq!(y, "(3t + 2x)")
+        }
 
         // Test add_assign function: x += y
         let x2 = CalculatorFloat::from(2.0);
         x3 += x2.clone();
         if let CalculatorFloat::Float(y) = x3.clone() {
-            assert!((y - 5.0).abs() < f64::EPSILON)}
+            assert!((y - 5.0).abs() < f64::EPSILON)
+        }
         x3 += "x";
         if let CalculatorFloat::Str(y) = x3.clone() {
-            assert_eq!(y, "(5e0 + x)")}
+            assert_eq!(y, "(5e0 + x)")
+        }
         let mut x3 = CalculatorFloat::from(0.0);
         x3 += "x";
         if let CalculatorFloat::Str(y) = x3.clone() {
-            assert_eq!(y, "x")}
+            assert_eq!(y, "x")
+        }
         let mut x3s = CalculatorFloat::from("3t");
         if let CalculatorFloat::Str(y) = x3s.clone() + x2.clone() {
-            assert_eq!(y, "(3t + 2e0)")}
+            assert_eq!(y, "(3t + 2e0)")
+        }
         if let CalculatorFloat::Str(y) = x3s.clone() + "2e0" {
-            assert_eq!(y, "(3t + 2e0)")}
+            assert_eq!(y, "(3t + 2e0)")
+        }
         if let CalculatorFloat::Str(y) = x3s.clone() + x2.clone() {
-            assert_eq!(y, "(3t + 2e0)")}
+            assert_eq!(y, "(3t + 2e0)")
+        }
 
         x3s += x2;
         if let CalculatorFloat::Str(y) = x3s.clone() {
-            assert_eq!(y, "(3t + 2e0)")}
+            assert_eq!(y, "(3t + 2e0)")
+        }
         x3s += 0.0;
         if let CalculatorFloat::Str(y) = x3s.clone() {
-            assert_eq!(y, "(3t + 2e0)")}
+            assert_eq!(y, "(3t + 2e0)")
+        }
         x3s += "x";
         if let CalculatorFloat::Str(y) = x3s.clone() {
-            assert_eq!(y, "((3t + 2e0) + x)")}
+            assert_eq!(y, "((3t + 2e0) + x)")
+        }
     }
 
     // Test the divide functionality of CalculatorFloat with all possible input types
@@ -1106,7 +1131,10 @@ mod tests {
         assert_eq!(x3.clone() / x2.clone(), CalculatorFloat::Float(1.0));
         assert_eq!(x3.clone() / 3, CalculatorFloat::Float(1.0));
         assert_eq!(x3.clone() / 3.0, CalculatorFloat::Float(1.0));
-        assert_eq!(x3.clone() / "x", CalculatorFloat::Str(String::from("(3e0 / x)")));
+        assert_eq!(
+            x3.clone() / "x",
+            CalculatorFloat::Str(String::from("(3e0 / x)"))
+        );
 
         let mut x0 = CalculatorFloat::from(0.0);
         assert_eq!(x0.clone() / "3t", x0);
@@ -1131,7 +1159,10 @@ mod tests {
         assert_eq!(x3s.clone() / 1.0, x3s);
 
         let x2s = CalculatorFloat::from("2x");
-        assert_eq!(x3s.clone() / x2s.clone(), CalculatorFloat::Str(String::from("(3t / 2x)")));
+        assert_eq!(
+            x3s.clone() / x2s.clone(),
+            CalculatorFloat::Str(String::from("(3t / 2x)"))
+        );
 
         // Test div_assign function: x /= y
         x3 /= x2.clone();
@@ -1191,7 +1222,10 @@ mod tests {
         assert_eq!(x3.clone() * x2.clone(), CalculatorFloat::Float(9.0));
         assert_eq!(x3.clone() * 3, CalculatorFloat::Float(9.0));
         assert_eq!(x3.clone() * 3.0, CalculatorFloat::Float(9.0));
-        assert_eq!(x3.clone() * "x", CalculatorFloat::Str(String::from("(3e0 * x)")));
+        assert_eq!(
+            x3.clone() * "x",
+            CalculatorFloat::Str(String::from("(3e0 * x)"))
+        );
 
         let x2 = CalculatorFloat::from(0.0);
         assert_eq!(x2 * "x", CalculatorFloat::Float(0.0));
@@ -1209,14 +1243,8 @@ mod tests {
             x3s.clone() * 2.0,
             CalculatorFloat::Str(String::from("(3t * 2e0)"))
         );
-        assert_eq!(
-            x3s.clone() * 0.0,
-            CalculatorFloat::Float(0.0)
-        );
-        assert_eq!(
-            x3s.clone() * 1.0,
-            CalculatorFloat::Str(String::from("3t"))
-        );
+        assert_eq!(x3s.clone() * 0.0, CalculatorFloat::Float(0.0));
+        assert_eq!(x3s.clone() * 1.0, CalculatorFloat::Str(String::from("3t")));
         assert_eq!(
             x3s.clone() * "2x",
             CalculatorFloat::Str(String::from("(3t * 2x)"))
@@ -1260,7 +1288,10 @@ mod tests {
         assert_eq!(x3.clone() - x2.clone(), CalculatorFloat::Float(0.0));
         assert_eq!(x3.clone() - 3, CalculatorFloat::Float(0.0));
         assert_eq!(x3.clone() - 3.0, CalculatorFloat::Float(0.0));
-        assert_eq!(x3.clone() - "x", CalculatorFloat::Str(String::from("(3e0 - x)")));
+        assert_eq!(
+            x3.clone() - "x",
+            CalculatorFloat::Str(String::from("(3e0 - x)"))
+        );
 
         let x3 = CalculatorFloat::from(0.0);
         assert_eq!(x3.clone() - "x", CalculatorFloat::Str(String::from("(-x)")));
@@ -1274,10 +1305,7 @@ mod tests {
             x3s.clone() - 2.0,
             CalculatorFloat::Str(String::from("(3t - 2e0)"))
         );
-        assert_eq!(
-            x3s.clone() - 0.0,
-            CalculatorFloat::Str(String::from("3t"))
-        );
+        assert_eq!(x3s.clone() - 0.0, CalculatorFloat::Str(String::from("3t")));
         assert_eq!(
             x3s.clone() - "2.0",
             CalculatorFloat::Str(String::from("(3t - 2e0)"))
@@ -1293,7 +1321,7 @@ mod tests {
         assert_eq!(x3, CalculatorFloat::Float(0.0));
         x3 -= "x";
         assert_eq!(x3, CalculatorFloat::Str(String::from("(-x)")));
-    
+
         let mut x3 = CalculatorFloat::from(3);
         x3 -= "x";
         assert_eq!(x3, CalculatorFloat::Str(String::from("(3e0 - x)")));
@@ -1304,7 +1332,6 @@ mod tests {
         assert_eq!(x3s, CalculatorFloat::Str(String::from("(3t - 3e0)")));
         x3s -= "x";
         assert_eq!(x3s, CalculatorFloat::Str(String::from("((3t - 3e0) - x)")));
-
     }
 
     // Test the negative (*-1) functionality of CalculatorFloat with all possible input types
@@ -1415,9 +1442,18 @@ mod tests {
         let x1 = CalculatorFloat::from(2.0);
         let x1s = CalculatorFloat::from("2x");
         assert_eq!(x1.powf(2.0), CalculatorFloat::from(4.0));
-        assert_eq!(x1.powf("t"), CalculatorFloat::Str(String::from("(2e0 ^ t)")));
-        assert_eq!(x1s.powf(2.0), CalculatorFloat::Str(String::from("(2x ^ 2e0)")));
-        assert_eq!(x1s.powf("t"), CalculatorFloat::Str(String::from("(2x ^ t)")));
+        assert_eq!(
+            x1.powf("t"),
+            CalculatorFloat::Str(String::from("(2e0 ^ t)"))
+        );
+        assert_eq!(
+            x1s.powf(2.0),
+            CalculatorFloat::Str(String::from("(2x ^ 2e0)"))
+        );
+        assert_eq!(
+            x1s.powf("t"),
+            CalculatorFloat::Str(String::from("(2x ^ t)"))
+        );
     }
 
     // Test the inverse/reciprocal functionality of CalculatorFloat with all possible input types
@@ -1438,8 +1474,8 @@ mod tests {
         let x3 = CalculatorFloat::from("-3t");
         assert_eq!(format!("{}", x2), "-3e0");
         assert_eq!(format!("{}", x3), "-3t");
-    }  
-    
+    }
+
     // Test the isclose functionality of CalculatorFloat with all possible input types
     #[test]
     fn isclose() {
@@ -1517,5 +1553,4 @@ mod tests {
         assert!(x1s == x2s);
         assert!(x2s == x1s);
     }
-
 }

@@ -940,7 +940,10 @@ mod tests {
     fn test_calculator_debug() {
         let mut calculator = Calculator::new();
         calculator.set_variable("x", 0.1);
-        assert_eq!(format!("{:?}", calculator), "Calculator { variables: {\"x\": 0.1} }");
+        assert_eq!(
+            format!("{:?}", calculator),
+            "Calculator { variables: {\"x\": 0.1} }"
+        );
     }
 
     // Test the Clone macro for Calculator
@@ -1172,18 +1175,9 @@ mod tests {
             function_2_arguments("hypot", 0.1, 0.2).unwrap(),
             f.hypot(0.2)
         );
-        assert_eq!(
-            function_2_arguments("pow", 0.1, 0.2).unwrap(),
-            f.powf(0.2)
-        );
-        assert_eq!(
-            function_2_arguments("max", 0.1, 0.2).unwrap(),
-            f.max(0.2)
-        );
-        assert_eq!(
-            function_2_arguments("min", 0.1, 0.2).unwrap(),
-            f.min(0.2)
-        );
+        assert_eq!(function_2_arguments("pow", 0.1, 0.2).unwrap(), f.powf(0.2));
+        assert_eq!(function_2_arguments("max", 0.1, 0.2).unwrap(), f.max(0.2));
+        assert_eq!(function_2_arguments("min", 0.1, 0.2).unwrap(), f.min(0.2));
         assert!(function_2_arguments("test", 1.0, 1.0).is_err());
     }
 

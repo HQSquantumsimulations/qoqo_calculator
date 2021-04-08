@@ -506,7 +506,7 @@ mod tests {
         let x_formatted = format!("{}", x);
         assert_eq!(x_formatted, "(-3e0 + i * 2e0)");
     }
-    
+
     // Test the addition functionality of CalculatorComplex
     #[test]
     fn try_add() {
@@ -645,10 +645,16 @@ mod tests {
     #[test]
     fn debug() {
         let x = CalculatorComplex::from(3.0);
-        assert_eq!(format!("{:?}", x), "CalculatorComplex { re: Float(3.0), im: Float(0.0) }");
+        assert_eq!(
+            format!("{:?}", x),
+            "CalculatorComplex { re: Float(3.0), im: Float(0.0) }"
+        );
 
         let xs = CalculatorComplex::from("3x");
-        assert_eq!(format!("{:?}", xs), "CalculatorComplex { re: Str(\"3x\"), im: Float(0.0) }");
+        assert_eq!(
+            format!("{:?}", xs),
+            "CalculatorComplex { re: Str(\"3x\"), im: Float(0.0) }"
+        );
     }
 
     // Test the Clone trait for CalculatorComplex
@@ -674,5 +680,4 @@ mod tests {
         assert!(x1s == x2s);
         assert!(x2s == x1s);
     }
-    
 }
