@@ -1191,40 +1191,75 @@ mod tests {
     #[test]
     fn test_display() {
         let f = Token::Number(0.1);
-        assert_eq!(format!("{}", f), "Token::Number(1e-1)");
+        let f_formatted = format!("{}", f);
+        assert_eq!(f_formatted, "Token::Number(1e-1)");
+
         let f = Token::VariableAssign(String::from("x"));
-        assert_eq!(format!("{}", f), "Token::VariableAssign(x)");
+        let f_formatted = format!("{}", f);
+        assert_eq!(f_formatted, "Token::VariableAssign(x)");
+
         let f = Token::Variable(String::from("3t"));
-        assert_eq!(format!("{}", f), "Token::Variable(3t)");
+        let f_formatted = format!("{}", f);
+        assert_eq!(f_formatted, "Token::Variable(3t)");
+
         let f = Token::Function(String::from("2s"));
-        assert_eq!(format!("{}", f), "Token::Function(2s)");
+        let f_formatted = format!("{}", f);
+        assert_eq!(f_formatted, "Token::Function(2s)");
+
         let f = Token::Plus;
-        assert_eq!(format!("{}", f), "Token::Plus");
+        let f_formatted = format!("{}", f);
+        assert_eq!(f_formatted, "Token::Plus");
+
         let f = Token::Minus;
-        assert_eq!(format!("{}", f), "Token::Minus");
+        let f_formatted = format!("{}", f);
+        assert_eq!(f_formatted, "Token::Minus");
+
         let f = Token::Multiply;
-        assert_eq!(format!("{}", f), "Token::Multiply");
+        let f_formatted = format!("{}", f);
+        assert_eq!(f_formatted, "Token::Multiply");
+
         let f = Token::Divide;
-        assert_eq!(format!("{}", f), "Token::Divide");
+        let f_formatted = format!("{}", f);
+        assert_eq!(f_formatted, "Token::Divide");
+
         let f = Token::Power;
-        assert_eq!(format!("{}", f), "Token::Power");
+        let f_formatted = format!("{}", f);
+        assert_eq!(f_formatted, "Token::Power");
+
         let f = Token::Factorial;
-        assert_eq!(format!("{}", f), "Token::Factorial");
+        let f_formatted = format!("{}", f);
+        assert_eq!(f_formatted, "Token::Factorial");
+
         let f = Token::DoubleFactorial;
-        assert_eq!(format!("{}", f), "Token::DoubleFactorial");
+        let f_formatted = format!("{}", f);
+        assert_eq!(f_formatted, "Token::DoubleFactorial");
+
         let f = Token::BracketOpen;
-        assert_eq!(format!("{}", f), "Token::BracketOpen");
+        let f_formatted = format!("{}", f);
+        assert_eq!(f_formatted, "Token::BracketOpen");
+
         let f = Token::BracketClose;
-        assert_eq!(format!("{}", f), "Token::BracketClose");
+        let f_formatted = format!("{}", f);
+        assert_eq!(f_formatted, "Token::BracketClose");
+
         let f = Token::Assign;
-        assert_eq!(format!("{}", f), "Token::Assign");
+        let f_formatted = format!("{}", f);
+        assert_eq!(f_formatted, "Token::Assign");
+
         let f = Token::Comma;
-        assert_eq!(format!("{}", f), "Token::Comma");
+        let f_formatted = format!("{}", f);
+        assert_eq!(f_formatted, "Token::Comma");
+
         let f = Token::EndOfExpression;
-        assert_eq!(format!("{}", f), "Token::EndOfExpression");
+        let f_formatted = format!("{}", f);
+        assert_eq!(f_formatted, "Token::EndOfExpression");
+
         let f = Token::EndOfString;
-        assert_eq!(format!("{}", f), "Token::EndOfString");
+        let f_formatted = format!("{}", f);
+        assert_eq!(f_formatted, "Token::EndOfString");
+
         let f = Token::Unrecognized;
-        assert_eq!(format!("{}", f), "Token::Unrecognized");
+        let f_formatted = format!("{}", f);
+        assert_eq!(f_formatted, "Token::Unrecognized");
     }
 }

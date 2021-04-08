@@ -503,7 +503,8 @@ mod tests {
     #[test]
     fn display() {
         let x = CalculatorComplex::new(-3, 2);
-        assert_eq!(format!("{}", x), "(-3e0 + i * 2e0)");
+        let x_formatted = format!("{}", x);
+        assert_eq!(x_formatted, "(-3e0 + i * 2e0)");
     }
     
     // Test the addition functionality of CalculatorComplex

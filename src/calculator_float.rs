@@ -480,6 +480,13 @@ impl CalculatorFloat {
             },
         }
     }
+    /// Return inverse/reciprocal function (1/x) for CalculatorFloat.
+    pub fn recip(&self) -> CalculatorFloat {
+        match self {
+            Self::Float(x) => Self::Float(x.recip()),
+            Self::Str(y) => Self::Str(format!("(1 / {})", y)),
+        }
+    }
 }
 /// Implement `+` (add) for CalculatorFloat and generic type `T`.
 ///
@@ -708,16 +715,6 @@ where
     }
 }
 
-/// Implement Inverse `1/x` for CalculatorFloat.
-impl CalculatorFloat {
-    pub fn recip(&self) -> CalculatorFloat {
-        match self {
-            Self::Float(x) => Self::Float(x.recip()),
-            Self::Str(y) => Self::Str(format!("(1 / {})", y)),
-        }
-    }
-}
-
 /// Implement `*` (multiply) for CalculatorFloat and generic type `T`.
 ///
 /// # Arguments
@@ -935,52 +932,70 @@ mod tests {
         if let CalculatorFloat::Float(y) = x {
             assert!((y - 3.0).abs() < f64::EPSILON)}
         assert!(x.is_float());
+
         let x = CalculatorFloat::from(&3.0);
         if let CalculatorFloat::Float(y) = x {
             assert!((y - 3.0).abs() < f64::EPSILON)}
         assert!(x.is_float());
+
         // Integer (i32, u32, &i32, &u32) init
         let x = CalculatorFloat::from(-3);
         if let CalculatorFloat::Float(y) = x {
             assert!((y + 3.0).abs() < f64::EPSILON)}
         assert!(x.is_float());
+
         let x = CalculatorFloat::from(3u32);
         if let CalculatorFloat::Float(y) = x {
             assert!((y - 3.0).abs() < f64::EPSILON)}
         assert!(x.is_float());
+
         let x = CalculatorFloat::from(&-3);
         if let CalculatorFloat::Float(y) = x {
             assert!((y + 3.0).abs() < f64::EPSILON)}
         assert!(x.is_float());
+
         let x = CalculatorFloat::from(&3u32);
         if let CalculatorFloat::Float(y) = x {
             assert!((y - 3.0).abs() < f64::EPSILON)}
         assert!(x.is_float());
+
         // String (String, &String, &str) init
         let inp: &str = "3t";
         let x = CalculatorFloat::from(inp);
         if let CalculatorFloat::Str(y) = x.clone() {
             assert_eq!(y, "3t")}
         assert!(!x.is_float());
+
         let inp2: &str = "3";
         let x2 = CalculatorFloat::from(inp2);
         assert_eq!(x2, CalculatorFloat::from(3));
         assert!(x2.is_float());
+
         let mut test_string = String::from("3t");
         let x = CalculatorFloat::from(&test_string);
         test_string.push_str(&String::from("2t"));
         if let CalculatorFloat::Str(y) = x.clone() {
             assert_eq!(y, "3t")}
         assert!(!x.is_float());
+
         let test_string = String::from("3t");
         let x = CalculatorFloat::from(test_string);
         if let CalculatorFloat::Str(y) = x.clone() {
             assert_eq!(y, "3t")}
         assert!(!x.is_float());
+
+        let mut test_string = String::new();
+        test_string.push_str("3t");
+        let x = CalculatorFloat::from(test_string);
+        if let CalculatorFloat::Str(y) = x.clone() {
+            assert_eq!(y, "3t")}
+        assert!(!x.is_float());
+
         let inp2 = String::from("3");
         let x2 = CalculatorFloat::from(inp2);
         assert_eq!(x2, CalculatorFloat::from(3));
         assert!(x2.is_float());
+
         let inp2 = &String::from("3");
         let x2 = CalculatorFloat::from(inp2);
         assert_eq!(x2, CalculatorFloat::from(3));
