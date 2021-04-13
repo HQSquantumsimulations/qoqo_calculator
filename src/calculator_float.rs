@@ -13,8 +13,9 @@
 //! calculator_float module
 //!
 //! Provides CalculatorFloat enum and methods for parsing and evaluating
-//! mathematical expressions in string form to float
+//! mathematical expressions in string form to float.
 
+use crate::CalculatorError;
 use serde::de::{Deserializer, Error, Visitor};
 use serde::ser::Serializer;
 use serde::{Deserialize, Serialize};
@@ -23,16 +24,16 @@ use std::fmt;
 use std::ops;
 use std::str::FromStr;
 
-use crate::CalculatorError;
-
 static ATOL: f64 = f64::EPSILON;
 static RTOL: f64 = 1e-8;
-/// Enum combining Float and String
+
+/// CalculatorFloat is an enum combining Float and String.
 ///
 /// # Variants
 ///
 /// * `Float` - f64 value
 /// * `Str` - String instance
+///
 #[derive(Debug, Clone, PartialEq)]
 pub enum CalculatorFloat {
     /// Floating point value
@@ -41,9 +42,21 @@ pub enum CalculatorFloat {
     Str(String),
 }
 
-// Implementing serde serialisation
-// writing directly to string or f64
+// Implementing serde serialization
+// writing directly to string or f64.
 impl Serialize for CalculatorFloat {
+    // Serialization function for CalculatorFloat according to float or string type.
+    //
+    // # Arguments
+    //
+    // * `self` - CalculatorFloat to be serialized
+    // * `serializer` - Serializer used for serialization
+    //
+    // # Returns
+    //
+    // `S::Ok` - Serialized instance of CalculatorFloat
+    // `S::Error` - Error in the serialization process
+    //
     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
     where
         S: Serializer,
@@ -55,8 +68,20 @@ impl Serialize for CalculatorFloat {
     }
 }
 
-// Deserializing directly from string or f64
+// Deserializing directly from string or f64.
 impl<'de> Deserialize<'de> for CalculatorFloat {
+    // Deserialization function for CalculatorFloat.
+    //
+    // # Arguments
+    //
+    // * `self` - Serialized instance of CalculatorFloat to be deserialized
+    // * `deserializer` - Deserializer used for deserialization
+    //
+    // # Returns
+    //
+    // `CalculatorFloat` - Deserialized instance of CalculatorFloat
+    // `D::Error` - Error in the deserialization process
+    //
     fn deserialize<D>(deserializer: D) -> Result<CalculatorFloat, D::Error>
     where
         D: Deserializer<'de>,
@@ -64,10 +89,33 @@ impl<'de> Deserialize<'de> for CalculatorFloat {
         struct TemporaryVisitor;
         impl<'de> Visitor<'de> for TemporaryVisitor {
             type Value = CalculatorFloat;
+
+            // Visit expectation for CalculatorFloatVisitor.
+            //
+            // # Arguments
+            //
+            // * `self` - Error
+            // * `formatter` - Configuration for formatting
+            //
+            // # Returns
+            //
+            // `str` - What TemporaryVisitor should expect
+            //
             fn expecting(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
                 formatter.write_str("float or string")
             }
 
+            // Visit function for string value.
+            //
+            // # Arguments
+            //
+            // * `self` - Error
+            // * `value` - value to be deserialized
+            //
+            // # Returns
+            //
+            // `Result<CalculatorFloat, E>` - CalculatorFloat of value or corresponding error
+            //
             fn visit_str<E>(self, value: &str) -> Result<CalculatorFloat, E>
             where
                 E: Error,
@@ -75,6 +123,17 @@ impl<'de> Deserialize<'de> for CalculatorFloat {
                 Ok(CalculatorFloat::from(value))
             }
 
+            // Visit function for f64 value.
+            //
+            // # Arguments
+            //
+            // * `self` - Error
+            // * `value` - value to be deserialized
+            //
+            // # Returns
+            //
+            // `Result<CalculatorFloat, E>` - CalculatorFloat of value or corresponding error
+            //
             fn visit_f64<E>(self, value: f64) -> Result<CalculatorFloat, E>
             where
                 E: Error,
@@ -82,12 +141,35 @@ impl<'de> Deserialize<'de> for CalculatorFloat {
                 Ok(CalculatorFloat::from(value))
             }
 
+            // Visit function for i32 value.
+            //
+            // # Arguments
+            //
+            // * `self` - Error
+            // * `value` - value to be deserialized
+            //
+            // # Returns
+            //
+            // `Result<CalculatorFloat, E>` - CalculatorFloat of value or corresponding error
+            //
             fn visit_i32<E>(self, value: i32) -> Result<CalculatorFloat, E>
             where
                 E: Error,
             {
                 Ok(CalculatorFloat::from(value))
             }
+
+            // Visit function for u32 value.
+            //
+            // # Arguments
+            //
+            // * `self` - Error
+            // * `value` - value to be deserialized
+            //
+            // # Returns
+            //
+            // `Result<CalculatorFloat, E>` - CalculatorFloat of value or corresponding error
+            //
             fn visit_u32<E>(self, value: u32) -> Result<CalculatorFloat, E>
             where
                 E: Error,
@@ -104,7 +186,7 @@ impl<'de> Deserialize<'de> for CalculatorFloat {
 ///
 /// # Returns
 ///
-/// * [CalculatorFloat::Float]
+/// * `CalculatorFloat::Float`
 ///
 impl From<i32> for CalculatorFloat {
     fn from(item: i32) -> Self {
@@ -188,7 +270,7 @@ impl From<String> for CalculatorFloat {
     }
 }
 
-/// Initialize CalculatorFloat from string reference &String
+/// Initialize CalculatorFloat from string reference &String.
 ///
 /// # Returns
 ///
@@ -204,7 +286,7 @@ impl From<&String> for CalculatorFloat {
     }
 }
 
-/// Initialize CalculatorFloat from str reference &str
+/// Initialize CalculatorFloat from str reference &str.
 ///
 /// # Returns
 ///
@@ -220,7 +302,7 @@ impl From<&str> for CalculatorFloat {
     }
 }
 
-/// Try turning CalculatorFloat into f64 float
+/// Try turning CalculatorFloat into f64 float.
 ///
 /// # Returns
 ///
@@ -253,7 +335,7 @@ impl From<CalculatorFloat> for String {
     }
 }
 
-/// Initialize CalculatorFloat from CalculatorFloat reference &CalculatorFloat
+/// Initialize CalculatorFloat from CalculatorFloat reference &CalculatorFloat.
 ///
 /// # Returns
 ///
@@ -265,7 +347,7 @@ impl<'a> From<&'a CalculatorFloat> for CalculatorFloat {
     }
 }
 
-/// Implement Display trait for CalculatorFloat
+/// Implement Display trait for CalculatorFloat.
 ///
 /// Allows use of simple text formating
 ///
@@ -279,7 +361,7 @@ impl fmt::Display for CalculatorFloat {
 }
 
 impl CalculatorFloat {
-    /// Return true when CalculatorFloat contains symbolic expression.
+    /// Return True when CalculatorFloat does not contain symbolic expression.
     pub fn is_float(&self) -> bool {
         match self {
             CalculatorFloat::Float(_) => true,
@@ -293,11 +375,11 @@ impl CalculatorFloat {
             CalculatorFloat::Str(s) => CalculatorFloat::Str(format!("sqrt({})", s)),
         }
     }
-    /// Returns atan2 for CalculatorFloat and generic type `T`.
+    /// Return atan2 for CalculatorFloat and generic type `T`.
     ///
     /// # Arguments
     ///
-    /// 1. `other` - Any type T for which CalculatorFloat::From<T> trait is implemented
+    /// * `other` - Any type T for which CalculatorFloat::From<T> trait is implemented
     ///
     pub fn atan2<T>(&self, other: T) -> CalculatorFloat
     where
@@ -316,11 +398,11 @@ impl CalculatorFloat {
         }
     }
 
-    /// Returns Power for CalculatorFloat and generic type `T` that can be cast to CalculatorFloat.
+    /// Return Power for CalculatorFloat and generic type `T`.
     ///
     /// # Arguments
     ///
-    /// 1. `other` - Any type T for which CalculatorFloat::From<T> trait is implemented
+    /// * `other` - Any type T for which CalculatorFloat::From<T> trait is implemented
     ///
     pub fn powf<T>(&self, other: T) -> CalculatorFloat
     where
@@ -339,49 +421,49 @@ impl CalculatorFloat {
         }
     }
 
-    /// Returns exponential function exp(x) for CalculatorFloat.
+    /// Return exponential function exp(x) for CalculatorFloat.
     pub fn exp(&self) -> CalculatorFloat {
         match self {
             Self::Float(x) => CalculatorFloat::Float(x.exp()),
             Self::Str(y) => Self::Str(format!("exp({})", y)),
         }
     }
-    /// Returns sine function sin(x) for CalculatorFloat.
+    /// Return sine function sin(x) for CalculatorFloat.
     pub fn sin(&self) -> CalculatorFloat {
         match self {
             Self::Float(x) => CalculatorFloat::Float(x.sin()),
             Self::Str(y) => Self::Str(format!("sin({})", y)),
         }
     }
-    /// Returns cosine function cos(x) for CalculatorFloat.
+    /// Return cosine function cos(x) for CalculatorFloat.
     pub fn cos(&self) -> CalculatorFloat {
         match self {
             Self::Float(x) => CalculatorFloat::Float(x.cos()),
             Self::Str(y) => Self::Str(format!("cos({})", y)),
         }
     }
-    /// Returns arccosine function acos(x) for CalculatorFloat.
+    /// Return arccosine function acos(x) for CalculatorFloat.
     pub fn acos(&self) -> CalculatorFloat {
         match self {
             Self::Float(x) => CalculatorFloat::Float(x.acos()),
             Self::Str(y) => Self::Str(format!("acos({})", y)),
         }
     }
-    /// Returns absolute value abs(x) for CalculatorFloat.
+    /// Return absolute value abs(x) for CalculatorFloat.
     pub fn abs(&self) -> CalculatorFloat {
         match self {
             Self::Float(x) => CalculatorFloat::Float(x.abs()),
             Self::Str(y) => Self::Str(format!("abs({})", y)),
         }
     }
-    /// Returns signum value sign(x) for CalculatorFloat.
+    /// Return signum value sign(x) for CalculatorFloat.
     pub fn signum(&self) -> CalculatorFloat {
         match self {
             Self::Float(x) => CalculatorFloat::Float(x.signum()),
             Self::Str(y) => Self::Str(format!("sign({})", y)),
         }
     }
-    /// Returns true if self is close to other value.
+    /// Return True if self value is close to other value.
     pub fn isclose<T>(&self, other: T) -> bool
     where
         CalculatorFloat: From<T>,
@@ -398,12 +480,19 @@ impl CalculatorFloat {
             },
         }
     }
+    /// Return inverse/reciprocal function (1/x) for CalculatorFloat.
+    pub fn recip(&self) -> CalculatorFloat {
+        match self {
+            Self::Float(x) => Self::Float(x.recip()),
+            Self::Str(y) => Self::Str(format!("(1 / {})", y)),
+        }
+    }
 }
-/// Implement `+` for CalculatorFloat and generic type `T`.
+/// Implement `+` (add) for CalculatorFloat and generic type `T`.
 ///
 /// # Arguments
 ///
-/// 1. `other` - Any type T for which CalculatorFloat::From<T> trait is implemented
+/// * `other` - Any type T for which CalculatorFloat::From<T> trait is implemented
 ///
 impl<T> ops::Add<T> for CalculatorFloat
 where
@@ -437,11 +526,11 @@ where
     }
 }
 
-/// Implement `+=` for CalculatorFloat and generic type `T`.
+/// Implement `+=` (add) for CalculatorFloat and generic type `T`.
 ///
 /// # Arguments
 ///
-/// 1. `other` - Any type T for which CalculatorFloat::From<T> trait is implemented
+/// * `other` - Any type T for which CalculatorFloat::From<T> trait is implemented
 ///
 impl<T> ops::AddAssign<T> for CalculatorFloat
 where
@@ -481,11 +570,11 @@ where
     }
 }
 
-/// Implement `+` for &CalculatorFloat and generic type `T`.
+/// Implement `+` (add) for &CalculatorFloat and generic type `T`.
 ///
 /// # Arguments
 ///
-/// 1. `other` - Any type T for which CalculatorFloat::From<T> trait is implemented
+/// * `other` - Any type T for which CalculatorFloat::From<T> trait is implemented
 ///
 impl<'a, T> ops::Add<T> for &'a CalculatorFloat
 where
@@ -519,11 +608,11 @@ where
     }
 }
 
-/// Implement `/` for CalculatorFloat and generic type `T`.
+/// Implement `/` (divide) for CalculatorFloat and generic type `T`.
 ///
 /// # Arguments
 ///
-/// 1. `other` - Any type T for which CalculatorFloat::From<T> trait is implemented
+/// * `other` - Any type T for which CalculatorFloat::From<T> trait is implemented
 ///
 /// # Panics
 ///
@@ -570,11 +659,11 @@ where
     }
 }
 
-/// Implement `/=` for CalculatorFloat and generic type `T`.
+/// Implement `/=` (divide) for CalculatorFloat and generic type `T`.
 ///
 /// # Arguments
 ///
-/// 1. `other` - Any type T for which CalculatorFloat::From<T> trait is implemented
+/// * `other` - Any type T for which CalculatorFloat::From<T> trait is implemented
 ///
 /// # Panics
 ///
@@ -626,22 +715,11 @@ where
     }
 }
 
-/// Implement Inverse `1/x` for CalculatorFloat.
-///
-impl CalculatorFloat {
-    pub fn recip(&self) -> CalculatorFloat {
-        match self {
-            Self::Float(x) => Self::Float(x.recip()),
-            Self::Str(y) => Self::Str(format!("(1 / {})", y)),
-        }
-    }
-}
-
-/// Implement `*` for CalculatorFloat and generic type `T`.
+/// Implement `*` (multiply) for CalculatorFloat and generic type `T`.
 ///
 /// # Arguments
 ///
-/// 1. `other` - Any type T for which CalculatorFloat::From<T> trait is implemented
+/// * `other` - Any type T for which CalculatorFloat::From<T> trait is implemented
 ///
 impl<T> ops::Mul<T> for CalculatorFloat
 where
@@ -679,11 +757,11 @@ where
     }
 }
 
-/// Implement `*=` for CalculatorFloat and generic type `T`.
+/// Implement `*=` (multiply) for CalculatorFloat and generic type `T`.
 ///
 /// # Arguments
 ///
-/// 1. `other` - Any type T for which CalculatorFloat::From<T> trait is implemented
+/// * `other` - Any type T for which CalculatorFloat::From<T> trait is implemented
 ///
 impl<T> ops::MulAssign<T> for CalculatorFloat
 where
@@ -726,11 +804,11 @@ where
     }
 }
 
-/// Implement `-` for CalculatorFloat and generic type `T`.
+/// Implement `-` (subtract) for CalculatorFloat and generic type `T`.
 ///
 /// # Arguments
 ///
-/// 1. `other` - Any type T for which CalculatorFloat::From<T> trait is implemented
+/// * `other` - Any type T for which CalculatorFloat::From<T> trait is implemented
 ///
 impl<T> ops::Sub<T> for CalculatorFloat
 where
@@ -764,11 +842,11 @@ where
     }
 }
 
-/// Implement `-=` for CalculatorFloat and generic type `T`.
+/// Implement `-=` (subtract) for CalculatorFloat and generic type `T`.
 ///
 /// # Arguments
 ///
-/// 1. `other` - Any type T for which CalculatorFloat::From<T> trait is implemented
+/// * `other` - Any type T for which CalculatorFloat::From<T> trait is implemented
 ///
 impl<T> ops::SubAssign<T> for CalculatorFloat
 where
@@ -825,38 +903,81 @@ mod tests {
     use serde_test::{assert_tokens, Token};
     use std::convert::TryFrom;
 
+    // Test the serialization/deserialization of CalculatorFloat from string
     #[test]
     fn ser_de_string() {
         let x = CalculatorFloat::from("test+(1/3)");
         assert_tokens(&x, &[Token::String("test+(1/3)")]);
     }
 
+    // Test the serialization/deserialization of CalculatorFloat from float
     #[test]
     fn ser_de_float() {
         let x = CalculatorFloat::from(3.0);
         assert_tokens(&x, &[Token::F64(3.0)]);
     }
 
+    // Test the serialization/deserialization of CalculatorFloat from integer
     #[test]
     fn ser_de_int() {
         let x = CalculatorFloat::from(0);
         assert_tokens(&x, &[Token::F64(0.0)]);
     }
 
+    // Test the initialisation of CalculatorFloat from all possible input types
     #[test]
     fn from() {
-        // Float init
-        let x = CalculatorFloat::from(3);
+        // Float (f64, &f64, String but is float) init
+        let x = CalculatorFloat::from(3.0);
         if let CalculatorFloat::Float(y) = x {
             assert!((y - 3.0).abs() < f64::EPSILON)
         }
         assert!(x.is_float());
-        // String init
-        let x = CalculatorFloat::from("3t");
+
+        let x = CalculatorFloat::from(&3.0);
+        if let CalculatorFloat::Float(y) = x {
+            assert!((y - 3.0).abs() < f64::EPSILON)
+        }
+        assert!(x.is_float());
+
+        // Integer (i32, u32, &i32, &u32) init
+        let x = CalculatorFloat::from(-3);
+        if let CalculatorFloat::Float(y) = x {
+            assert!((y + 3.0).abs() < f64::EPSILON)
+        }
+        assert!(x.is_float());
+
+        let x = CalculatorFloat::from(3u32);
+        if let CalculatorFloat::Float(y) = x {
+            assert!((y - 3.0).abs() < f64::EPSILON)
+        }
+        assert!(x.is_float());
+
+        let x = CalculatorFloat::from(&-3);
+        if let CalculatorFloat::Float(y) = x {
+            assert!((y + 3.0).abs() < f64::EPSILON)
+        }
+        assert!(x.is_float());
+
+        let x = CalculatorFloat::from(&3u32);
+        if let CalculatorFloat::Float(y) = x {
+            assert!((y - 3.0).abs() < f64::EPSILON)
+        }
+        assert!(x.is_float());
+
+        // String (String, &String, &str) init
+        let inp: &str = "3t";
+        let x = CalculatorFloat::from(inp);
         if let CalculatorFloat::Str(y) = x.clone() {
             assert_eq!(y, "3t")
         }
         assert!(!x.is_float());
+
+        let inp2: &str = "3";
+        let x2 = CalculatorFloat::from(inp2);
+        assert_eq!(x2, CalculatorFloat::from(3));
+        assert!(x2.is_float());
+
         let mut test_string = String::from("3t");
         let x = CalculatorFloat::from(&test_string);
         test_string.push_str(&String::from("2t"));
@@ -864,8 +985,43 @@ mod tests {
             assert_eq!(y, "3t")
         }
         assert!(!x.is_float());
+
+        let test_string = String::from("3t");
+        let x = CalculatorFloat::from(test_string);
+        if let CalculatorFloat::Str(y) = x.clone() {
+            assert_eq!(y, "3t")
+        }
+        assert!(!x.is_float());
+
+        let mut test_string = String::new();
+        test_string.push_str("3t");
+        let x = CalculatorFloat::from(test_string);
+        if let CalculatorFloat::Str(y) = x.clone() {
+            assert_eq!(y, "3t")
+        }
+        assert!(!x.is_float());
+
+        let inp2 = String::from("3");
+        let x2 = CalculatorFloat::from(inp2);
+        assert_eq!(x2, CalculatorFloat::from(3));
+        assert!(x2.is_float());
+
+        let inp2 = &String::from("3");
+        let x2 = CalculatorFloat::from(inp2);
+        assert_eq!(x2, CalculatorFloat::from(3));
+        assert!(x2.is_float());
     }
 
+    // Test the reverse from functions: T::from(CalculatorFloat)
+    #[test]
+    fn from_reversed() {
+        // Float (f64, &f64, String but is float) init
+        let x2 = CalculatorFloat::from("3t");
+        assert_eq!(String::from(x2), "3t");
+    }
+
+    // Test the initialisation of CalculatorFloat from string,
+    // which panics when converted into float
     #[test]
     #[should_panic]
     fn fail_try_from() {
@@ -882,9 +1038,25 @@ mod tests {
         assert!((x - f64::try_from(x3).unwrap()).abs() < f64::EPSILON);
     }
 
+    // Test the add functionality of CalculatorFloat with all possible input types
     #[test]
     fn add() {
-        // Float init
+        // Test simple add function with &CalculatorFloat: &x + y
+        let x3 = &CalculatorFloat::from(3);
+        let x2 = &CalculatorFloat::from(2.0);
+        assert_eq!(x2 + x3, CalculatorFloat::Float(5.0));
+        assert_eq!(x3 + 2, CalculatorFloat::Float(5.0));
+        assert_eq!(x3 + 2.0, CalculatorFloat::Float(5.0));
+
+        let x2 = &CalculatorFloat::from(0.0);
+        assert_eq!(x2 + "3t", CalculatorFloat::Str(String::from("3t")));
+
+        let x2s = &CalculatorFloat::from("3t");
+        assert_eq!(x2s + 0.0, CalculatorFloat::Str(String::from("3t")));
+        assert_eq!(x2s + 1.0, CalculatorFloat::Str(String::from("(3t + 1e0)")));
+        assert_eq!(x2s + "2x", CalculatorFloat::Str(String::from("(3t + 2x)")));
+
+        // Test simple add function: x + y
         let mut x3 = CalculatorFloat::from(3);
         let x2 = CalculatorFloat::from(2.0);
         if let CalculatorFloat::Float(y) = x3.clone() + x2.clone() {
@@ -897,9 +1069,33 @@ mod tests {
             assert!((y - 5.0).abs() < f64::EPSILON)
         }
 
+        let x2 = CalculatorFloat::from(0.0);
+        if let CalculatorFloat::Str(y) = x2.clone() + "3t" {
+            assert_eq!(y, "3t")
+        }
+
+        let x2 = CalculatorFloat::from("3t");
+        if let CalculatorFloat::Str(y) = x2.clone() + 0.0 {
+            assert_eq!(y, "3t")
+        }
+        if let CalculatorFloat::Str(y) = x2.clone() + "2x" {
+            assert_eq!(y, "(3t + 2x)")
+        }
+
+        // Test add_assign function: x += y
+        let x2 = CalculatorFloat::from(2.0);
         x3 += x2.clone();
         if let CalculatorFloat::Float(y) = x3.clone() {
             assert!((y - 5.0).abs() < f64::EPSILON)
+        }
+        x3 += "x";
+        if let CalculatorFloat::Str(y) = x3.clone() {
+            assert_eq!(y, "(5e0 + x)")
+        }
+        let mut x3 = CalculatorFloat::from(0.0);
+        x3 += "x";
+        if let CalculatorFloat::Str(y) = x3.clone() {
+            assert_eq!(y, "x")
         }
         let mut x3s = CalculatorFloat::from("3t");
         if let CalculatorFloat::Str(y) = x3s.clone() + x2.clone() {
@@ -913,22 +1109,36 @@ mod tests {
         }
 
         x3s += x2;
-        if let CalculatorFloat::Str(y) = x3s {
+        if let CalculatorFloat::Str(y) = x3s.clone() {
             assert_eq!(y, "(3t + 2e0)")
+        }
+        x3s += 0.0;
+        if let CalculatorFloat::Str(y) = x3s.clone() {
+            assert_eq!(y, "(3t + 2e0)")
+        }
+        x3s += "x";
+        if let CalculatorFloat::Str(y) = x3s.clone() {
+            assert_eq!(y, "((3t + 2e0) + x)")
         }
     }
 
+    // Test the divide functionality of CalculatorFloat with all possible input types
     #[test]
     fn div() {
-        // Float init
+        // Test simple divide function: x / y
         let mut x3 = CalculatorFloat::from(3);
         let x2 = CalculatorFloat::from(3.0);
         assert_eq!(x3.clone() / x2.clone(), CalculatorFloat::Float(1.0));
         assert_eq!(x3.clone() / 3, CalculatorFloat::Float(1.0));
         assert_eq!(x3.clone() / 3.0, CalculatorFloat::Float(1.0));
+        assert_eq!(
+            x3.clone() / "x",
+            CalculatorFloat::Str(String::from("(3e0 / x)"))
+        );
 
-        x3 /= x2.clone();
-        assert_eq!(x3, CalculatorFloat::Float(1.0));
+        let mut x0 = CalculatorFloat::from(0.0);
+        assert_eq!(x0.clone() / "3t", x0);
+
         let mut x3s = CalculatorFloat::from("3t");
         assert_eq!(
             x3s.clone() / x2.clone(),
@@ -946,21 +1156,146 @@ mod tests {
             x3s.clone() / "2.0",
             CalculatorFloat::Str(String::from("(3t / 2e0)"))
         );
+        assert_eq!(x3s.clone() / 1.0, x3s);
+
+        let x2s = CalculatorFloat::from("2x");
+        assert_eq!(
+            x3s.clone() / x2s.clone(),
+            CalculatorFloat::Str(String::from("(3t / 2x)"))
+        );
+
+        // Test div_assign function: x /= y
+        x3 /= x2.clone();
+        assert_eq!(x3, CalculatorFloat::Float(1.0));
+
+        x0 /= "x";
+        assert_eq!(x0, CalculatorFloat::Float(0.0));
+
+        x3 /= x2s.clone();
+        assert_eq!(x3, CalculatorFloat::Str(String::from("(1e0 / 2x)")));
+        x3s /= 1.0;
+        assert_eq!(x3s, CalculatorFloat::Str(String::from("3t")));
         x3s /= x2;
         assert_eq!(x3s, CalculatorFloat::Str(String::from("(3t / 3e0)")));
+        x3s /= x2s;
+        assert_eq!(x3s, CalculatorFloat::Str(String::from("((3t / 3e0) / 2x)")));
     }
 
+    // Test the division of CalculatorFloat from float by zero (should panic)
+    #[test]
+    #[should_panic]
+    fn fail_div_by_zero_float() {
+        let x1 = CalculatorFloat::from(1.0);
+        let _x3 = x1 / 0.0;
+    }
+
+    // Test the division of CalculatorFloat from string by zero (should panic)
+    #[test]
+    #[should_panic]
+    fn fail_div_by_zero_str() {
+        let x2 = CalculatorFloat::from("x");
+        let _x4 = x2 / 0.0;
+    }
+
+    // Test the div_assign of CalculatorFloat from float by zero (should panic)
+    #[test]
+    #[should_panic]
+    fn fail_div_assign_by_zero_float() {
+        let mut x1 = CalculatorFloat::from(1.0);
+        x1 /= 0.0;
+    }
+
+    // Test the div_assign of CalculatorFloat from string by zero (should panic)
+    #[test]
+    #[should_panic]
+    fn fail_div_assign_by_zero_str() {
+        let mut x2 = CalculatorFloat::from("x");
+        x2 /= 0.0;
+    }
+
+    // Test the multiply functionality of CalculatorFloat with all possible input types
+    #[test]
+    fn mult() {
+        // Test simple multiply function: x * y
+        let mut x3 = CalculatorFloat::from(3);
+        let x2 = CalculatorFloat::from(3.0);
+        assert_eq!(x3.clone() * x2.clone(), CalculatorFloat::Float(9.0));
+        assert_eq!(x3.clone() * 3, CalculatorFloat::Float(9.0));
+        assert_eq!(x3.clone() * 3.0, CalculatorFloat::Float(9.0));
+        assert_eq!(
+            x3.clone() * "x",
+            CalculatorFloat::Str(String::from("(3e0 * x)"))
+        );
+
+        let x2 = CalculatorFloat::from(0.0);
+        assert_eq!(x2 * "x", CalculatorFloat::Float(0.0));
+
+        let x2 = CalculatorFloat::from(1.0);
+        assert_eq!(x2 * "x", CalculatorFloat::Str(String::from("x")));
+
+        let mut x3s = CalculatorFloat::from("3t");
+        let x2 = CalculatorFloat::from(3.0);
+        assert_eq!(
+            x3s.clone() * x2.clone(),
+            CalculatorFloat::Str(String::from("(3t * 3e0)"))
+        );
+        assert_eq!(
+            x3s.clone() * 2.0,
+            CalculatorFloat::Str(String::from("(3t * 2e0)"))
+        );
+        assert_eq!(x3s.clone() * 0.0, CalculatorFloat::Float(0.0));
+        assert_eq!(x3s.clone() * 1.0, CalculatorFloat::Str(String::from("3t")));
+        assert_eq!(
+            x3s.clone() * "2x",
+            CalculatorFloat::Str(String::from("(3t * 2x)"))
+        );
+
+        // Test mul_assign function: x *= y
+        x3 *= x2.clone();
+        assert_eq!(x3, CalculatorFloat::Float(9.0));
+
+        let mut x3 = CalculatorFloat::from(0.0);
+        x3 *= "x";
+        assert_eq!(x3, CalculatorFloat::Float(0.0));
+
+        let mut x3 = CalculatorFloat::from(1.0);
+        x3 *= "x";
+        assert_eq!(x3, CalculatorFloat::Str(String::from("x")));
+
+        let mut x3 = CalculatorFloat::from(3.0);
+        x3 *= "x";
+        assert_eq!(x3, CalculatorFloat::Str(String::from("(3e0 * x)")));
+
+        x3s *= 1.0;
+        assert_eq!(x3s, CalculatorFloat::Str(String::from("3t")));
+
+        x3s *= x2;
+        assert_eq!(x3s, CalculatorFloat::Str(String::from("(3t * 3e0)")));
+
+        x3s *= "2x";
+        assert_eq!(x3s, CalculatorFloat::Str(String::from("((3t * 3e0) * 2x)")));
+
+        x3s *= 0.0;
+        assert_eq!(x3s, CalculatorFloat::Float(0.0));
+    }
+
+    // Test the subtract functionality of CalculatorFloat with all possible input types
     #[test]
     fn sub() {
-        // Float init
-        let mut x3 = CalculatorFloat::from(3);
+        // Test simple subtract function: x - y
+        let x3 = CalculatorFloat::from(3);
         let x2 = CalculatorFloat::from(3.0);
         assert_eq!(x3.clone() - x2.clone(), CalculatorFloat::Float(0.0));
         assert_eq!(x3.clone() - 3, CalculatorFloat::Float(0.0));
         assert_eq!(x3.clone() - 3.0, CalculatorFloat::Float(0.0));
+        assert_eq!(
+            x3.clone() - "x",
+            CalculatorFloat::Str(String::from("(3e0 - x)"))
+        );
 
-        x3 -= x2.clone();
-        assert_eq!(x3, CalculatorFloat::Float(0.0));
+        let x3 = CalculatorFloat::from(0.0);
+        assert_eq!(x3.clone() - "x", CalculatorFloat::Str(String::from("(-x)")));
+
         let mut x3s = CalculatorFloat::from("3t");
         assert_eq!(
             x3s.clone() - x2.clone(),
@@ -970,53 +1305,38 @@ mod tests {
             x3s.clone() - 2.0,
             CalculatorFloat::Str(String::from("(3t - 2e0)"))
         );
-        assert_eq!(
-            x3s.clone() - 2.0,
-            CalculatorFloat::Str(String::from("(3t - 2e0)"))
-        );
+        assert_eq!(x3s.clone() - 0.0, CalculatorFloat::Str(String::from("3t")));
         assert_eq!(
             x3s.clone() - "2.0",
             CalculatorFloat::Str(String::from("(3t - 2e0)"))
         );
+        assert_eq!(
+            x3s.clone() - "2x",
+            CalculatorFloat::Str(String::from("(3t - 2x)"))
+        );
+
+        // Test sub_assign function: x -= y
+        let mut x3 = CalculatorFloat::from(3);
+        x3 -= x2.clone();
+        assert_eq!(x3, CalculatorFloat::Float(0.0));
+        x3 -= "x";
+        assert_eq!(x3, CalculatorFloat::Str(String::from("(-x)")));
+
+        let mut x3 = CalculatorFloat::from(3);
+        x3 -= "x";
+        assert_eq!(x3, CalculatorFloat::Str(String::from("(3e0 - x)")));
+
         x3s -= x2;
         assert_eq!(x3s, CalculatorFloat::Str(String::from("(3t - 3e0)")));
+        x3s -= 0.0;
+        assert_eq!(x3s, CalculatorFloat::Str(String::from("(3t - 3e0)")));
+        x3s -= "x";
+        assert_eq!(x3s, CalculatorFloat::Str(String::from("((3t - 3e0) - x)")));
     }
 
-    #[test]
-    fn mult() {
-        // Float init
-        let mut x3 = CalculatorFloat::from(3);
-        let x2 = CalculatorFloat::from(3.0);
-        assert_eq!(x3.clone() * x2.clone(), CalculatorFloat::Float(9.0));
-        assert_eq!(x3.clone() * 3, CalculatorFloat::Float(9.0));
-        assert_eq!(x3.clone() * 3.0, CalculatorFloat::Float(9.0));
-
-        x3 *= x2.clone();
-        assert_eq!(x3, CalculatorFloat::Float(9.0));
-        let mut x3s = CalculatorFloat::from("3t");
-        assert_eq!(
-            x3s.clone() * x2.clone(),
-            CalculatorFloat::Str(String::from("(3t * 3e0)"))
-        );
-        assert_eq!(
-            x3s.clone() * 2.0,
-            CalculatorFloat::Str(String::from("(3t * 2e0)"))
-        );
-        assert_eq!(
-            x3s.clone() * 2.0,
-            CalculatorFloat::Str(String::from("(3t * 2e0)"))
-        );
-        assert_eq!(
-            x3s.clone() * "2.0",
-            CalculatorFloat::Str(String::from("(3t * 2e0)"))
-        );
-        x3s *= x2;
-        assert_eq!(x3s, CalculatorFloat::Str(String::from("(3t * 3e0)")));
-    }
-
+    // Test the negative (*-1) functionality of CalculatorFloat with all possible input types
     #[test]
     fn neg() {
-        // Float init
         let x3 = CalculatorFloat::from(3);
         let x2 = -x3.clone();
         assert_eq!(x2, CalculatorFloat::Float(-3.0));
@@ -1025,9 +1345,9 @@ mod tests {
         assert_eq!(x2, CalculatorFloat::Str(String::from("(-3t)")));
     }
 
+    // Test the square root functionality of CalculatorFloat with all possible input types
     #[test]
     fn sqrt() {
-        // Test sqrt
         let x3 = CalculatorFloat::from(3);
         let x2: f64 = 3.0;
         assert_eq!(CalculatorFloat::Float(x2.sqrt()), x3.sqrt());
@@ -1035,9 +1355,9 @@ mod tests {
         assert_eq!(x3s.sqrt(), CalculatorFloat::Str(String::from("sqrt(3t)")));
     }
 
+    // Test the arccosine functionality of CalculatorFloat with all possible input types
     #[test]
     fn acos() {
-        // Test acos
         let x3 = CalculatorFloat::from(1);
         let x2: f64 = 1.0;
         assert_eq!(CalculatorFloat::Float(x2.acos()), x3.acos());
@@ -1045,9 +1365,9 @@ mod tests {
         assert_eq!(x3s.acos(), CalculatorFloat::Str(String::from("acos(1t)")));
     }
 
+    // Test the exponential functionality of CalculatorFloat with all possible input types
     #[test]
     fn exp() {
-        // Test acos
         let x3 = CalculatorFloat::from(3);
         let x2: f64 = 3.0;
         assert_eq!(CalculatorFloat::Float(x2.exp()), x3.exp());
@@ -1055,9 +1375,9 @@ mod tests {
         assert_eq!(x3s.exp(), CalculatorFloat::Str(String::from("exp(3t)")));
     }
 
+    // Test the absolute value functionality of CalculatorFloat with all possible input types
     #[test]
     fn abs() {
-        // Test acos
         let x3 = CalculatorFloat::from(-3);
         let x2: f64 = -3.0;
         assert_eq!(CalculatorFloat::Float(x2.abs()), x3.abs());
@@ -1065,9 +1385,9 @@ mod tests {
         assert_eq!(x3s.abs(), CalculatorFloat::Str(String::from("abs(-3t)")));
     }
 
+    // Test the cosine functionality of CalculatorFloat with all possible input types
     #[test]
     fn cos() {
-        // Test cos
         let x3 = CalculatorFloat::from(-3);
         let x2: f64 = -3.0;
         assert_eq!(CalculatorFloat::Float(x2.cos()), x3.cos());
@@ -1075,9 +1395,9 @@ mod tests {
         assert_eq!(x3s.cos(), CalculatorFloat::Str(String::from("cos(-3t)")));
     }
 
+    // Test the sine functionality of CalculatorFloat with all possible input types
     #[test]
     fn sin() {
-        // Test sin
         let x3 = CalculatorFloat::from(-3);
         let x2: f64 = -3.0;
         assert_eq!(CalculatorFloat::Float(x2.sin()), x3.sin());
@@ -1085,6 +1405,7 @@ mod tests {
         assert_eq!(x3s.sin(), CalculatorFloat::Str(String::from("sin(-3t)")));
     }
 
+    // Test the arctangent functionality of CalculatorFloat with all possible input types
     #[test]
     fn atan2() {
         // Test atan2
@@ -1096,11 +1417,80 @@ mod tests {
             x3s.atan2("test"),
             CalculatorFloat::Str(String::from("atan2(-3t, test)"))
         );
+        assert_eq!(
+            x3s.atan2(1.0),
+            CalculatorFloat::Str(String::from("atan2(-3t, 1e0)"))
+        );
+        assert_eq!(
+            x3.atan2("test"),
+            CalculatorFloat::Str(String::from("atan2(-3e0, test)"))
+        );
     }
 
+    // Test the sign functionality of CalculatorFloat with all possible input types
+    #[test]
+    fn signum() {
+        let x2 = CalculatorFloat::from(-3);
+        let x3 = CalculatorFloat::from("-3t");
+        assert_eq!(x2.signum(), CalculatorFloat::Float(-1.0));
+        assert_eq!(x3.signum(), CalculatorFloat::Str(String::from("sign(-3t)")));
+    }
+
+    // Test the power functionality of CalculatorFloat with all possible input types
+    #[test]
+    fn powf() {
+        let x1 = CalculatorFloat::from(2.0);
+        let x1s = CalculatorFloat::from("2x");
+        assert_eq!(x1.powf(2.0), CalculatorFloat::from(4.0));
+        assert_eq!(
+            x1.powf("t"),
+            CalculatorFloat::Str(String::from("(2e0 ^ t)"))
+        );
+        assert_eq!(
+            x1s.powf(2.0),
+            CalculatorFloat::Str(String::from("(2x ^ 2e0)"))
+        );
+        assert_eq!(
+            x1s.powf("t"),
+            CalculatorFloat::Str(String::from("(2x ^ t)"))
+        );
+    }
+
+    // Test the inverse/reciprocal functionality of CalculatorFloat with all possible input types
+    #[test]
+    fn recip() {
+        let x1 = CalculatorFloat::from(2.0);
+        let x1s = CalculatorFloat::from("2x");
+        let x1_recip = x1.recip();
+        let x1s_recip = x1s.recip();
+        assert_eq!(x1_recip, CalculatorFloat::from(0.5));
+        assert_eq!(x1s_recip, CalculatorFloat::Str(String::from("(1 / 2x)")));
+    }
+
+    // Test the Display functionality of CalculatorFloat with all possible input types
+    #[test]
+    fn display() {
+        let x2 = CalculatorFloat::from(-3);
+        let x3 = CalculatorFloat::from("-3t");
+        assert_eq!(format!("{}", x2), "-3e0");
+        assert_eq!(format!("{}", x3), "-3t");
+    }
+
+    // Test the isclose functionality of CalculatorFloat with all possible input types
+    #[test]
+    fn isclose() {
+        let x2 = CalculatorFloat::from(-3);
+        let x3 = CalculatorFloat::from("-3t");
+        assert_eq!(x2.isclose(-3.000000001), true);
+        assert_eq!(x3.isclose("-3.000000001t"), false);
+        assert_eq!(x3.isclose(-3.000000001), false);
+        assert_eq!(x2.isclose("-3.000000001t"), false);
+    }
+
+    // Test the adding with reference input functionality of CalculatorFloat
+    // with all possible input types
     #[test]
     fn add_ref() {
-        // Float init
         let mut x3 = CalculatorFloat::from(3);
         let x2 = CalculatorFloat::from(2.0);
         assert_eq!(&x3 + &x2, CalculatorFloat::Float(5.0));
@@ -1128,5 +1518,39 @@ mod tests {
         );
         x3s += x2;
         assert_eq!(x3s, CalculatorFloat::Str(String::from("(3t + 2e0)")));
+    }
+
+    // Test the Debug trait for CalculatorFloat
+    #[test]
+    fn debug() {
+        let x = CalculatorFloat::from(3.0);
+        assert_eq!(format!("{:?}", x), "Float(3.0)");
+
+        let xs = CalculatorFloat::from("3x");
+        assert_eq!(format!("{:?}", xs), "Str(\"3x\")");
+    }
+
+    // Test the Clone trait for CalculatorFloat
+    #[test]
+    fn clone_trait() {
+        let x = CalculatorFloat::from(3.0);
+        assert_eq!(x.clone(), x);
+
+        let xs = CalculatorFloat::from("3x");
+        assert_eq!(xs.clone(), xs);
+    }
+
+    // Test the PartialEq trait for CalculatorFloat
+    #[test]
+    fn partial_eq() {
+        let x1 = CalculatorFloat::from(3.0);
+        let x2 = CalculatorFloat::from(3.0);
+        assert!(x1 == x2);
+        assert!(x2 == x1);
+
+        let x1s = CalculatorFloat::from("3x");
+        let x2s = CalculatorFloat::from("3x");
+        assert!(x1s == x2s);
+        assert!(x2s == x1s);
     }
 }
