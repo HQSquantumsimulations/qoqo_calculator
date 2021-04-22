@@ -14,6 +14,10 @@
 //!
 //! Provides Calculator struct for parsing string expressions to floats.
 
+//! calculator module
+//!
+//! Provides Calculator struct for parsing string expressions to floats.
+
 use crate::{CalculatorError, CalculatorFloat};
 use std::collections::HashMap;
 use std::fmt;
