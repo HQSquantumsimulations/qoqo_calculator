@@ -8,7 +8,7 @@
 // Unless required by applicable law or agreed to in writing, software distributed under the
 // License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
 // express or implied. See the License for the specific language governing permissions and
-// limitations underthe License.
+// limitations under the License.
 
 //! calculator_float module
 //!
@@ -61,9 +61,21 @@ impl Serialize for CalculatorFloat {
     where
         S: Serializer,
     {
-        match self {
-            CalculatorFloat::Float(x) => serializer.serialize_f64(*x),
-            CalculatorFloat::Str(x) => serializer.serialize_str(x),
+        let human_readable = serializer.is_human_readable();
+        if human_readable {
+            match self {
+                CalculatorFloat::Float(x) => serializer.serialize_f64(*x),
+                CalculatorFloat::Str(x) => serializer.serialize_str(x),
+            }
+        } else {
+            match self {
+                CalculatorFloat::Float(x) => {
+                    serializer.serialize_newtype_variant("CalculatorFloat", 0, "Float", x)
+                }
+                CalculatorFloat::Str(x) => {
+                    serializer.serialize_newtype_variant("CalculatorFloat", 1, "Str", x)
+                }
+            }
         }
     }
 }
@@ -86,99 +98,199 @@ impl<'de> Deserialize<'de> for CalculatorFloat {
     where
         D: Deserializer<'de>,
     {
-        struct TemporaryVisitor;
-        impl<'de> Visitor<'de> for TemporaryVisitor {
-            type Value = CalculatorFloat;
+        let human_readable = deserializer.is_human_readable();
+        if human_readable {
+            struct TemporaryVisitor;
+            impl<'de> Visitor<'de> for TemporaryVisitor {
+                type Value = CalculatorFloat;
 
-            // Visit expectation for CalculatorFloatVisitor.
-            //
-            // # Arguments
-            //
-            // * `self` - Error
-            // * `formatter` - Configuration for formatting
-            //
-            // # Returns
-            //
-            // `str` - What TemporaryVisitor should expect
-            //
-            fn expecting(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
-                formatter.write_str("float or string")
+                // Visit expectation for CalculatorFloatVisitor.
+                //
+                // # Arguments
+                //
+                // * `self` - Error
+                // * `formatter` - Configuration for formatting
+                //
+                // # Returns
+                //
+                // `str` - What TemporaryVisitor should expect
+                //
+                fn expecting(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+                    formatter.write_str("float or string")
+                }
+
+                // Visit function for string value.
+                //
+                // # Arguments
+                //
+                // * `self` - Error
+                // * `value` - value to be deserialized
+                //
+                // # Returns
+                //
+                // `Result<CalculatorFloat, E>` - CalculatorFloat of value or corresponding error
+                //
+                fn visit_str<E>(self, value: &str) -> Result<CalculatorFloat, E>
+                where
+                    E: Error,
+                {
+                    Ok(CalculatorFloat::from(value))
+                }
+
+                // Visit function for f64 value.
+                //
+                // # Arguments
+                //
+                // * `self` - Error
+                // * `value` - value to be deserialized
+                //
+                // # Returns
+                //
+                // `Result<CalculatorFloat, E>` - CalculatorFloat of value or corresponding error
+                //
+                fn visit_f64<E>(self, value: f64) -> Result<CalculatorFloat, E>
+                where
+                    E: Error,
+                {
+                    Ok(CalculatorFloat::from(value))
+                }
+
+                // Visit function for i32 value.
+                //
+                // # Arguments
+                //
+                // * `self` - Error
+                // * `value` - value to be deserialized
+                //
+                // # Returns
+                //
+                // `Result<CalculatorFloat, E>` - CalculatorFloat of value or corresponding error
+                //
+                fn visit_i32<E>(self, value: i32) -> Result<CalculatorFloat, E>
+                where
+                    E: Error,
+                {
+                    Ok(CalculatorFloat::from(value))
+                }
+
+                // Visit function for u32 value.
+                //
+                // # Arguments
+                //
+                // * `self` - Error
+                // * `value` - value to be deserialized
+                //
+                // # Returns
+                //
+                // `Result<CalculatorFloat, E>` - CalculatorFloat of value or corresponding error
+                //
+                fn visit_u32<E>(self, value: u32) -> Result<CalculatorFloat, E>
+                where
+                    E: Error,
+                {
+                    Ok(CalculatorFloat::from(value))
+                }
             }
 
-            // Visit function for string value.
-            //
-            // # Arguments
-            //
-            // * `self` - Error
-            // * `value` - value to be deserialized
-            //
-            // # Returns
-            //
-            // `Result<CalculatorFloat, E>` - CalculatorFloat of value or corresponding error
-            //
-            fn visit_str<E>(self, value: &str) -> Result<CalculatorFloat, E>
-            where
-                E: Error,
-            {
-                Ok(CalculatorFloat::from(value))
+            deserializer.deserialize_any(TemporaryVisitor)
+        } else {
+            // Marker struct for the Variants of CalculatorFlot
+            enum Variant {
+                Float,
+                Str,
             }
-
-            // Visit function for f64 value.
-            //
-            // # Arguments
-            //
-            // * `self` - Error
-            // * `value` - value to be deserialized
-            //
-            // # Returns
-            //
-            // `Result<CalculatorFloat, E>` - CalculatorFloat of value or corresponding error
-            //
-            fn visit_f64<E>(self, value: f64) -> Result<CalculatorFloat, E>
-            where
-                E: Error,
-            {
-                Ok(CalculatorFloat::from(value))
+            // Visitor extracting the Variant of the serialized CalculatorFloat enum
+            struct VariantVisitor;
+            impl<'de> serde::de::Visitor<'de> for VariantVisitor {
+                type Value = Variant;
+                fn expecting(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+                    fmt::Formatter::write_str(formatter, "Identifier of CalculatorFloat variant")
+                }
+                // when variants are marked by u64 values
+                fn visit_u64<E>(self, value: u64) -> Result<Self::Value, E>
+                where
+                    E: Error,
+                {
+                    match value {
+                        0u64 => Ok(Variant::Float),
+                        1u64 => Ok(Variant::Str),
+                        _ => Err(Error::invalid_value(
+                            serde::de::Unexpected::Unsigned(value),
+                            &"CalculatorFloat has two variants, expecting field identifier 0 or 1",
+                        )),
+                    }
+                }
+                // when variants are marked by String values
+                fn visit_str<E>(self, value: &str) -> Result<Self::Value, E>
+                where
+                    E: Error,
+                {
+                    match value {
+                        "Float" => Ok(Variant::Float),
+                        "Str" => Ok(Variant::Str),
+                        _ => Err(Error::unknown_variant(value, VARIANTS)),
+                    }
+                }
+                // when variants are marked by Strings as byte fields
+                fn visit_bytes<E>(self, value: &[u8]) -> Result<Self::Value, E>
+                where
+                    E: Error,
+                {
+                    match value {
+                        b"Float" => Ok(Variant::Float),
+                        b"Str" => Ok(Variant::Str),
+                        _ => {
+                            let unknown_variant_string =
+                                &std::string::String::from_utf8_lossy(value);
+                            Err(Error::unknown_variant(unknown_variant_string, VARIANTS))
+                        }
+                    }
+                }
             }
-
-            // Visit function for i32 value.
-            //
-            // # Arguments
-            //
-            // * `self` - Error
-            // * `value` - value to be deserialized
-            //
-            // # Returns
-            //
-            // `Result<CalculatorFloat, E>` - CalculatorFloat of value or corresponding error
-            //
-            fn visit_i32<E>(self, value: i32) -> Result<CalculatorFloat, E>
-            where
-                E: Error,
-            {
-                Ok(CalculatorFloat::from(value))
+            impl<'de> serde::Deserialize<'de> for Variant {
+                #[inline]
+                fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+                where
+                    D: serde::Deserializer<'de>,
+                {
+                    serde::Deserializer::deserialize_identifier(deserializer, VariantVisitor)
+                }
             }
-
-            // Visit function for u32 value.
-            //
-            // # Arguments
-            //
-            // * `self` - Error
-            // * `value` - value to be deserialized
-            //
-            // # Returns
-            //
-            // `Result<CalculatorFloat, E>` - CalculatorFloat of value or corresponding error
-            //
-            fn visit_u32<E>(self, value: u32) -> Result<CalculatorFloat, E>
-            where
-                E: Error,
-            {
-                Ok(CalculatorFloat::from(value))
+            struct Visitor {}
+            impl<'de> serde::de::Visitor<'de> for Visitor {
+                type Value = CalculatorFloat;
+                fn expecting(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+                    fmt::Formatter::write_str(formatter, "enum CalculatorFloat")
+                }
+                fn visit_enum<A>(self, data: A) -> Result<Self::Value, A::Error>
+                where
+                    A: serde::de::EnumAccess<'de>,
+                {
+                    match match serde::de::EnumAccess::variant(data) {
+                        Ok(extracted_data) => extracted_data,
+                        Err(error) => {
+                            return Err(error);
+                        }
+                    } {
+                        (Variant::Float, variant) => Result::map(
+                            serde::de::VariantAccess::newtype_variant::<f64>(variant),
+                            CalculatorFloat::Float,
+                        ),
+                        (Variant::Str, variant) => Result::map(
+                            serde::de::VariantAccess::newtype_variant::<String>(variant),
+                            CalculatorFloat::Str,
+                        ),
+                    }
+                }
             }
+            const VARIANTS: &[&str] = &["Float", "Str"];
+            serde::Deserializer::deserialize_enum(
+                deserializer,
+                "CalculatorFloat",
+                VARIANTS,
+                Visitor {},
+            )
         }
-
-        deserializer.deserialize_any(TemporaryVisitor)
     }
 }
 
@@ -480,6 +592,15 @@ impl CalculatorFloat {
             },
         }
     }
+
+    /// Return Some(f64) when CalculatorFloat is a numeric value
+    pub fn float(&self) -> Result<&f64, CalculatorError> {
+        match self {
+            Self::Float(x) => Ok(x),
+            Self::Str(x) => Err(CalculatorError::FloatSymbolicNotConvertable { val: x.clone() }),
+        }
+    }
+
     /// Return inverse/reciprocal function (1/x) for CalculatorFloat.
     pub fn recip(&self) -> CalculatorFloat {
         match self {
@@ -900,28 +1021,28 @@ impl ops::Neg for CalculatorFloat {
 #[cfg(test)]
 mod tests {
     use super::CalculatorFloat;
-    use serde_test::{assert_tokens, Token};
+    use serde_test::{assert_tokens, Configure, Token};
     use std::convert::TryFrom;
 
     // Test the serialization/deserialization of CalculatorFloat from string
     #[test]
     fn ser_de_string() {
         let x = CalculatorFloat::from("test+(1/3)");
-        assert_tokens(&x, &[Token::String("test+(1/3)")]);
+        assert_tokens(&x.readable(), &[Token::String("test+(1/3)")]);
     }
 
     // Test the serialization/deserialization of CalculatorFloat from float
     #[test]
     fn ser_de_float() {
         let x = CalculatorFloat::from(3.0);
-        assert_tokens(&x, &[Token::F64(3.0)]);
+        assert_tokens(&x.readable(), &[Token::F64(3.0)]);
     }
 
     // Test the serialization/deserialization of CalculatorFloat from integer
     #[test]
     fn ser_de_int() {
         let x = CalculatorFloat::from(0);
-        assert_tokens(&x, &[Token::F64(0.0)]);
+        assert_tokens(&x.readable(), &[Token::F64(0.0)]);
     }
 
     // Test the initialisation of CalculatorFloat from all possible input types
@@ -1554,3 +1675,4 @@ mod tests {
         assert!(x2s == x1s);
     }
 }
+// End of tests
