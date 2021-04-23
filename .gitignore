@@ -1,7 +1,7 @@
-Cargo.lock
 target/*
 *.profraw
 *.DS_Store*
 coverage.lcov
 coverage/*
 coveragehtml/*
+*__pycache__*
