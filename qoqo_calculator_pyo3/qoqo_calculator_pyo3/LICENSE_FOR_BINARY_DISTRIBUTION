@@ -29,7 +29,7 @@ which is available under the Apache 2.0 license.
 This product in binary form bundles inventory-impl 0.1.10 ( https://github.com/dtolnay/inventory), 
 which is available under the Apache 2.0 license.
 
-This product in binary form bundles libc 0.2.88 ( https://github.com/rust-lang/libc), 
+This product in binary form bundles libc 0.2.94 ( https://github.com/rust-lang/libc), 
 which is available under the Apache 2.0 license.
 
 This product in binary form bundles lock_api 0.4.2 ( https://github.com/Amanieu/parking_lot), 
@@ -83,7 +83,7 @@ which is available under the Apache 2.0 license.
 This product in binary form bundles smallvec 1.6.1 (https://github.com/servo/rust-smallvec), 
 which is available under the Apache 2.0 license.
 
-This product in binary form bundles syn 1.0.63 ( https://github.com/dtolnay/syn), 
+This product in binary form bundles syn 1.0.70 ( https://github.com/dtolnay/syn), 
 which is available under the Apache 2.0 license.
 
 This product in binary form bundles thiserror 1.0.24 ( https://github.com/dtolnay/thiserror), 
