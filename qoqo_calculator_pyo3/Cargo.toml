@@ -4,7 +4,7 @@ version = "0.3.0"
 authors = ["HQS Quantum Simulations <info@quantumsimulations.de>"]
 license-file = "qoqo_calculator_pyo3/LICENSE_FOR_BINARY_DISTRIBUTION"
 edition = "2018"
-readme = "README.md"
+readme = "../README.md"
 repository = "https://github.com/HQSquantumsimulations/qoqo_calculator_pyo3"
 description = "Python interface to qoqo calculator, the calculator backend of the qoqo quantum computing toolkit by HQS Quantum Simulations"
 
