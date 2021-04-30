@@ -36,7 +36,7 @@ scopeguard 1.1.0 (Copyright (c) 2016-2019, Ulrik Sverdrup "bluss" and scopeguard
 
 smallvec 1.6.1 (Copyright (c) 2018, The Servo Project Developers https://github.com/servo/rust-smallvec), 
 
-unicode-xid 0.2.1 (Copyright (c) 2012-2015 The Rust Project Developers https://github.com/unicode-rs/unicode-xid)
+unicode-xid 0.2.2 (Copyright (c) 2012-2015 The Rust Project Developers https://github.com/unicode-rs/unicode-xid)
 
 Python (Copyright © 2001-2021 Python Software Foundation; All Rights
 Reserved)

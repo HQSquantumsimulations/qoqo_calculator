@@ -83,7 +83,7 @@ which is available under the Apache 2.0 license.
 This product in binary form bundles smallvec 1.6.1 (https://github.com/servo/rust-smallvec), 
 which is available under the Apache 2.0 license.
 
-This product in binary form bundles syn 1.0.70 ( https://github.com/dtolnay/syn), 
+This product in binary form bundles syn 1.0.71 ( https://github.com/dtolnay/syn), 
 which is available under the Apache 2.0 license.
 
 This product in binary form bundles thiserror 1.0.24 ( https://github.com/dtolnay/thiserror), 
@@ -92,7 +92,7 @@ which is available under the Apache 2.0 license.
 This product in binary form bundles thiserror-impl 1.0.24 ( https://github.com/dtolnay/thiserror), 
 which is available under the Apache 2.0 license.
 
-This product in binary form bundles unicode-xid 0.2.1 ( https://github.com/unicode-rs/unicode-xid), 
+This product in binary form bundles unicode-xid 0.2.2 ( https://github.com/unicode-rs/unicode-xid), 
 which is available under the Apache 2.0 license.
 
 This product in binary form bundles unindent 0.1.7 ( https://github.com/dtolnay/indoc), 

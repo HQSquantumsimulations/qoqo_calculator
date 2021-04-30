@@ -5,3 +5,4 @@ coverage.lcov
 coverage/*
 coveragehtml/*
 *__pycache__*
+*.pytest_cache*
