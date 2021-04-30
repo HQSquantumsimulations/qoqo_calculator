@@ -70,7 +70,7 @@ jobs:
           python -m pip install --upgrade pip maturin pytest numpy
       - name: Rust tests
         run: |
-          cargo --test --workspace --no-default-features
+          cargo test --workspace --no-default-features
       - name: build
         run: |
           cd qoqo_calculator_pyo3/
