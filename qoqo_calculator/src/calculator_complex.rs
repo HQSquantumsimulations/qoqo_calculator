@@ -161,6 +161,24 @@ impl fmt::Display for CalculatorComplex {
 }
 
 impl CalculatorComplex {
+    /// Constant zero for CalculatorComplex
+    pub const ZERO: CalculatorComplex = CalculatorComplex {
+        re: CalculatorFloat::Float(0.0),
+        im: CalculatorFloat::Float(0.0),
+    };
+
+    /// Constant one for CalculatorFloat
+    pub const ONE: CalculatorComplex = CalculatorComplex {
+        re: CalculatorFloat::Float(1.0),
+        im: CalculatorFloat::Float(0.0),
+    };
+
+    /// Constant imaginary number for CalculatorFloat
+    pub const I: CalculatorComplex = CalculatorComplex {
+        re: CalculatorFloat::Float(0.0),
+        im: CalculatorFloat::Float(1.0),
+    };
+
     /// Return CalculatorComplex constructed form pair of real values.
     ///
     /// # Arguments
@@ -227,6 +245,23 @@ where
         }
     }
 }
+
+/// Implements summing over an iterator of CalculatorComplex
+///
+/// # Arguments
+///
+/// * `iter` - Any iterator over CalculatorComplex items
+///
+impl std::iter::Sum for CalculatorComplex {
+    fn sum<I: Iterator<Item = CalculatorComplex>>(iter: I) -> Self {
+        let mut sum = CalculatorComplex::new(0, 0);
+        for i in iter {
+            sum += i;
+        }
+        sum
+    }
+}
+
 /// Implement `+=` for CalculatorComplex and generic type `T`.
 ///
 /// # Arguments

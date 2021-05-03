@@ -473,6 +473,31 @@ impl fmt::Display for CalculatorFloat {
 }
 
 impl CalculatorFloat {
+    /// Constant zero for CalculatorFloat
+    pub const ZERO: CalculatorFloat = CalculatorFloat::Float(0.0);
+
+    /// Constant one for CalculatorFloat
+    pub const ONE: CalculatorFloat = CalculatorFloat::Float(1.0);
+
+    /// Constant pi for CalculatorFloat
+    pub const PI: CalculatorFloat = CalculatorFloat::Float(std::f64::consts::PI);
+
+    /// Constant Euler's number e for CalculatorFloat
+    pub const E: CalculatorFloat = CalculatorFloat::Float(std::f64::consts::E);
+
+    /// Constant 1/sqrt(2) e for CalculatorFloat
+    pub const FRAC_1_SQRT_2: CalculatorFloat =
+        CalculatorFloat::Float(std::f64::consts::FRAC_1_SQRT_2);
+
+    /// Constant pi / 2 e for CalculatorFloat
+    pub const FRAC_PI_2: CalculatorFloat = CalculatorFloat::Float(std::f64::consts::FRAC_PI_2);
+
+    /// Constant pi / 4 e for CalculatorFloat
+    pub const FRAC_PI_4: CalculatorFloat = CalculatorFloat::Float(std::f64::consts::FRAC_PI_4);
+
+    /// Constant sqrt(2) e for CalculatorFloat
+    pub const SQRT_2: CalculatorFloat = CalculatorFloat::Float(std::f64::consts::SQRT_2);
+
     /// Return True when CalculatorFloat does not contain symbolic expression.
     pub fn is_float(&self) -> bool {
         match self {
@@ -644,6 +669,22 @@ where
                 Self::Str(y) => Self::Str(format!("({} + {})", &x, &y)),
             },
         }
+    }
+}
+
+/// Implements summing over an iterator of CalculatorFloat
+///
+/// # Arguments
+///
+/// * `iter` - Any iterator over CalculatorFloat items
+///
+impl std::iter::Sum for CalculatorFloat {
+    fn sum<I: Iterator<Item = CalculatorFloat>>(iter: I) -> Self {
+        let mut sum = CalculatorFloat::from(0);
+        for i in iter {
+            sum += i;
+        }
+        sum
     }
 }
 
