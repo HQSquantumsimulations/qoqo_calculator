@@ -133,6 +133,15 @@ impl CalculatorFloatWrapper {
         self.cf_internal.is_float()
     }
 
+    /// Python getter function which returns True when
+    /// CalculatorFloat does not contain symbolic expression.
+    fn float(&self) -> PyResult<f64> {
+        Ok(*self
+            .cf_internal
+            .float()
+            .map_err(|_| PyTypeError::new_err("Symbolic value cannot be cast to float"))?)
+    }
+
     /// Returns square root of CalculatorFloat.
     fn sqrt(&self) -> CalculatorFloatWrapper {
         CalculatorFloatWrapper {

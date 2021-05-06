@@ -25,14 +25,12 @@ use std::ops;
 
 /// Struct CalculatorComplex.
 ///
-/// # Fields
-///
-/// * `re` - CalculatorFloat value of real part of CalculatorComplex
-/// * `im` - CalculatorFloat value of imaginary part of CalculatorComplex
 ///
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct CalculatorComplex {
+    /// CalculatorFloat value of real part of CalculatorComplex
     pub re: CalculatorFloat,
+    /// CalculatorFloat value of imaginary part of CalculatorComplex
     pub im: CalculatorFloat,
 }
 
@@ -411,6 +409,7 @@ where
 
 /// Implement Inverse `1/x` for CalculatorFloat.
 impl CalculatorComplex {
+    /// Returns Inverse `1/x` for CalculatorFloat.
     pub fn recip(&self) -> CalculatorComplex {
         let norm = self.norm_sqr();
         CalculatorComplex {

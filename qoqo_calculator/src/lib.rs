@@ -8,7 +8,14 @@
 // Unless required by applicable law or agreed to in writing, software distributed under the
 // License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
 // express or implied. See the License for the specific language governing permissions and
-// limitations underthe License.
+// limitations under the License.
+
+#![deny(missing_docs)]
+#![warn(private_intra_doc_links)]
+#![warn(missing_crate_level_docs)]
+#![warn(missing_doc_code_examples)]
+#![warn(private_doc_tests)]
+#![deny(missing_debug_implementations)]
 
 //! qoqo_calculator module
 //!
@@ -26,28 +33,61 @@ use thiserror::Error;
 /// Define custom errors for Calculator.
 #[derive(Error, Debug, PartialEq)]
 pub enum CalculatorError {
+    /// An input cannot be converted to CalculatorFloat
     #[error("Input cannot be converted to CalculatorFloat")]
     NotConvertable,
+    /// A symbolic input cannot be converted to CalculatorFloat
     #[error("Symbolic value {val:?} can not be converted to float")]
-    FloatSymbolicNotConvertable { val: String },
+    FloatSymbolicNotConvertable {
+        /// Value that can not be converted
+        val: String,
+    },
+    /// A symbolic input cannot be converted to CalculatorComplex
     #[error("Symbolic value {val:?} can not be converted to complex")]
-    ComplexSymbolicNotConvertable { val: CalculatorComplex },
+    ComplexSymbolicNotConvertable {
+        /// Value that cannot be converted
+        val: CalculatorComplex,
+    },
+    /// A complex value cannot be converted to float because imaginary part is not zero
     #[error("Imaginary part of CalculatorComplex {val:?} not zero")]
-    ComplexCanNotBeConvertedToFloat { val: CalculatorComplex },
+    ComplexCanNotBeConvertedToFloat {
+        /// Value of the CalculatorComplex that cannot be converted
+        val: CalculatorComplex,
+    },
     #[error("Parsing error: {msg:?}")]
-    ParsingError { msg: &'static str },
+    /// Parsing error when using Calculator
+    ParsingError {
+        /// Parsing error
+        msg: &'static str,
+    },
+    /// Function not implemented in Calculator
     #[error("Function {fct:?} not implemented.")]
-    NotImplementedError { fct: &'static str },
+    NotImplementedError {
+        /// Function that is not implemented
+        fct: &'static str,
+    },
+    /// Function not found in Calculator
     #[error("Function {fct:?} not found.")]
-    FunctionNotFound { fct: String },
+    FunctionNotFound {
+        /// Name of function that cannot be found
+        fct: String,
+    },
+    /// A variable is not set
     #[error("Variable {name:?} not set.")]
-    VariableNotSet { name: String },
+    VariableNotSet {
+        /// Name of the variable that is not set
+        name: String,
+    },
+    /// Parsed expression ended unexpectedly
     #[error("Parsing error: Unexpected end of expression")]
     UnexpectedEndOfExpression,
+    /// Trying to divide by zero
     #[error("Division by zero error")]
     DivisionByZero,
+    /// A parsed value did not return a value.
     #[error("Parsing Expression did not return value as expected.")]
     NoValueReturnedParsing,
+    /// Not enough function arguments provided in parsed expression.
     #[error("Not enough function arguments.")]
     NotEnoughFunctionArguments,
 }
