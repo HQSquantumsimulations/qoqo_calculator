@@ -10,7 +10,7 @@ jobs:
   clippy_check:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v2.3.4
       - uses: actions-rs/toolchain@v1
         with:
           profile: minimal
@@ -29,7 +29,7 @@ jobs:
           { runs_on: "windows-latest", rust: "x86_64-pc-windows-msvc" },
         ]
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v2.3.4
       - uses: actions-rs/toolchain@v1
         with:
           profile: minimal
@@ -55,7 +55,7 @@ jobs:
           #{ runs_on: "windows-latest", rust: "x86_64-pc-windows-msvc" },
         ]
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v2.3.4
       - uses: actions/setup-python@v2
         with:
           python-version: ${{ matrix.python.py }}
@@ -85,7 +85,7 @@ jobs:
   format_check:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v2.3.4
       - uses: actions-rs/toolchain@v1
         with:
           profile: minimal
