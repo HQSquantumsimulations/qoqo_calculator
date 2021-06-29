@@ -55,4 +55,4 @@ When building manually we recommend using [maturin](https://github.com/PyO3/matu
 
 ## Contributing
 
-At the moment we are still finalizing contributor guidelines for this project. If you are interested in contributing to the project please contact us first before you start working on a pull request.
+We welcome contributions to the project. If you want to contribute code, please have a look at CONTRIBUTE.md for our code contribution guidelines.
