@@ -73,9 +73,8 @@ jobs:
           cargo test --workspace --no-default-features
       - name: build
         run: |
-          cd qoqo_calculator_pyo3/
-          maturin build -i ${{ matrix.python.interpreter }} -m qoqo_calculator_pyo3/Cargo.toml  --cargo-extra-args="--locked"
-          pip install ../target/wheels/*
+          maturin build -i ${{ matrix.python.interpreter }} -m ./qoqo_calculator_pyo3/Cargo.toml  --cargo-extra-args="--locked"
+          pip install ./target/wheels/*
 
       - name: test
         run: |
