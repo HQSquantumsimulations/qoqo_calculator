@@ -1,8 +1,8 @@
 [package]
 name = "qoqo_calculator_pyo3"
-version = "0.3.0"
+version = "0.3.1"
 authors = ["HQS Quantum Simulations <info@quantumsimulations.de>"]
-license-file = "qoqo_calculator_pyo3/LICENSE_FOR_BINARY_DISTRIBUTION"
+license = "Apache-2.0"
 edition = "2018"
 readme = "../README.md"
 repository = "https://github.com/HQSquantumsimulations/qoqo_calculator_pyo3"

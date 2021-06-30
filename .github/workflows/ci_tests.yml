@@ -44,7 +44,6 @@ jobs:
     strategy:
       matrix:
         python: [
-          {py: 3.6, interpreter: "python3.6"},
           {py: 3.7, interpreter: "python3.7"},
           {py: 3.8, interpreter: "python3.8"},
           {py: 3.9, interpreter: "python3.9"}
@@ -73,9 +72,8 @@ jobs:
           cargo test --workspace --no-default-features
       - name: build
         run: |
-          cd qoqo_calculator_pyo3/
-          maturin build -i ${{ matrix.python.interpreter }}
-          pip install ../target/wheels/*
+          maturin build -i ${{ matrix.python.interpreter }} -m ./qoqo_calculator_pyo3/Cargo.toml  --cargo-extra-args="--locked"
+          pip install ./target/wheels/*
 
       - name: test
         run: |
