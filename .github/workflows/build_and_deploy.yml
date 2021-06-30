@@ -87,7 +87,6 @@ jobs:
       strategy:
         matrix:
           python: [
-            {py: 3.6, interpreter: "python3.6"},
             {py: 3.7, interpreter: "python3.7"},
             {py: 3.8, interpreter: "python3.8"},
             {py: 3.9, interpreter: "python3.9"}
