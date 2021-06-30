@@ -111,6 +111,6 @@ jobs:
           TWINE_USERNAME: __token__
           TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
         run: |
-          maturin build -i ${{ matrix.python.interpreter }} -m ./qoqo_calculator_pyo3/Cargo.toml  --cargo-extra-args="--locked"
+          maturin build -m ./qoqo_calculator_pyo3/Cargo.toml  --cargo-extra-args="--locked"
           python -m twine upload ./target/wheels/*
 
