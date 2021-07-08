@@ -25,7 +25,7 @@ jobs:
         cargo publish --manifest-path=qoqo_calculator_pyo3/Cargo.toml
 
   deploy_pypi_manylinux:
-
+      needs: deploy_cratesio
       runs-on: ubuntu-latest
       #container: konstin2/maturin
       steps:
@@ -38,7 +38,7 @@ jobs:
         with:
           image: konstin2/maturin
           options: -v /home/runner/work/qoqo_calculator/qoqo_calculator_pyo3:/io
-          run: maturin build --release --manylinux 2010 --cargo-extra-args="--locked"
+          run: maturin build -m qoqo_calculator_py03/Cargo.toml --release --manylinux 2010
       - name: Publish
         env:
           TWINE_USERNAME: __token__
@@ -49,7 +49,7 @@ jobs:
           python -m twine upload target/wheels/*
 
   deploy_macos:
-  
+      needs: deploy_cratesio
       runs-on: macOS-latest
       strategy:
         matrix:
