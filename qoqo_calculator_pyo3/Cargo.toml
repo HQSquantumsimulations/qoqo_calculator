@@ -20,7 +20,7 @@ serde =  "1.0"
 thiserror = "1.0"
 
 [dependencies.pyo3]
-version = "0.13"
+version = "0.14"
 features = ["num-complex"]
 
 [features]
