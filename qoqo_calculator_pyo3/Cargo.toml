@@ -13,7 +13,7 @@ name = "qoqo_calculator_pyo3"
 crate-type = ["cdylib", "rlib"]
 
 [dependencies]
-num-complex = "0.3" # older version to avoid issues with pyo3
+num-complex = "0.4" # older version to avoid issues with pyo3
 qoqo_calculator = {version="0.2", path="../qoqo_calculator"}
 # Dependencies listed in exact version
 serde =  "1.0"
