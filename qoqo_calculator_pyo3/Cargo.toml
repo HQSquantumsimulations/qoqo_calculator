@@ -1,26 +1,27 @@
 [package]
 name = "qoqo_calculator_pyo3"
-version = "0.3.6"
+version = "0.3.7"
 authors = ["HQS Quantum Simulations <info@quantumsimulations.de>"]
 license = "Apache-2.0"
 edition = "2018"
 readme = "../README.md"
 repository = "https://github.com/HQSquantumsimulations/qoqo_calculator_pyo3"
 description = "Python interface to qoqo calculator, the calculator backend of the qoqo quantum computing toolkit by HQS Quantum Simulations"
+exclude = ["tests*", "python_tests*", ".cargo*", "*.code-workspace"]
 
 [lib]
 name = "qoqo_calculator_pyo3"
 crate-type = ["cdylib", "rlib"]
 
 [dependencies]
-num-complex = "0.3" # older version to avoid issues with pyo3
+num-complex = "0.4" # older version to avoid issues with pyo3
 qoqo_calculator = {version="0.2", path="../qoqo_calculator"}
 # Dependencies listed in exact version
 serde =  "1.0"
 thiserror = "1.0"
 
 [dependencies.pyo3]
-version = "0.13"
+version = "0.14"
 features = ["num-complex"]
 
 [features]

@@ -90,6 +90,13 @@ impl CalculatorFloatWrapper {
         })
     }
 
+    
+
+    /// Return the __format__ magic method to represent objects in Python of CalculatorFloat.
+    fn __format__(&self, _format_spec: &str) -> PyResult<String> {
+        Ok(format!("{}", self.cf_internal))
+    }
+
     /// Create Python copy of CalculatorFloatWrapper.
     ///
     /// # Returns
@@ -237,19 +244,30 @@ impl CalculatorFloatWrapper {
             CalculatorFloat::Str(ref x) => x.to_object(py),
         }
     }
+
+    /// Implement the x.__complex__() (complex(x)) Python magic method to convert a
+    /// CalculatorFloat into a complex.
+    ///
+    /// # Returns
+    ///
+    /// * `PyResult<Complex<f64>>`
+    ///
+    /// Converts the Rust Panic when CalculatorFloat contains symbolic string value
+    /// into a Python error
+    ///
+    fn __complex__(&self) -> PyResult<Complex<f64>> {
+        match self.cf_internal {
+            CalculatorFloat::Float(x) => Ok(Complex::new(x, 0.0)),
+            CalculatorFloat::Str(_) => Err(PyValueError::new_err(
+                "Symbolic Value can not be cast to complex.",
+            )),
+        }
+    }
 }
 
 #[pyproto]
 impl PyObjectProtocol for CalculatorFloatWrapper {
-    /// Return the __repr__ magic method to represent objects in Python of CalculatorFloat.
-    fn __repr__(&self) -> PyResult<String> {
-        Ok(format!("{}", self.cf_internal))
-    }
-
-    /// Return the __format__ magic method to represent objects in Python of CalculatorFloat.
-    fn __format__(&self, _format_spec: &str) -> PyResult<String> {
-        Ok(format!("{}", self.cf_internal))
-    }
+    
 
     /// Return the __richcmp__ magic method to perform rich comparison
     /// operations on CalculatorFloat.
@@ -278,6 +296,11 @@ impl PyObjectProtocol for CalculatorFloatWrapper {
                 "Other comparison not implemented.",
             )),
         }
+    }
+
+    /// Return the __repr__ magic method to represent objects in Python of CalculatorFloat.
+    fn __repr__(&self) -> PyResult<String> {
+        Ok(format!("{}", self.cf_internal))
     }
 }
 
@@ -539,22 +562,5 @@ impl PyNumberProtocol for CalculatorFloatWrapper {
         }
     }
 
-    /// Implement the x.__complex__() (complex(x)) Python magic method to convert a
-    /// CalculatorFloat into a complex.
-    ///
-    /// # Returns
-    ///
-    /// * `PyResult<Complex<f64>>`
-    ///
-    /// Converts the Rust Panic when CalculatorFloat contains symbolic string value
-    /// into a Python error
-    ///
-    fn __complex__(&'p self) -> PyResult<Complex<f64>> {
-        match self.cf_internal {
-            CalculatorFloat::Float(x) => Ok(Complex::new(x, 0.0)),
-            CalculatorFloat::Str(_) => Err(PyValueError::new_err(
-                "Symbolic Value can not be cast to complex.",
-            )),
-        }
-    }
+    
 }
