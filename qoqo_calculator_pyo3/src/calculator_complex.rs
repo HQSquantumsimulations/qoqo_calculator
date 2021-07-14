@@ -254,8 +254,6 @@ impl CalculatorComplexWrapper {
         }
     }
 
-    
-
     /// Implement the x.__float__() (float(x)) Python magic method to convert a CalculatorComplex
     /// into a float.
     ///
@@ -297,8 +295,6 @@ impl CalculatorComplexWrapper {
 
 #[pyproto]
 impl PyObjectProtocol for CalculatorComplexWrapper {
-    
-
     /// Return the __richcmp__ magic method to perform rich comparison.
     /// operations on CalculatorComplex.
     ///

@@ -90,8 +90,6 @@ impl CalculatorFloatWrapper {
         })
     }
 
-    
-
     /// Return the __format__ magic method to represent objects in Python of CalculatorFloat.
     fn __format__(&self, _format_spec: &str) -> PyResult<String> {
         Ok(format!("{}", self.cf_internal))
@@ -267,8 +265,6 @@ impl CalculatorFloatWrapper {
 
 #[pyproto]
 impl PyObjectProtocol for CalculatorFloatWrapper {
-    
-
     /// Return the __richcmp__ magic method to perform rich comparison
     /// operations on CalculatorFloat.
     ///
@@ -561,6 +557,4 @@ impl PyNumberProtocol for CalculatorFloatWrapper {
             )),
         }
     }
-
-    
 }
