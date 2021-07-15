@@ -93,6 +93,16 @@ impl CalculatorComplexWrapper {
         })
     }
 
+    /// Return the __repr__ magic method to represent objects in Python of CalculatorComplex.
+    fn __repr__(&self) -> PyResult<String> {
+        Ok(format!("{}", self.cc_internal))
+    }
+
+    /// Return the __format__ magic method to represent objects in Python of CalculatorComplex.
+    fn __format__(&self, _format_spec: &str) -> PyResult<String> {
+        Ok(format!("{}", self.cc_internal))
+    }
+
     /// Create Python copy of CalculatorComplexWrapper.
     ///
     /// # Returns
@@ -243,20 +253,48 @@ impl CalculatorComplexWrapper {
             cf_internal: self.cc_internal.norm(),
         }
     }
+
+    /// Implement the x.__float__() (float(x)) Python magic method to convert a CalculatorComplex
+    /// into a float.
+    ///
+    /// # Returns
+    ///
+    /// * `PyResult<f64>`
+    ///
+    /// Converts the Rust Panic when CalculatorComplex contains symbolic string value
+    /// into a Python error
+    ///
+    fn __float__(&self) -> PyResult<f64> {
+        let fl: Result<f64, CalculatorError> =
+            CalculatorComplex::try_into(self.cc_internal.clone());
+        match fl {
+            Ok(x) => Ok(x),
+            Err(x) => Err(PyValueError::new_err(format!("{:?}", x))),
+        }
+    }
+
+    /// Implement the x.__complex__() (complex(x)) Python magic method to convert a
+    /// CalculatorComplex into a complex.
+    ///
+    /// # Returns
+    ///
+    /// * `PyResult<Complex<f64>>`
+    ///
+    /// Converts the Rust Panic when CalculatorComplex contains symbolic string value
+    /// into a Python error
+    ///
+    fn __complex__(&self) -> PyResult<Complex<f64>> {
+        let com: Result<Complex<f64>, CalculatorError> =
+            CalculatorComplex::try_into(self.cc_internal.clone());
+        match com {
+            Ok(x) => Ok(x),
+            Err(x) => Err(PyValueError::new_err(format!("{:?}", x))),
+        }
+    }
 }
 
 #[pyproto]
 impl PyObjectProtocol for CalculatorComplexWrapper {
-    /// Return the __repr__ magic method to represent objects in Python of CalculatorComplex.
-    fn __repr__(&self) -> PyResult<String> {
-        Ok(format!("{}", self.cc_internal))
-    }
-
-    /// Return the __format__ magic method to represent objects in Python of CalculatorComplex.
-    fn __format__(&self, _format_spec: &str) -> PyResult<String> {
-        Ok(format!("{}", self.cc_internal))
-    }
-
     /// Return the __richcmp__ magic method to perform rich comparison.
     /// operations on CalculatorComplex.
     ///
@@ -324,7 +362,7 @@ impl PyNumberProtocol for CalculatorComplexWrapper {
     /// * `self` - the CalculatorComplexWrapper object
     /// * `other` - the CalculatorComplexWrapper object to be added to self
     ///
-    fn __iadd__(&'p mut self, other: Py<PyAny>) -> PyResult<()> {
+    fn __iadd__(&mut self, other: Py<PyAny>) -> PyResult<()> {
         let gil = pyo3::Python::acquire_gil();
         let py = gil.python();
         let other_ref = other.as_ref(py);
@@ -370,7 +408,7 @@ impl PyNumberProtocol for CalculatorComplexWrapper {
     /// * `self` - the CalculatorComplexWrapper object
     /// * `other` - the CalculatorComplexWrapper object to be subtracted from self
     ///
-    fn __isub__(&'p mut self, other: Py<PyAny>) -> PyResult<()> {
+    fn __isub__(&mut self, other: Py<PyAny>) -> PyResult<()> {
         let gil = pyo3::Python::acquire_gil();
         let py = gil.python();
         let other_ref = other.as_ref(py);
@@ -416,7 +454,7 @@ impl PyNumberProtocol for CalculatorComplexWrapper {
     /// * `self` - the CalculatorComplexWrapper object
     /// * `other` - the CalculatorComplexWrapper object to multiply self by
     ///
-    fn __imul__(&'p mut self, other: Py<PyAny>) -> PyResult<()> {
+    fn __imul__(&mut self, other: Py<PyAny>) -> PyResult<()> {
         let gil = pyo3::Python::acquire_gil();
         let py = gil.python();
         let other_ref = other.as_ref(py);
@@ -464,7 +502,7 @@ impl PyNumberProtocol for CalculatorComplexWrapper {
     /// * `self` - the CalculatorComplexWrapper object
     /// * `other` - the CalculatorComplexWrapper object to divide self by
     ///
-    fn __itruediv__(&'p mut self, other: Py<PyAny>) -> PyResult<()> {
+    fn __itruediv__(&mut self, other: Py<PyAny>) -> PyResult<()> {
         let gil = pyo3::Python::acquire_gil();
         let py = gil.python();
         let other_ref = other.as_ref(py);
@@ -481,61 +519,23 @@ impl PyNumberProtocol for CalculatorComplexWrapper {
     }
 
     /// Implement Python minus sign for CalculatorComplex.
-    fn __neg__(&'p self) -> PyResult<CalculatorComplexWrapper> {
+    fn __neg__(&self) -> PyResult<CalculatorComplexWrapper> {
         Ok(CalculatorComplexWrapper {
             cc_internal: -self.cc_internal.clone(),
         })
     }
 
     /// Return Python absolute value abs(x) for CalculatorComplex.
-    fn __abs__(&'p self) -> PyResult<CalculatorFloatWrapper> {
+    fn __abs__(&self) -> PyResult<CalculatorFloatWrapper> {
         Ok(CalculatorFloatWrapper {
             cf_internal: self.cc_internal.norm(),
         })
     }
 
     /// Implement Python Inverse `1/x` for CalculatorComplex.
-    fn __invert__(&'p self) -> PyResult<CalculatorComplexWrapper> {
+    fn __invert__(&self) -> PyResult<CalculatorComplexWrapper> {
         Ok(CalculatorComplexWrapper {
             cc_internal: self.cc_internal.recip(),
         })
-    }
-
-    /// Implement the x.__float__() (float(x)) Python magic method to convert a CalculatorComplex
-    /// into a float.
-    ///
-    /// # Returns
-    ///
-    /// * `PyResult<f64>`
-    ///
-    /// Converts the Rust Panic when CalculatorComplex contains symbolic string value
-    /// into a Python error
-    ///
-    fn __float__(&'p self) -> PyResult<f64> {
-        let fl: Result<f64, CalculatorError> =
-            CalculatorComplex::try_into(self.cc_internal.clone());
-        match fl {
-            Ok(x) => Ok(x),
-            Err(x) => Err(PyValueError::new_err(format!("{:?}", x))),
-        }
-    }
-
-    /// Implement the x.__complex__() (complex(x)) Python magic method to convert a
-    /// CalculatorComplex into a complex.
-    ///
-    /// # Returns
-    ///
-    /// * `PyResult<Complex<f64>>`
-    ///
-    /// Converts the Rust Panic when CalculatorComplex contains symbolic string value
-    /// into a Python error
-    ///
-    fn __complex__(&'p self) -> PyResult<Complex<f64>> {
-        let com: Result<Complex<f64>, CalculatorError> =
-            CalculatorComplex::try_into(self.cc_internal.clone());
-        match com {
-            Ok(x) => Ok(x),
-            Err(x) => Err(PyValueError::new_err(format!("{:?}", x))),
-        }
     }
 }
