@@ -13,6 +13,7 @@ This repository contains two components:
 [![GitHub Workflow Status](https://github.com/HQSquantumsimulations/qoqo_calculator/workflows/ci_tests/badge.svg)](https://github.com/HQSquantumsimulations/qoqo_calculator/actions)
 [![docs.rs](https://img.shields.io/docsrs/qoqo_calculator)](https://docs.rs/qoqo_calculator/)
 ![Crates.io](https://img.shields.io/crates/l/qoqo_calculator)
+[![codecov](https://codecov.io/gh/HQSquantumsimulations/qoqo_calculator/branch/main/graph/badge.svg?token=2MCD6EN4UX)](https://codecov.io/gh/HQSquantumsimulations/qoqo_calculator)
 
 qoqo-calculator is the calculator backend of the qoqo quantum computing toolkit by [HQS Quantum Simulations](https://quantumsimulations.de).
 
