@@ -509,7 +509,7 @@ impl CalculatorFloat {
     pub fn sqrt(&self) -> CalculatorFloat {
         match self {
             CalculatorFloat::Float(f) => CalculatorFloat::Float(f.sqrt()),
-            CalculatorFloat::Str(s) => CalculatorFloat::Str(format!("({}).sqrt()", s)),
+            CalculatorFloat::Str(s) => CalculatorFloat::Str(format!("sqrt({})", s)),
         }
     }
     /// Return atan2 for CalculatorFloat and generic type `T`.
@@ -526,11 +526,11 @@ impl CalculatorFloat {
         match self {
             Self::Float(x) => match other_from {
                 Self::Float(y) => CalculatorFloat::Float(x.atan2(y)),
-                Self::Str(y) => Self::Str(format!("({:e}).atan2({})", x, &y)),
+                Self::Str(y) => Self::Str(format!("atan2({:e}, {})", x, &y)),
             },
             Self::Str(x) => match other_from {
-                Self::Float(y) => Self::Str(format!("({})atan2.({:e})", x, y)),
-                Self::Str(y) => Self::Str(format!("({}).atan2({})", x, &y)),
+                Self::Float(y) => Self::Str(format!("atan2({}, {:e})", x, y)),
+                Self::Str(y) => Self::Str(format!("atan2({}, {})", x, &y)),
             },
         }
     }
