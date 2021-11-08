@@ -597,7 +597,7 @@ impl CalculatorFloat {
     pub fn signum(&self) -> CalculatorFloat {
         match self {
             Self::Float(x) => CalculatorFloat::Float(x.signum()),
-            Self::Str(y) => Self::Str(format!("({}).sign()", y)),
+            Self::Str(y) => Self::Str(format!("sign({})", y)),
         }
     }
     /// Return True if self value is close to other value.
