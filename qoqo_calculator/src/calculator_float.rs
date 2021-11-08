@@ -549,11 +549,11 @@ impl CalculatorFloat {
         match self {
             Self::Float(x) => match other_from {
                 Self::Float(y) => CalculatorFloat::Float(x.powf(y)),
-                Self::Str(y) => Self::Str(format!("({:e} ** {})", x, &y)),
+                Self::Str(y) => Self::Str(format!("({:e} ^ {})", x, &y)),
             },
             Self::Str(x) => match other_from {
-                Self::Float(y) => Self::Str(format!("({} ** {:e})", x, y)),
-                Self::Str(y) => Self::Str(format!("({} ** {})", x, &y)),
+                Self::Float(y) => Self::Str(format!("({} ^ {:e})", x, y)),
+                Self::Str(y) => Self::Str(format!("({} ^ {})", x, &y)),
             },
         }
     }
@@ -562,35 +562,35 @@ impl CalculatorFloat {
     pub fn exp(&self) -> CalculatorFloat {
         match self {
             Self::Float(x) => CalculatorFloat::Float(x.exp()),
-            Self::Str(y) => Self::Str(format!("({}).exp()", y)),
+            Self::Str(y) => Self::Str(format!("exp({})", y)),
         }
     }
     /// Return sine function sin(x) for CalculatorFloat.
     pub fn sin(&self) -> CalculatorFloat {
         match self {
             Self::Float(x) => CalculatorFloat::Float(x.sin()),
-            Self::Str(y) => Self::Str(format!("({}).sin()", y)),
+            Self::Str(y) => Self::Str(format!("sin({})", y)),
         }
     }
     /// Return cosine function cos(x) for CalculatorFloat.
     pub fn cos(&self) -> CalculatorFloat {
         match self {
             Self::Float(x) => CalculatorFloat::Float(x.cos()),
-            Self::Str(y) => Self::Str(format!("({}).cos()", y)),
+            Self::Str(y) => Self::Str(format!("cos({})", y)),
         }
     }
     /// Return arccosine function acos(x) for CalculatorFloat.
     pub fn acos(&self) -> CalculatorFloat {
         match self {
             Self::Float(x) => CalculatorFloat::Float(x.acos()),
-            Self::Str(y) => Self::Str(format!("({}).acos()", y)),
+            Self::Str(y) => Self::Str(format!("acos({})", y)),
         }
     }
     /// Return absolute value abs(x) for CalculatorFloat.
     pub fn abs(&self) -> CalculatorFloat {
         match self {
             Self::Float(x) => CalculatorFloat::Float(x.abs()),
-            Self::Str(y) => Self::Str(format!("({}).abs()", y)),
+            Self::Str(y) => Self::Str(format!("abs({})", y)),
         }
     }
     /// Return signum value sign(x) for CalculatorFloat.
