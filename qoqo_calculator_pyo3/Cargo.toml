@@ -1,6 +1,6 @@
 [package]
 name = "qoqo_calculator_pyo3"
-version = "0.4.0"
+version = "0.4.1"
 authors = ["HQS Quantum Simulations <info@quantumsimulations.de>"]
 license = "Apache-2.0"
 edition = "2018"
@@ -11,6 +11,7 @@ exclude = ["tests*", "python_tests*", ".cargo*", "*.code-workspace"]
 
 [lib]
 name = "qoqo_calculator_pyo3"
+path = "src/lib.rs"
 crate-type = ["cdylib", "rlib"]
 
 [dependencies]
@@ -21,7 +22,7 @@ serde =  "1.0"
 thiserror = "1.0"
 
 [dependencies.pyo3]
-version = "0.14"
+version = "0.15"
 features = ["num-complex"]
 
 [features]
