@@ -20,8 +20,6 @@ jobs:
     - name: setup cargo
       run: |
         cargo login ${{ secrets.CRATES_IO_API_TOKEN }}
-        cargo publish --manifest-path=quest-sys/Cargo.toml
-        sleep 30
         cargo publish --manifest-path=qoqo_calculator/Cargo.toml
         sleep 30
         cargo publish --manifest-path=qoqo_calculator_pyo3/Cargo.toml
