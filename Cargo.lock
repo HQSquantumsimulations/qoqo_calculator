@@ -54,9 +54,9 @@ dependencies = [
 
 [[package]]
 name = "libc"
-version = "0.2.107"
+version = "0.2.109"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "fbe5e23404da5b4f555ef85ebed98fb4083e55a00c317800bc2a50ede9f3d219"
+checksum = "f98a04dce437184842841303488f70d0188c5f51437d2a834dc097eafa909a01"
 
 [[package]]
 name = "lock_api"
@@ -201,7 +201,7 @@ dependencies = [
 
 [[package]]
 name = "qoqo_calculator"
-version = "0.5.1"
+version = "0.5.3"
 dependencies = [
  "num-complex",
  "serde",
@@ -211,7 +211,7 @@ dependencies = [
 
 [[package]]
 name = "qoqo_calculator_pyo3"
-version = "0.5.1"
+version = "0.5.3"
 dependencies = [
  "num-complex",
  "pyo3",
