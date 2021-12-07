@@ -2,24 +2,6 @@
 
 version: 2
 updates:
-
-  # - package-ecosystem: "cargo"
-  #   directory: "/qoqo_calculator/Cargo.toml"
-  #   schedule:
-  #     # Check for updates to GitHub Actions every weekday
-  #     interval: "daily"
-  #   target-branch: "main"
-  #   allow:
-  #     - dependency-type: "all"
-  
-  # - package-ecosystem: "cargo"
-  #   directory: "/qoqo_calculator_pyo3/Cargo.toml"
-  #   schedule:
-  #     # Check for updates to GitHub Actions every weekday
-  #     interval: "daily"
-  #   target-branch: "main"
-  #   allow:
-  #     - dependency-type: "all"
   
   - package-ecosystem: "cargo"
     directory: "/"
