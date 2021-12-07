@@ -188,35 +188,6 @@ jobs:
           command: build
           args: -i python --out wheels --no-sdist -m qoqo_calculator_pyo3/Cargo.toml --cargo-extra-args="--locked"
 
-  test_maturin_src_builds_windows:
-    name: maturin_check-${{ matrix.combinations.runs_on }}
-    runs-on: ${{ matrix.combinations.runs_on }}
-    strategy:
-      matrix:
-        combinations: [
-          { runs_on: 'windows-latest', rust: "x86_64-pc-windows-msvc" },
-        ]
-        python: [
-            {py: '3.10', interpreter: "python3.10"}
-        ]
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions-rs/toolchain@v1
-        with:
-          profile: minimal
-          toolchain: stable
-          target: ${{ matrix.combinations.rust }}
-          default: true
-      - uses: actions/setup-python@v2
-        with:
-          python-version: ${{ matrix.python.py }}
-      - name: windows wheels
-        uses: messense/maturin-action@v1
-        with:
-          maturin-version: latest
-          command: sdist
-          args: --out wheels -m qoqo_calculator_pyo3/Cargo.toml
-
   test_maturin_builds_macos:
     name: maturin_check-${{ matrix.combinations.runs_on }}
     runs-on: ${{ matrix.combinations.runs_on }}
