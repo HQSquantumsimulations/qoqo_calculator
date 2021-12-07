@@ -145,41 +145,6 @@ jobs:
         with:
           name: py_wheels
           path: wheels
-
-  build_maturin_src_builds_windows: 
-    name: maturin_build-${{ matrix.combinations.runs_on }}
-    needs: deploy_cratesio
-    runs-on: ${{ matrix.combinations.runs_on }}
-    strategy:
-      matrix:
-        combinations: [
-          { runs_on: 'windows-latest', rust: "x86_64-pc-windows-msvc" },
-        ]
-        python: [
-            {py: '3.10', interpreter: "python3.10"}
-        ]
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions-rs/toolchain@v1
-        with:
-          profile: minimal
-          toolchain: stable
-          target: ${{ matrix.combinations.rust }}
-          default: true
-      - uses: actions/setup-python@v2
-        with:
-          python-version: ${{ matrix.python.py }}
-      - name: windows wheels
-        uses: messense/maturin-action@v1
-        with:
-          maturin-version: latest
-          command: sdist
-          args: --out wheels -m qoqo_calculator_pyo3/Cargo.toml
-      - name: store artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: py_wheels
-          path: wheels
   
   build_maturin_builds_macos:
     name: maturin_build-${{ matrix.combinations.runs_on }}
@@ -222,44 +187,6 @@ jobs:
       - name: test install
         run: |
           pip install wheels/* --force-reinstall
-      - name: store artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: py_wheels
-          path: wheels
-
-  build_maturin_builds_macos:
-    name: maturin_build-${{ matrix.combinations.runs_on }}
-    needs: deploy_cratesio
-    runs-on: ${{ matrix.combinations.runs_on }}
-    strategy:
-      matrix:
-        combinations: [
-          { runs_on: 'macOS-latest', rust: "aarch64-apple-darwin" },
-        ]
-        python: [
-            {py: '3.10', interpreter: "python3.10"}
-        ]
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions-rs/toolchain@v1
-        with:
-          profile: minimal
-          toolchain: stable
-          target: "aarch64-apple-darwin"
-          default: true
-      - uses: actions/setup-python@v2
-        with:
-          python-version: ${{ matrix.python.py }}
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip maturin pytest numpy twine        
-      - name: macos wheels
-        run: |
-          maturin sdist --out wheels -m qoqo_calculator_pyo3/Cargo.toml
-      - name: test install
-        run: |
-          RUSTFLAGS="-C link-arg=-undefined -C link-arg=dynamic_lookup" pip install wheels/* --force-reinstall
       - name: store artifact
         uses: actions/upload-artifact@v2
         with:
