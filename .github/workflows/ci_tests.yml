@@ -119,10 +119,12 @@ jobs:
           command: build
           manylinux: 2010
           target: x86_64
-          args: -i python${{ matrix.python.py }} --out wheels --no-sdist -m qoqo_calculator_pyo3/Cargo.toml --cargo-extra-args="--locked"
+          container: quay.io/pypa/manylinux2010_x86_64:latest
+          args: --compatibility manylinux2_12 --out wheels --no-sdist -m qoqo_calculator_pyo3/Cargo.toml --cargo-extra-args="--locked"
       - name: test install
         run: |
-          pip install wheels/* --force-reinstall
+          ls wheels/*
+          # pip install wheels/* --force-reinstall
   
   test_src_dist_builds_linux:
     name: maturin_check-${{ matrix.combinations.runs_on }}
