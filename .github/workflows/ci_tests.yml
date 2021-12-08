@@ -117,10 +117,10 @@ jobs:
         with:
           maturin-version: latest
           command: build
-          manylinux: 2010
+          manylinux: 2_12
           target: x86_64
           container: quay.io/pypa/manylinux2010_x86_64:latest
-          args: --compatibility manylinux2_12 --out wheels --no-sdist -m qoqo_calculator_pyo3/Cargo.toml --cargo-extra-args="--locked"
+          args: --compatibility manylinux_2_12 --out wheels --no-sdist -m qoqo_calculator_pyo3/Cargo.toml --cargo-extra-args="--locked"
       - name: test install
         run: |
           ls wheels/*
