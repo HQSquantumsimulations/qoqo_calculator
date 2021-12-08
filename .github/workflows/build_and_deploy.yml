@@ -96,7 +96,6 @@ jobs:
         with:
           maturin-version: latest
           command: sdist
-          manylinux: 2010
           args: --out wheels -m qoqo_calculator_pyo3/Cargo.toml
       - name: test install
         run: |
