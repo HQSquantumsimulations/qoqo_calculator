@@ -117,11 +117,11 @@ jobs:
         with:
           maturin-version: latest
           command: build
-          manylinux: 2_12
+          manylinux: 2010
           # target: x86_64
           # container: quay.io/pypa/manylinux2010_x86_64:latest
           # args: --out wheels --no-sdist --release -m qoqo_calculator_pyo3/Cargo.toml
-          args: -i python${{ matrix.python.py }} --out wheels --no-sdist -m qoqo_calculator_pyo3/Cargo.toml
+          args: -i python${{ matrix.python.py }} --out wheels --no-sdist -m qoqo_calculator_pyo3/Cargo.toml --release
       - name: test install
         run: |
           ls wheels/*
