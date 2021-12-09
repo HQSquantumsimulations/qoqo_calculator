@@ -130,7 +130,7 @@ jobs:
   test_maturin_builds_linux:
     name: maturin_check-${{ matrix.combinations.runs_on }}
     runs-on: ${{ matrix.combinations.runs_on }}
-    container: quay.io/pypa/manylinux2010_x86_64
+    container: konstin2/maturin
     strategy:
       matrix:
         combinations: [
@@ -145,16 +145,9 @@ jobs:
         ]
     steps:
       - uses: actions/checkout@v1
-      - uses: actions-rs/toolchain@v1
-        with:
-          profile: minimal
-          toolchain: stable
-          target: ${{ matrix.combinations.rust }}
-          default: true
       - name: linux wheels
         run: |
-          pip install maturin
-          maturin build -i python${{ matrix.python.py }} --compatibility manylinux2010 --out wheels --no-sdist -m qoqo_calculator_pyo3/Cargo.toml --release
+          maturin build --compatibility manylinux2010 --out wheels --no-sdist -m qoqo_calculator_pyo3/Cargo.toml --release
       - name: test install
         run: |
           ls wheels/*
