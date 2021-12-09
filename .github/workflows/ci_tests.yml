@@ -153,8 +153,8 @@ jobs:
           default: true
       - name: linux wheels
         run: |
-        pip install maturin
-        maturin build -i python${{ matrix.python.py }} --compatibility manylinux2010 --out wheels --no-sdist -m qoqo_calculator_pyo3/Cargo.toml --release
+          pip install maturin
+          maturin build -i python${{ matrix.python.py }} --compatibility manylinux2010 --out wheels --no-sdist -m qoqo_calculator_pyo3/Cargo.toml --release
       - name: test install
         run: |
           ls wheels/*
