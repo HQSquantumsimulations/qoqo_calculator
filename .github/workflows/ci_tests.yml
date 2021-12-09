@@ -86,51 +86,9 @@ jobs:
   #         cargo test --workspace --no-default-features --locked
   #         cargo fmt --all -- --check
     
-  test_maturin_builds_linux:
-    name: maturin_check-${{ matrix.combinations.runs_on }}
-    runs-on: ${{ matrix.combinations.runs_on }}
-    strategy:
-      matrix:
-        combinations: [
-          { runs_on: 'ubuntu-latest',  rust: "x86_64-unknown-linux-gnu" },
-        ]
-        python: [
-            # {py: '3.6', interpreter: "python3.6"},
-            # {py: '3.7', interpreter: "python3.7"},
-            # {py: '3.8', interpreter: "python3.8"},
-            # {py: '3.9', interpreter: "python3.9"},
-            {py: '3.10', interpreter: "python3.10"}
-        ]
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions-rs/toolchain@v1
-        with:
-          profile: minimal
-          toolchain: stable
-          target: ${{ matrix.combinations.rust }}
-          default: true
-      - uses: actions/setup-python@v2
-        with:
-          python-version: ${{ matrix.python.py }}
-      - name: linux wheels
-        uses: messense/maturin-action@v1
-        with:
-          maturin-version: latest
-          command: build
-          manylinux: 2010
-          # target: x86_64
-          # container: quay.io/pypa/manylinux2010_x86_64:latest
-          # args: --out wheels --no-sdist --release -m qoqo_calculator_pyo3/Cargo.toml
-          args: -i python${{ matrix.python.py }} --manylinux 2010 --out wheels --no-sdist -m qoqo_calculator_pyo3/Cargo.toml --release
-      - name: test install
-        run: |
-          ls wheels/*
-          # pip install wheels/* --force-reinstall
-
   # test_maturin_builds_linux:
   #   name: maturin_check-${{ matrix.combinations.runs_on }}
   #   runs-on: ${{ matrix.combinations.runs_on }}
-  #   container: quay.io/pypa/manylinux2010_x86_64
   #   strategy:
   #     matrix:
   #       combinations: [
@@ -151,10 +109,11 @@ jobs:
   #         toolchain: stable
   #         target: ${{ matrix.combinations.rust }}
   #         default: true
+  #     - uses: actions/setup-python@v2
+  #       with:
+  #         python-version: ${{ matrix.python.py }}
   #     - name: linux wheels
-  #       run: |
-  #       pip install maturin
-  #       maturin build 
+  #       uses: messense/maturin-action@v1
   #       with:
   #         maturin-version: latest
   #         command: build
@@ -162,11 +121,44 @@ jobs:
   #         # target: x86_64
   #         # container: quay.io/pypa/manylinux2010_x86_64:latest
   #         # args: --out wheels --no-sdist --release -m qoqo_calculator_pyo3/Cargo.toml
-  #         args: -i python${{ matrix.python.py }} --compatibility manylinux2010 --out wheels --no-sdist -m qoqo_calculator_pyo3/Cargo.toml --release
+  #         args: -i python${{ matrix.python.py }} --manylinux 2010 --out wheels --no-sdist -m qoqo_calculator_pyo3/Cargo.toml --release
   #     - name: test install
   #       run: |
   #         ls wheels/*
   #         # pip install wheels/* --force-reinstall
+
+  test_maturin_builds_linux:
+    name: maturin_check-${{ matrix.combinations.runs_on }}
+    runs-on: ${{ matrix.combinations.runs_on }}
+    container: quay.io/pypa/manylinux2010_x86_64
+    strategy:
+      matrix:
+        combinations: [
+          { runs_on: 'ubuntu-latest',  rust: "x86_64-unknown-linux-gnu" },
+        ]
+        python: [
+            # {py: '3.6', interpreter: "python3.6"},
+            # {py: '3.7', interpreter: "python3.7"},
+            # {py: '3.8', interpreter: "python3.8"},
+            # {py: '3.9', interpreter: "python3.9"},
+            {py: '3.10', interpreter: "python3.10"}
+        ]
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: stable
+          target: ${{ matrix.combinations.rust }}
+          default: true
+      - name: linux wheels
+        run: |
+        pip install maturin
+        maturin build -i python${{ matrix.python.py }} --compatibility manylinux2010 --out wheels --no-sdist -m qoqo_calculator_pyo3/Cargo.toml --release
+      - name: test install
+        run: |
+          ls wheels/*
+          # pip install wheels/* --force-reinstall
   
   test_src_dist_builds_linux:
     name: maturin_check-${{ matrix.combinations.runs_on }}
