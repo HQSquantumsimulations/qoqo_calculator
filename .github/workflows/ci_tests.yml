@@ -147,7 +147,7 @@ jobs:
       - uses: actions/checkout@v1
       - name: linux wheels
         run: |
-          maturin build --compatibility manylinux2010 --out wheels --no-sdist -m qoqo_calculator_pyo3/Cargo.toml --release
+          maturin build --manylinux 2010 --out wheels --no-sdist -m qoqo_calculator_pyo3/Cargo.toml --release
       - name: test install
         run: |
           ls wheels/*
