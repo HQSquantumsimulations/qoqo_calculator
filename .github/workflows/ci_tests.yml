@@ -121,7 +121,7 @@ jobs:
           # target: x86_64
           # container: quay.io/pypa/manylinux2010_x86_64:latest
           # args: --out wheels --no-sdist --release -m qoqo_calculator_pyo3/Cargo.toml
-          args: -i python${{ matrix.python.py }} --out wheels --no-sdist -m qoqo_calculator_pyo3/Cargo.toml --release
+          args: -i python${{ matrix.python.py }} --compatibility manylinux2010 --out wheels --no-sdist -m qoqo_calculator_pyo3/Cargo.toml --release
       - name: test install
         run: |
           ls wheels/*
