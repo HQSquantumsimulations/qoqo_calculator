@@ -1450,10 +1450,7 @@ mod tests {
         assert_eq!(x3.clone() - x2.clone(), CalculatorFloat::Float(0.0));
         assert_eq!(x3.clone() - 3, CalculatorFloat::Float(0.0));
         assert_eq!(x3.clone() - 3.0, CalculatorFloat::Float(0.0));
-        assert_eq!(
-            x3 - "x",
-            CalculatorFloat::Str(String::from("(3e0 - x)"))
-        );
+        assert_eq!(x3 - "x", CalculatorFloat::Str(String::from("(3e0 - x)")));
 
         let x3 = CalculatorFloat::from(0.0);
         assert_eq!(x3 - "x", CalculatorFloat::Str(String::from("(-x)")));
