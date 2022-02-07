@@ -15,7 +15,7 @@ jobs:
         with:
           script: |
             const { owner, repo } = context.repo
-            if test -f "$pyproject.toml" {
+            if !(test -f "$pyproject.toml") {
               console.log('Cancelling ...');
               const run_id = "${{ github.run_id }}";
               await github.actions.cancelWorkflowRun({ owner, repo, run_id });
