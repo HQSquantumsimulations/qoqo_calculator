@@ -7,18 +7,25 @@ on:
     branches: [main]
 
 jobs:
-  check_pyproject_file:
-    if: contains(find . -name "pyproject.toml", "pyproject.toml")
+  test_pyproject_install:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
-        with:
-          node-version: '14'
-      - run: |
-        concurrency: 
-        group: ${{ github.ref }}
-        cancel-in-progress: true
+    - uses: actions/checkout@v2
+    - uses: actions/setup-python@v2
+      with:
+        python-version: 3.9
+    - uses: actions-rs/toolchain@v1
+      with:
+        profile: minimal
+        toolchain: stable
+        default: true
+    - name: Install dependencies
+      run: |
+        pip install maturin pytest
+        pip install ./qoqo_calculator_pyo3
+    - name: test
+      run: |
+        pytest ./qoqo_calculator_pyo3/python_tests
   clippy_check:
     runs-on: ubuntu-latest
     steps:
