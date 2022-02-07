@@ -15,13 +15,15 @@ jobs:
         with:
           script: |
             const { owner, repo } = context.repo
-            if not contains(find . -name "pyproject.toml", 'pyproject.toml') {
+            if contains(find . -name "pyproject.toml", 'pyproject.toml') {
+              print("Contains")
+              return 'build'
+            } else {
+              print("Doesn't contain")
               console.log('Cancelling ...');
               const run_id = "${{ github.run_id }}";
               await github.actions.cancelWorkflowRun({ owner, repo, run_id });
               return 'stop'
-            } else {
-              return 'build'
             }
           result-encoding: string
       - name: Waiting for cancellation
