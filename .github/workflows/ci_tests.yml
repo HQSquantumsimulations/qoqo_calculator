@@ -15,7 +15,7 @@ jobs:
         with:
           script: |
             const { owner, repo } = context.repo
-            if contains(find . -name "pyproject.toml", 'pyproject.toml') {
+            if test contains("${{ find . -name 'pyproject.toml'}}", 'pyproject.toml') {
               print("Contains")
               return 'build'
             } else {
@@ -30,7 +30,7 @@ jobs:
         run: sleep 60
         if: steps.check.outputs.result == 'stop'
       - name: Should build?
-        run: test "${{ steps.check.outputs.result }}" = "build"
+        run: test "${{ steps.check.outputs.result }}" = 'build'
   clippy_check:
     runs-on: ubuntu-latest
     steps:
