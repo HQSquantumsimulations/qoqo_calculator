@@ -8,29 +8,17 @@ on:
 
 jobs:
   check_pyproject_file:
+    if: contains(find . -name "pyproject.toml", "pyproject.toml")
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-        id: check
+      - uses: actions/setup-node@v2
         with:
-          script: |
-            const { owner, repo } = context.repo
-            if test "${{ find . -name 'pyproject.toml'}}" == "./qoqo_calculator_pyo3/pyproject.toml" {
-              print("Contains")
-              return 'build'
-            } else {
-              print("Doesn't contain")
-              console.log('Cancelling ...');
-              const run_id = "${{ github.run_id }}";
-              await github.actions.cancelWorkflowRun({ owner, repo, run_id });
-              return 'stop'
-            }
-          result-encoding: string
-      - name: Waiting for cancellation
-        run: sleep 60
-        if: steps.check.outputs.result == 'stop'
-      - name: Should build?
-        run: test "${{ steps.check.outputs.result }}" = 'build'
+          node-version: '14'
+      - run: |
+        concurrency: 
+        group: ${{ github.ref }}
+        cancel-in-progress: true
   clippy_check:
     runs-on: ubuntu-latest
     steps:
