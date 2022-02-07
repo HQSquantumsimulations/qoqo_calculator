@@ -7,10 +7,10 @@ on:
     branches: [main]
 
 jobs:
-  check_pypoject_file:
+  check_pyproject_file:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/github-script@v2
+      - uses: actions/checkout@v2
         id: check
         with:
           script: |
