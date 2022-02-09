@@ -147,11 +147,11 @@ jobs:
       - uses: actions/checkout@v1
       - name: linux wheels
         run: |
-          maturin build --manylinux 2010 --out wheels --no-sdist -m qoqo_calculator_pyo3/Cargo.toml --release
+          maturin build --manylinux 2010 --out wheels --no-sdist -m qoqo_calculator_pyo3/Cargo.toml --release --cargo-extra-args="--locked"
       - name: test install
         run: |
           ls wheels/*
-          # pip install wheels/* --force-reinstall
+          pip install wheels/* --force-reinstall
   
   test_src_dist_builds_linux:
     name: maturin_check-${{ matrix.combinations.runs_on }}
