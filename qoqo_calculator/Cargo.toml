@@ -18,6 +18,13 @@ crate-type = ["rlib"]
 num-complex = "0.4"
 serde = { version = '1.0', features = ["derive"] }
 thiserror = "1.0"
+# schemars = { version = "0.8", optional=true }
+schemars = { version = "0.8", path = "../../schemars/schemars",optional=true }
+
 
 [dev-dependencies]
 serde_test = "1.0"
+
+[features]
+default = []
+json_schema = ["schemars"]
