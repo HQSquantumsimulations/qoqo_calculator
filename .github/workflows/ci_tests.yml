@@ -280,7 +280,7 @@ jobs:
         run: |
           RUSTFLAGS="-C link-arg=-undefined -C link-arg=dynamic_lookup" pip install wheels/* --force-reinstall
   
-  doctes_check:
+  doctest_check:
     name: unittests_check-${{ matrix.combinations.runs_on }}
     runs-on: ubuntu-latest
     steps:
@@ -293,7 +293,6 @@ jobs:
           default: true
       - run: |
           cargo test --doc --package=qoqo_calculator
-
 
   code_coverage_rust:
     runs-on: ubuntu-latest
