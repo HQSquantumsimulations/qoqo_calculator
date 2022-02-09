@@ -25,7 +25,7 @@ qoqo-calculator provides
 
 This software is still in the beta stage. Functions and documentation are not yet complete and breaking changes can occur.
 
-## qoqo_calculator_pyo3
+## qoqo_calculator_py03
 
 [![Crates.io](https://img.shields.io/crates/v/qoqo_calculator_pyo3)](https://crates.io/crates/qoqo_calculator_pyo3)
 [![GitHub Workflow Status](https://github.com/HQSquantumsimulations/qoqo_calculator_pyo3/workflows/ci_tests/badge.svg)](https://github.com/HQSquantumsimulations/qoqo_calculator_pyo3/actions)

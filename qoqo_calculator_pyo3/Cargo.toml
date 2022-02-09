@@ -1,13 +1,13 @@
 [package]
 name = "qoqo_calculator_pyo3"
-version = "0.5.3"
+version = "0.5.5"
 authors = ["HQS Quantum Simulations <info@quantumsimulations.de>"]
 license = "Apache-2.0"
 edition = "2018"
-readme = "../README.md"
+readme = "README.md"
 repository = "https://github.com/HQSquantumsimulations/qoqo_calculator_pyo3"
 description = "Python interface to qoqo calculator, the calculator backend of the qoqo quantum computing toolkit by HQS Quantum Simulations"
-exclude = ["tests*", "python_tests*", ".cargo*", "*.code-workspace"]
+include = ["src*", "qoqo_calculator_pyo3", "LICENSE", "pyproject.toml", "README.md"]
 
 [lib]
 name = "qoqo_calculator_pyo3"

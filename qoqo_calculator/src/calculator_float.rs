@@ -1221,7 +1221,7 @@ mod tests {
         // Test simple add function: x + y
         let mut x3 = CalculatorFloat::from(3);
         let x2 = CalculatorFloat::from(2.0);
-        if let CalculatorFloat::Float(y) = x3.clone() + x2.clone() {
+        if let CalculatorFloat::Float(y) = x3.clone() + x2 {
             assert!((y - 5.0).abs() < f64::EPSILON)
         }
         if let CalculatorFloat::Float(y) = x3.clone() + 2 {
@@ -1232,7 +1232,7 @@ mod tests {
         }
 
         let x2 = CalculatorFloat::from(0.0);
-        if let CalculatorFloat::Str(y) = x2.clone() + "3t" {
+        if let CalculatorFloat::Str(y) = x2 + "3t" {
             assert_eq!(y, "3t")
         }
 
@@ -1240,7 +1240,7 @@ mod tests {
         if let CalculatorFloat::Str(y) = x2.clone() + 0.0 {
             assert_eq!(y, "3t")
         }
-        if let CalculatorFloat::Str(y) = x2.clone() + "2x" {
+        if let CalculatorFloat::Str(y) = x2 + "2x" {
             assert_eq!(y, "(3t + 2x)")
         }
 
@@ -1381,7 +1381,7 @@ mod tests {
         // Test simple multiply function: x * y
         let mut x3 = CalculatorFloat::from(3);
         let x2 = CalculatorFloat::from(3.0);
-        assert_eq!(x3.clone() * x2.clone(), CalculatorFloat::Float(9.0));
+        assert_eq!(x3.clone() * x2, CalculatorFloat::Float(9.0));
         assert_eq!(x3.clone() * 3, CalculatorFloat::Float(9.0));
         assert_eq!(x3.clone() * 3.0, CalculatorFloat::Float(9.0));
         assert_eq!(
@@ -1450,13 +1450,10 @@ mod tests {
         assert_eq!(x3.clone() - x2.clone(), CalculatorFloat::Float(0.0));
         assert_eq!(x3.clone() - 3, CalculatorFloat::Float(0.0));
         assert_eq!(x3.clone() - 3.0, CalculatorFloat::Float(0.0));
-        assert_eq!(
-            x3.clone() - "x",
-            CalculatorFloat::Str(String::from("(3e0 - x)"))
-        );
+        assert_eq!(x3 - "x", CalculatorFloat::Str(String::from("(3e0 - x)")));
 
         let x3 = CalculatorFloat::from(0.0);
-        assert_eq!(x3.clone() - "x", CalculatorFloat::Str(String::from("(-x)")));
+        assert_eq!(x3 - "x", CalculatorFloat::Str(String::from("(-x)")));
 
         let mut x3s = CalculatorFloat::from("3t");
         assert_eq!(
@@ -1500,10 +1497,10 @@ mod tests {
     #[test]
     fn neg() {
         let x3 = CalculatorFloat::from(3);
-        let x2 = -x3.clone();
+        let x2 = -x3;
         assert_eq!(x2, CalculatorFloat::Float(-3.0));
         let x3s = CalculatorFloat::from("3t");
-        let x2 = -x3s.clone();
+        let x2 = -x3s;
         assert_eq!(x2, CalculatorFloat::Str(String::from("(-3t)")));
     }
 
@@ -1643,10 +1640,10 @@ mod tests {
     fn isclose() {
         let x2 = CalculatorFloat::from(-3);
         let x3 = CalculatorFloat::from("-3t");
-        assert_eq!(x2.isclose(-3.000000001), true);
-        assert_eq!(x3.isclose("-3.000000001t"), false);
-        assert_eq!(x3.isclose(-3.000000001), false);
-        assert_eq!(x2.isclose("-3.000000001t"), false);
+        assert!(x2.isclose(-3.000000001));
+        assert!(!x3.isclose("-3.000000001t"));
+        assert!(!x3.isclose(-3.000000001));
+        assert!(!x2.isclose("-3.000000001t"));
     }
 
     // Test the adding with reference input functionality of CalculatorFloat
