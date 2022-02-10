@@ -2,9 +2,14 @@
 
 This changelog track changes to the qoqo_calculator project starting at version 0.6.0
 
+
 ## Not released
 
 ## 0.6.0
+
+### Added 0.6.0
+
+* support for schemars jsonschema creation for CalculatorFloat and CalculatorComplex
 
 ### Changed 0.6.0
 

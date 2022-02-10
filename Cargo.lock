@@ -219,6 +219,7 @@ dependencies = [
  "num-complex",
  "schemars",
  "serde",
+ "serde_json",
  "serde_test",
  "thiserror",
 ]
@@ -261,6 +262,8 @@ checksum = "73b4b750c782965c211b42f022f59af1fbceabdd026623714f104152f1ec149f"
 [[package]]
 name = "schemars"
 version = "0.8.8"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "c6b5a3c80cea1ab61f4260238409510e814e38b4b563c06044edf91e7dc070e3"
 dependencies = [
  "dyn-clone",
  "schemars_derive",
@@ -271,6 +274,8 @@ dependencies = [
 [[package]]
 name = "schemars_derive"
 version = "0.8.8"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "41ae4dce13e8614c46ac3c38ef1c0d668b101df6ac39817aebdaa26642ddae9b"
 dependencies = [
  "proc-macro2",
  "quote",
