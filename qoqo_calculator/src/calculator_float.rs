@@ -1086,6 +1086,53 @@ mod tests {
         assert_tokens(&x.readable(), &[Token::F64(0.0)]);
     }
 
+    #[test]
+    fn ser_de_string_compact() {
+        let x = CalculatorFloat::from("test+(1/3)");
+        assert_tokens(
+            &x.compact(),
+            &[
+                Token::NewtypeVariant {
+                    name: "CalculatorFloat",
+                    variant: "Str",
+                },
+                Token::String("test+(1/3)"),
+            ],
+        );
+    }
+
+    // Test the serialization/deserialization of CalculatorFloat from float
+    #[test]
+    fn ser_de_float_compact() {
+        let x = CalculatorFloat::from(3.0);
+        assert_tokens(
+            &x.compact(),
+            &[
+                Token::NewtypeVariant {
+                    name: "CalculatorFloat",
+                    variant: "Float",
+                },
+                Token::F64(3.0),
+            ],
+        );
+    }
+
+    // Test the serialization/deserialization of CalculatorFloat from integer
+    #[test]
+    fn ser_de_int_compact() {
+        let x = CalculatorFloat::from(0);
+        assert_tokens(
+            &x.compact(),
+            &[
+                Token::NewtypeVariant {
+                    name: "CalculatorFloat",
+                    variant: "Float",
+                },
+                Token::F64(0.0),
+            ],
+        );
+    }
+
     // Test the initialisation of CalculatorFloat from all possible input types
     #[test]
     fn from() {
