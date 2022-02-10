@@ -4,7 +4,9 @@ This changelog track changes to the qoqo_calculator project starting at version 
 
 ## Not released
 
-### Changed not released
+## 0.6.0
+
+### Changed 0.6.0
 
 * Switch CalculatorComplex serialization to produce a tuple of CalculatorFloat serialisations in line with num_complex
 

@@ -202,7 +202,7 @@ dependencies = [
 
 [[package]]
 name = "qoqo_calculator"
-version = "0.5.5"
+version = "0.6.0"
 dependencies = [
  "num-complex",
  "serde",
@@ -212,7 +212,7 @@ dependencies = [
 
 [[package]]
 name = "qoqo_calculator_pyo3"
-version = "0.5.5"
+version = "0.6.0"
 dependencies = [
  "num-complex",
  "pyo3",
