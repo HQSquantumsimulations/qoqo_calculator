@@ -18,20 +18,77 @@
 use crate::CalculatorError;
 use crate::CalculatorFloat;
 use num_complex::Complex;
-use serde::{Deserialize, Serialize};
+use serde::de::Deserialize;
+use serde::de::Error;
+use serde::de::{SeqAccess, Visitor};
+use serde::ser::SerializeTuple;
+use serde::Serialize;
 use std::convert::TryFrom;
 use std::fmt;
 use std::ops;
-
 /// Struct CalculatorComplex.
 ///
 ///
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq)]
 pub struct CalculatorComplex {
     /// CalculatorFloat value of real part of CalculatorComplex
     pub re: CalculatorFloat,
     /// CalculatorFloat value of imaginary part of CalculatorComplex
     pub im: CalculatorFloat,
+}
+
+impl Serialize for CalculatorComplex {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        let mut tuple = serializer.serialize_tuple(2)?;
+        tuple.serialize_element(&self.re)?;
+        tuple.serialize_element(&self.im)?;
+        tuple.end()
+    }
+}
+
+impl<'de> Deserialize<'de> for CalculatorComplex {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        struct ComplexVisitor;
+        impl<'de> Visitor<'de> for ComplexVisitor {
+            type Value = CalculatorComplex;
+            fn expecting(&self, formatter: &mut std::fmt::Formatter) -> std::fmt::Result {
+                std::fmt::Formatter::write_str(
+                    formatter,
+                    "Tuple of two CalculatorFloat values (float or string)",
+                )
+            }
+            // when variants are marked by String values
+            fn visit_seq<M>(self, mut access: M) -> Result<Self::Value, M::Error>
+            where
+                M: SeqAccess<'de>,
+            {
+                // let visitor = TupleVisitor;
+                let real: CalculatorFloat = match access.next_element()? {
+                    Some(x) => x,
+                    None => {
+                        return Err(M::Error::custom("Missing real part".to_string()));
+                    }
+                };
+                let imaginary: CalculatorFloat = match access.next_element()? {
+                    Some(x) => x,
+                    None => {
+                        return Err(M::Error::custom("Missing imaginary part".to_string()));
+                    }
+                };
+
+                Ok(CalculatorComplex::new(real, imaginary))
+            }
+        }
+        let pp_visitor = ComplexVisitor;
+
+        deserializer.deserialize_tuple(2, pp_visitor)
+    }
 }
 
 /// Implement Default value 0 for CalculatorComplex.
@@ -424,6 +481,9 @@ mod tests {
     use super::CalculatorComplex;
     use super::CalculatorFloat;
     use num_complex::Complex;
+    use serde_test::assert_tokens;
+    use serde_test::Configure;
+    use serde_test::Token;
     use std::convert::TryFrom;
     use std::ops::Neg;
 
@@ -441,6 +501,56 @@ mod tests {
             }
         );
         assert_eq!(f64::try_from(x).unwrap(), 3.0)
+    }
+
+    // Test serde serialisation
+    #[test]
+    fn serde_readable() {
+        let complex_float = CalculatorComplex::new(0.1, 0.3);
+
+        assert_tokens(
+            &complex_float.readable(),
+            &[
+                Token::Tuple { len: 2 },
+                Token::F64(0.1),
+                Token::F64(0.3),
+                Token::TupleEnd,
+            ],
+        );
+        let complex_str = CalculatorComplex::new("a", "b");
+
+        assert_tokens(
+            &complex_str.readable(),
+            &[
+                Token::Tuple { len: 2 },
+                Token::Str("a"),
+                Token::Str("b"),
+                Token::TupleEnd,
+            ],
+        );
+        let complex_mixed = CalculatorComplex::new("a", -0.3);
+
+        assert_tokens(
+            &complex_mixed.readable(),
+            &[
+                Token::Tuple { len: 2 },
+                Token::Str("a"),
+                Token::F64(-0.3),
+                Token::TupleEnd,
+            ],
+        );
+
+        // Checking that num_complex serialisation is still using tuple serialisation
+        let complex_num_complex = Complex::<f64>::new(0.0, -3.0);
+        assert_tokens(
+            &complex_num_complex.readable(),
+            &[
+                Token::Tuple { len: 2 },
+                Token::F64(0.0),
+                Token::F64(-3.0),
+                Token::TupleEnd,
+            ],
+        );
     }
 
     // Test the initialisation of CalculatorComplex from float input

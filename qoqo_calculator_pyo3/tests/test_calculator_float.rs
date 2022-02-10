@@ -3,7 +3,7 @@ use qoqo_calculator_pyo3::CalculatorFloatWrapper;
 #[test]
 fn test_initialising_calculator_float() {
     pyo3::prepare_freethreaded_python();
-    Python::with_gil(|py| -> () {
+    Python::with_gil(|py| {
         let python_type = py.get_type::<CalculatorFloatWrapper>();
         let new_result = python_type
             .call((1.0,), None)
