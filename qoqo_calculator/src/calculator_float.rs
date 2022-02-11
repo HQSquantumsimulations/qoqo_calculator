@@ -16,6 +16,8 @@
 //! mathematical expressions in string form to float.
 
 use crate::CalculatorError;
+#[cfg(feature = "json_schema")]
+use schemars::schema::*;
 use serde::de::{Deserializer, Error, Visitor};
 use serde::ser::Serializer;
 use serde::{Deserialize, Serialize};
@@ -35,11 +37,26 @@ static RTOL: f64 = 1e-8;
 /// * `Str` - String instance
 ///
 #[derive(Debug, Clone, PartialEq)]
+// #[cfg_attr(feature = "json_schema", derive(schemars::JsonSchema))]
 pub enum CalculatorFloat {
     /// Floating point value
     Float(f64),
     /// Symbolic expression in String form
     Str(String),
+}
+
+#[cfg(feature = "json_schema")]
+impl schemars::JsonSchema for CalculatorFloat {
+    fn schema_name() -> String {
+        "CalculatorFloat".to_string()
+    }
+
+    fn json_schema(gen: &mut schemars::gen::SchemaGenerator) -> Schema {
+        let mut return_schema = SchemaObject::default();
+        return_schema.subschemas().one_of =
+            Some(vec![<f64>::json_schema(gen), <String>::json_schema(gen)]);
+        return_schema.into()
+    }
 }
 
 // Implementing serde serialization
@@ -1062,6 +1079,8 @@ impl ops::Neg for CalculatorFloat {
 #[cfg(test)]
 mod tests {
     use super::CalculatorFloat;
+    #[cfg(feature = "json_schema")]
+    use schemars::schema_for;
     use serde_test::{assert_tokens, Configure, Token};
     use std::convert::TryFrom;
 
@@ -1131,6 +1150,14 @@ mod tests {
                 Token::F64(0.0),
             ],
         );
+    }
+
+    #[cfg(feature = "json_schema")]
+    #[test]
+    fn test_json_schema_support() {
+        let schema = schema_for!(CalculatorFloat);
+        let serialized = serde_json::to_string(&schema).unwrap();
+        assert_eq!(serialized.as_str(), "{\"$schema\":\"http://json-schema.org/draft-07/schema#\",\"title\":\"CalculatorFloat\",\"oneOf\":[{\"type\":\"number\",\"format\":\"double\"},{\"type\":\"string\"}]}");
     }
 
     // Test the initialisation of CalculatorFloat from all possible input types
