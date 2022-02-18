@@ -9,6 +9,7 @@ This repository contains two components:
 
 ## qoqo_calculator
 
+
 [![Crates.io](https://img.shields.io/crates/v/qoqo_calculator)](https://crates.io/crates/qoqo_calculator)
 [![GitHub Workflow Status](https://github.com/HQSquantumsimulations/qoqo_calculator/workflows/ci_tests/badge.svg)](https://github.com/HQSquantumsimulations/qoqo_calculator/actions)
 [![docs.rs](https://img.shields.io/docsrs/qoqo_calculator)](https://docs.rs/qoqo_calculator/)
@@ -29,6 +30,7 @@ This software is still in the beta stage. Functions and documentation are not ye
 
 [![Crates.io](https://img.shields.io/crates/v/qoqo_calculator_pyo3)](https://crates.io/crates/qoqo_calculator_pyo3)
 [![GitHub Workflow Status](https://github.com/HQSquantumsimulations/qoqo_calculator_pyo3/workflows/ci_tests/badge.svg)](https://github.com/HQSquantumsimulations/qoqo_calculator_pyo3/actions)
+[![Documentation Status](https://img.shields.io/badge/docs-documentation-green)](https://hqsquantumsimulations.github.io/qoqo_calculaotr_pyo3/)
 [![docs.rs](https://img.shields.io/docsrs/qoqo_calculator_pyo3)](https://docs.rs/qoqo_calculator_pyo3/)
 ![Crates.io](https://img.shields.io/crates/l/qoqo_calculator_pyo3)
 [![PyPI](https://img.shields.io/pypi/v/qoqo_calculator_pyo3)](https://pypi.org/project/qoqo_calculator_pyo3/)
@@ -36,7 +38,7 @@ This software is still in the beta stage. Functions and documentation are not ye
 
 Python interface to qoqo calculator, the calculator backend of the qoqo quantum computing toolkit by [HQS Quantum Simulations](https://quantumsimulations.de).
 
-qoqo-calculator-py03 provides
+qoqo-calculator-pyo3 provides
 
 * A calculator python class that evaluates symbolic string expressions to float values
 * A CalculatorFloat python class that can represent a float value or a string based symbolic expression
@@ -54,7 +56,7 @@ pip install qoqo-calculator-pyo3
 
 When building manually we recommend using [maturin](https://github.com/PyO3/maturin) to build the python package.
 
-A source distribution now exists but requires a Rust install with a rust version > 1.47 and a maturin version { >= 0.12, <0.13 } in order to be built.
+A source distribution exists but requires a Rust install with a rust version > 1.47 and a maturin version { >= 0.12, <0.13 } in order to be built.
 
 ## Contributing
 

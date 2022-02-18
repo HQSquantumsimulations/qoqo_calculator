@@ -7,3 +7,5 @@ coveragehtml/*
 *__pycache__*
 *.pytest_cache*
 *.vscode*
+*/docs/generated*
+*/docs/_build*
