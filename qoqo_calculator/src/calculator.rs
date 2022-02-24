@@ -200,8 +200,25 @@ impl Calculator {
     ///
     /// * `expression` - Expression that is parsed
     ///
-    pub fn parse_str(&mut self, expression: &str) -> Result<f64, CalculatorError> {
-        let mut parser = Parser::new(expression, self);
+    pub fn parse_str(&self, expression: &str) -> Result<f64, CalculatorError> {
+        let mut parser = ParserEnum::new_immutable(expression, self);
+        let end_value = parser.evaluate_all_tokens()?;
+        match end_value {
+            None => Err(CalculatorError::NoValueReturnedParsing),
+            Some(x) => Ok(x),
+        }
+    }
+
+    ///  Parse a string expression allowing variable assignments.
+    ///
+    ///
+    ///
+    /// # Arguments
+    ///
+    /// * `expression` - Expression that is parsed
+    ///
+    pub fn parse_str_assign(&mut self, expression: &str) -> Result<f64, CalculatorError> {
+        let mut parser = ParserEnum::new_mutable(expression, self);
         let end_value = parser.evaluate_all_tokens()?;
         match end_value {
             None => Err(CalculatorError::NoValueReturnedParsing),
@@ -215,7 +232,7 @@ impl Calculator {
     ///
     /// * `parse_variable` - Parsed string CalculatorFloat or returns float value
     ///
-    pub fn parse_get(&mut self, parse_variable: CalculatorFloat) -> Result<f64, CalculatorError> {
+    pub fn parse_get(&self, parse_variable: CalculatorFloat) -> Result<f64, CalculatorError> {
         match parse_variable {
             CalculatorFloat::Float(x) => Ok(x),
             CalculatorFloat::Str(expression) => self.parse_str(&expression),
@@ -224,46 +241,43 @@ impl Calculator {
 }
 
 /// Enum combining different types of Tokens in an Expression.
-///
-/// # Variants
-///
-/// * `Number` - A float or integer
-/// * `VariableOr` - A variable
-/// * `Function` - A  known function
-/// * `Plus` - Plus
-/// * `Minus` - Minus
-/// * `Multiply` - Multiply
-/// * `Divide` - Divide
-/// * `Power` - Power
-/// * `Factorial` - Factorial
-/// * `DoubleFactorial` - DoubleFactorial
-/// * `BracketOpen` - A bracket opening
-/// * `BracketClose` - A bracket closing
-/// * `VariableAssign` - Assignment of a variable
-/// * `Comma` - Comma
-/// * `EndOfExpression` - End of expression
-/// * `EndOfString` - End of parsed string
-/// * `Unrecognized` - No Token has been recognized in string
-///
 #[derive(Debug, Clone, PartialEq)]
-enum Token {
+pub enum Token {
+    /// A float or integer
     Number(f64),
+    /// A variable
     Variable(String),
+    /// A  known function
     Function(String),
+    /// Plus
     Plus,
+    /// Minus
     Minus,
+    /// Multiply
     Multiply,
+    /// Divice
     Divide,
+    /// Poser
     Power,
+    /// Factorial
     Factorial,
+    /// DoubleFactorial
     DoubleFactorial,
+    /// A bracket opening
     BracketOpen,
+    /// A bracket closing
     BracketClose,
+    /// Assign operator
     Assign,
+    /// Assignment of a variable
     VariableAssign(String),
+    /// Comma
     Comma,
+    /// End of Expression
     EndOfExpression,
+    /// End of parsed string
     EndOfString,
+    /// No Token has been recognized in string
     Unrecognized,
 }
 
@@ -295,12 +309,12 @@ impl fmt::Display for Token {
 
 /// Struct implementing Iterator trait to lex string
 /// to computational Tokens.
-struct TokenIterator<'a> {
+pub struct TokenIterator<'a> {
     // Save current expression as a slice of a string so we do not
     // need to copy but only modify (shorten) the slice.
     //
-    /// * `current_expression` - Current str expression being lexed
-    current_expression: &'a str,
+    /// Current str expression being lexed
+    pub current_expression: &'a str,
 }
 
 // Implement the Iterator Trait for TokenIterator so it can be used as standard rust iterator.
@@ -500,51 +514,184 @@ impl<'a> TokenIterator<'a> {
     }
 }
 
-/// Parse string to float using TokenIterator lexer.
-///
-/// # Fields
-///
-/// * `remaining_expression` - Expression that has not been parsed yet
-/// * `current_token` - Token that is currently parsed
-/// * `calculator` - Calculator that contains set variables
-///
-struct Parser<'a> {
-    remaining_expression: &'a str,
-    current_token: Token,
-    calculator: &'a mut Calculator,
+// /// Parser from &str to f64 using TokenIterator lexer.
+// struct Parser<'a> {
+//     /// Expression that has not been parsed yet
+//     remaining_expression: &'a str,
+//     /// Token that is currently parsed
+//     current_token: Token,
+//     /// Calculator that contains set variables
+//     calculator: &'a mut Calculator,
+// }
+
+/// Parser from &str to f64 using TokenIterator lexer.
+enum ParserEnum<'a> {
+    MutableCalculator {
+        /// Expression that has not been parsed yet
+        remaining_expression: &'a str,
+        /// Token that is currently parsed
+        current_token: Token,
+        /// Calculator that contains set variables
+        calculator: &'a mut Calculator,
+    },
+    ImmutableCalculator {
+        /// Expression that has not been parsed yet
+        remaining_expression: &'a str,
+        /// Token that is currently parsed
+        current_token: Token,
+        /// Calculator that contains set variables
+        calculator: &'a Calculator,
+    },
 }
-impl<'a, 'b> Parser<'a>
+
+impl<'a, 'b> ParserEnum<'a>
 where
     'b: 'a,
 {
-    /// Initialize a new instance of Parser.
-    fn new(expression: &'a str, calculator: &'b mut Calculator) -> Self {
+    /// Get variable for Calculator.
+    ///
+    /// # Arguments
+    ///
+    /// * `name` - Name of the variable
+    ///
+    /// # Returns
+    ///
+    /// `value` - Result
+    ///
+    #[inline]
+    pub fn get_variable(&self, name: &str) -> Result<f64, CalculatorError> {
+        match self {
+            Self::MutableCalculator { calculator, .. } => calculator.get_variable(name),
+            Self::ImmutableCalculator { calculator, .. } => calculator.get_variable(name),
+        }
+    }
+
+    /// Set variable for Calculator.
+    ///
+    /// # Arguments
+    ///
+    /// * `name` - Name of the variable
+    /// * `value` - Float value of the variable
+    #[inline]
+    pub fn set_variable(&mut self, name: &str, value: f64) -> Result<(), CalculatorError> {
+        match self {
+            Self::MutableCalculator { calculator, .. } => calculator.set_variable(name, value),
+            Self::ImmutableCalculator { .. } => {
+                return Err(CalculatorError::ParsingError {
+                    msg: "Assign operation not allowed when using immutable Calculator",
+                })
+            }
+        }
+        Ok(())
+    }
+
+    fn new_mutable(expression: &'a str, calculator: &'b mut Calculator) -> Self {
         let (next_token, next_str) = (TokenIterator {
             current_expression: expression,
         })
         .next_token_and_str();
-        Parser {
+        ParserEnum::MutableCalculator {
             remaining_expression: next_str,
             current_token: next_token.unwrap(),
             calculator,
         }
     }
 
+    fn new_immutable(expression: &'a str, calculator: &'b Calculator) -> Self {
+        let (next_token, next_str) = (TokenIterator {
+            current_expression: expression,
+        })
+        .next_token_and_str();
+        ParserEnum::ImmutableCalculator {
+            remaining_expression: next_str,
+            current_token: next_token.unwrap(),
+            calculator,
+        }
+    }
+
+    fn remaining_expression(&mut self) -> &'a str {
+        match self {
+            ParserEnum::MutableCalculator {
+                remaining_expression,
+                ..
+            } => remaining_expression,
+            ParserEnum::ImmutableCalculator {
+                remaining_expression,
+                ..
+            } => remaining_expression,
+        }
+    }
+
+    fn current_token(&self) -> &Token {
+        match self {
+            ParserEnum::MutableCalculator { current_token, .. } => current_token,
+            ParserEnum::ImmutableCalculator { current_token, .. } => current_token,
+        }
+    }
+
+    // impl<'a, 'b> Parser<'a>
+    // where
+    //     'b: 'a,
+    // {
+
+    /// Get Variable form internal
+
+    // /// Initialize a new instance of Parser.
+    // fn new(expression: &'a str, calculator: &'b mut Calculator) -> Self {
+    //     let (next_token, next_str) = (TokenIterator {
+    //         current_expression: expression,
+    //     })
+    //     .next_token_and_str();
+    //     Parser {
+    //         remaining_expression: next_str,
+    //         current_token: next_token.unwrap(),
+    //         calculator,
+    //     }
+    // }
+
     /// Get next token via TokenIterator.
     fn next_token(&mut self) {
         let (next_token, next_str) = (TokenIterator {
-            current_expression: self.remaining_expression,
+            current_expression: self.remaining_expression(),
         })
         .next_token_and_str();
         match next_token {
-            None => {
-                self.current_token = Token::EndOfString;
-                self.remaining_expression = "";
-            }
-            Some(t) => {
-                self.current_token = t;
-                self.remaining_expression = next_str;
-            }
+            None => match self {
+                ParserEnum::MutableCalculator {
+                    remaining_expression,
+                    current_token,
+                    ..
+                } => {
+                    *current_token = Token::EndOfString;
+                    *remaining_expression = "";
+                }
+                ParserEnum::ImmutableCalculator {
+                    remaining_expression,
+                    current_token,
+                    ..
+                } => {
+                    *current_token = Token::EndOfString;
+                    *remaining_expression = "";
+                }
+            },
+            Some(t) => match self {
+                ParserEnum::MutableCalculator {
+                    remaining_expression,
+                    current_token,
+                    ..
+                } => {
+                    *current_token = t;
+                    *remaining_expression = next_str;
+                }
+                ParserEnum::ImmutableCalculator {
+                    remaining_expression,
+                    current_token,
+                    ..
+                } => {
+                    *current_token = t;
+                    *remaining_expression = next_str;
+                }
+            },
         }
     }
 
@@ -552,9 +699,9 @@ where
     /// or return error.
     fn evaluate_all_tokens(&mut self) -> Result<Option<f64>, CalculatorError> {
         let mut current_value: Option<f64> = None;
-        while self.current_token != Token::EndOfString {
+        while self.current_token() != &Token::EndOfString {
             current_value = self.evaluate_init()?;
-            while self.current_token == Token::EndOfExpression {
+            while self.current_token() == &Token::EndOfExpression {
                 self.next_token();
             }
         }
@@ -563,15 +710,24 @@ where
 
     /// Initialize the evaluation of an expression.
     fn evaluate_init(&mut self) -> Result<Option<f64>, CalculatorError> {
-        if self.current_token == Token::EndOfExpression || self.current_token == Token::EndOfString
+        if self.current_token() == &Token::EndOfExpression
+            || self.current_token() == &Token::EndOfString
         {
             Err(CalculatorError::UnexpectedEndOfExpression)
         } else {
-            if let Token::VariableAssign(ref vs) = (*self).current_token {
+            if let Token::VariableAssign(ref vs) = (*self).current_token() {
+                match self {
+                    ParserEnum::MutableCalculator { .. } => (),
+                    ParserEnum::ImmutableCalculator { .. } => {
+                        return Err(CalculatorError::ForbiddenAssign {
+                            variable_name: vs.to_owned(),
+                        })
+                    }
+                }
                 let vsnew = vs.to_owned();
                 self.next_token();
                 let res = self.evaluate_binary_1()?;
-                self.calculator.set_variable(&vsnew, res);
+                self.set_variable(&vsnew, res)?;
                 return Ok(Some(res));
             }
             Ok(Some(self.evaluate_binary_1()?))
@@ -581,8 +737,8 @@ where
     /// Evaluate least preference binary expression (+, -).
     fn evaluate_binary_1(&mut self) -> Result<f64, CalculatorError> {
         let mut res = self.evaluate_binary_2()?;
-        while self.current_token == Token::Plus || self.current_token == Token::Minus {
-            let bsum: bool = self.current_token == Token::Plus;
+        while self.current_token() == &Token::Plus || self.current_token() == &Token::Minus {
+            let bsum: bool = self.current_token() == &Token::Plus;
             self.next_token();
             let val = self.evaluate_binary_2()?;
             if bsum {
@@ -597,8 +753,8 @@ where
     /// Evaluate middle preference binary expression (*, /).
     fn evaluate_binary_2(&mut self) -> Result<f64, CalculatorError> {
         let mut res = self.evaluate_binary_3()?;
-        while self.current_token == Token::Multiply || self.current_token == Token::Divide {
-            let bmul: bool = self.current_token == Token::Multiply;
+        while self.current_token() == &Token::Multiply || self.current_token() == &Token::Divide {
+            let bmul: bool = self.current_token() == &Token::Multiply;
             self.next_token();
             let val = self.evaluate_binary_3()?;
             if bmul {
@@ -616,7 +772,7 @@ where
     /// Evaluate least preference binary expression (^, !).
     fn evaluate_binary_3(&mut self) -> Result<f64, CalculatorError> {
         let mut res = self.evaluate_unary()?;
-        match self.current_token {
+        match self.current_token() {
             Token::DoubleFactorial => {
                 return Err(CalculatorError::NotImplementedError {
                     fct: "DoubleFactorial",
@@ -637,7 +793,7 @@ where
     /// Handle any unary + or - signs.
     fn evaluate_unary(&mut self) -> Result<f64, CalculatorError> {
         let mut prefactor: f64 = 1.0;
-        match self.current_token {
+        match self.current_token() {
             Token::Minus => {
                 self.next_token();
                 prefactor = -1.0;
@@ -652,14 +808,14 @@ where
 
     /// Handle numbers, variables, functions and parentheses.
     fn evaluate(&mut self) -> Result<f64, CalculatorError> {
-        match (*self).current_token {
+        match self.current_token().clone() {
             Token::BracketOpen => {
                 self.next_token();
                 let res_init = self.evaluate_init()?.ok_or(CalculatorError::ParsingError {
                     msg: "Unexpected None return",
                 })?;
                 //self.next_token()?;
-                if self.current_token != Token::BracketClose {
+                if self.current_token() != &Token::BracketClose {
                     Err(CalculatorError::ParsingError {
                         msg: "Expected Braket close",
                     })
@@ -675,7 +831,7 @@ where
             Token::Variable(ref vs) => {
                 let vsnew = vs.to_owned();
                 self.next_token();
-                self.calculator.get_variable(&vsnew)
+                self.get_variable(&vsnew)
             }
             Token::Function(ref vs) => {
                 let vsnew = vs.to_owned();
@@ -689,7 +845,7 @@ where
                     );
                     // Swallow commas in function arguments
                     if argument_number < number_arguments - 1 {
-                        if self.current_token != Token::Comma {
+                        if self.current_token() != &Token::Comma {
                             return Err(CalculatorError::ParsingError {
                                 msg: "expected comma in function arguments",
                             });
@@ -699,7 +855,7 @@ where
                     }
                     //self.next_token()?;
                 }
-                if self.current_token != Token::BracketClose {
+                if self.current_token() != &Token::BracketClose {
                     return Err(CalculatorError::ParsingError {
                         msg: "Expected braket close.",
                     });
@@ -980,8 +1136,18 @@ mod tests {
     // Test parse_string for a variable Token
     #[test]
     fn test_parse_variable() {
-        let mut calculator = Calculator::new();
+        let calculator = Calculator::new();
         let value = calculator.parse_str("a=3; 2*(a+1);");
+        assert!(value.is_err());
+        let value = calculator.parse_str("2*(3+1);");
+        assert_eq!(value.unwrap(), 8.0);
+    }
+
+    // Test parse_string for a variable Token
+    #[test]
+    fn test_parse_assign_variable() {
+        let mut calculator = Calculator::new();
+        let value = calculator.parse_str_assign("a=3; 2*(a+1);");
         assert_eq!(value.unwrap(), 8.0);
         assert_eq!(calculator.get_variable("a").unwrap(), 3.0);
     }
@@ -990,21 +1156,21 @@ mod tests {
     #[test]
     fn test_parse_variable_underscore() {
         let mut calculator = Calculator::new();
-        let value = calculator.parse_str("a_1=3; 2*(a_1+1);");
+        let value = calculator.parse_str_assign("a_1=3; 2*(a_1+1);");
         assert_eq!(value.unwrap(), 8.0);
         assert_eq!(calculator.get_variable("a_1").unwrap(), 3.0);
     }
 
     // Test parse_string for a function Token
     #[test]
-    fn test_parse_function() {
+    fn test_parse_assing_function() {
         let f: f64 = 4.0;
         let mut calculator = Calculator::new();
-        let value = calculator.parse_str("a=3; sin(a+1);");
+        let value = calculator.parse_str_assign("a=3; sin(a+1);");
         assert_eq!(value.unwrap(), f.sin());
         assert_eq!(calculator.get_variable("a").unwrap(), 3.0);
 
-        let value = calculator.parse_str("atan2(a+1,2e0);");
+        let value = calculator.parse_str_assign("atan2(a+1,2e0);");
         assert_eq!(value.unwrap(), f.atan2(2e0));
         assert_eq!(calculator.get_variable("a").unwrap(), 3.0);
     }
@@ -1012,7 +1178,7 @@ mod tests {
     // Test parse_get function
     #[test]
     fn test_parse_get() {
-        let mut calculator = Calculator::new();
+        let calculator = Calculator::new();
 
         let cf_float = CalculatorFloat::from(3.0);
         let value_cf_float = calculator.parse_get(cf_float);
@@ -1026,7 +1192,7 @@ mod tests {
     // Test that all evaluate functions match statements return the expected float/error
     #[test]
     fn test_evaluate_functions() {
-        let mut calculator = Calculator::new();
+        let calculator = Calculator::new();
 
         // Evaluate unary function: + and -
         let value = calculator.parse_str("-2");
@@ -1070,7 +1236,7 @@ mod tests {
         let value = calculator.parse_str("3");
         assert_eq!(value.unwrap(), 3.0);
         let value = calculator.parse_str("x=3; x+2");
-        assert_eq!(value.unwrap(), 5.0);
+        assert!(value.is_err());
         let value = calculator.parse_str("max(3, 2)");
         assert_eq!(value.unwrap(), 3.0);
         let value = calculator.parse_str("max(3 2)");

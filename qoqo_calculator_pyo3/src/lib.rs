@@ -23,12 +23,12 @@ mod calculator_complex;
 pub use calculator_complex::convert_into_calculator_complex;
 pub use calculator_complex::CalculatorComplexWrapper;
 mod calculator;
-pub use calculator::parse_str;
+pub use calculator::parse_str_assign;
 pub use calculator::CalculatorWrapper;
 
 #[pyfunction]
-fn parse_string(expression: &str) -> PyResult<f64> {
-    parse_str(expression)
+fn parse_string_assign(expression: &str) -> PyResult<f64> {
+    parse_str_assign(expression)
 }
 
 /// qoqo_calculator_pyo3 module bringing the qoqo_calculator rust library to Python.
@@ -47,6 +47,7 @@ fn qoqo_calculator_pyo3(_py: Python, m: &PyModule) -> PyResult<()> {
     m.add_class::<CalculatorWrapper>()?;
     m.add_class::<CalculatorFloatWrapper>()?;
     m.add_class::<CalculatorComplexWrapper>()?;
-    m.add_function(wrap_pyfunction!(parse_string, m)?).unwrap();
+    m.add_function(wrap_pyfunction!(parse_string_assign, m)?)
+        .unwrap();
     Ok(())
 }

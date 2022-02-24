@@ -108,8 +108,8 @@ impl<'de> Deserialize<'de> for CalculatorComplex {
 impl Default for CalculatorComplex {
     fn default() -> Self {
         CalculatorComplex {
-            re: CalculatorFloat::from(0),
-            im: CalculatorFloat::from(0),
+            re: CalculatorFloat::Float(0.0),
+            im: CalculatorFloat::Float(0.0),
         }
     }
 }
@@ -123,6 +123,20 @@ impl Default for CalculatorComplex {
 impl<'a> From<&'a CalculatorComplex> for CalculatorComplex {
     fn from(item: &'a CalculatorComplex) -> Self {
         (*item).clone()
+    }
+}
+
+/// I
+impl<T1, T2> From<(T1, T2)> for CalculatorComplex
+where
+    T1: Into<CalculatorFloat>,
+    T2: Into<CalculatorFloat>,
+{
+    fn from(input: (T1, T2)) -> Self {
+        CalculatorComplex {
+            re: input.0.into(),
+            im: input.1.into(),
+        }
     }
 }
 
@@ -256,12 +270,12 @@ impl CalculatorComplex {
     ///
     pub fn new<T1, T2>(re: T1, im: T2) -> Self
     where
-        CalculatorFloat: From<T1>,
-        CalculatorFloat: From<T2>,
+        T1: Into<CalculatorFloat>,
+        T2: Into<CalculatorFloat>,
     {
         Self {
-            re: CalculatorFloat::from(re),
-            im: CalculatorFloat::from(im),
+            re: re.into(),
+            im: im.into(),
         }
     }
 
@@ -277,6 +291,12 @@ impl CalculatorComplex {
     pub fn norm(&self) -> CalculatorFloat {
         ((self.re.clone() * &self.re) + (self.im.clone() * &self.im)).sqrt()
     }
+
+    /// Return absolute value of complex number x: |x|=(x.re^2+x.im^2)^1/2.
+    pub fn abs(&self) -> CalculatorFloat {
+        self.norm()
+    }
+
     /// Return complex conjugate of x: x*=x.re-i*x.im.
     pub fn conj(&self) -> CalculatorComplex {
         Self {
@@ -287,9 +307,9 @@ impl CalculatorComplex {
     /// Return true when x is close to y.
     pub fn isclose<T>(&self, other: T) -> bool
     where
-        CalculatorComplex: From<T>,
+        T: Into<CalculatorComplex>,
     {
-        let other_from = Self::from(other);
+        let other_from: CalculatorComplex = other.into();
         self.re.isclose(other_from.re) && self.im.isclose(other_from.im)
     }
 }
@@ -302,11 +322,11 @@ impl CalculatorComplex {
 ///
 impl<T> ops::Add<T> for CalculatorComplex
 where
-    CalculatorComplex: From<T>,
+    T: Into<CalculatorComplex>,
 {
     type Output = Self;
     fn add(self, other: T) -> Self {
-        let other_from = Self::from(other);
+        let other_from = other.into();
         CalculatorComplex {
             re: self.re + other_from.re,
             im: self.im + other_from.im,
@@ -338,10 +358,10 @@ impl std::iter::Sum for CalculatorComplex {
 ///
 impl<T> ops::AddAssign<T> for CalculatorComplex
 where
-    CalculatorComplex: From<T>,
+    T: Into<CalculatorComplex>,
 {
     fn add_assign(&mut self, other: T) {
-        let other_from = Self::from(other);
+        let other_from: CalculatorComplex = other.into();
         *self = CalculatorComplex {
             re: &self.re + other_from.re,
             im: &self.im + other_from.im,
@@ -357,11 +377,11 @@ where
 ///
 impl<T> ops::Sub<T> for CalculatorComplex
 where
-    CalculatorComplex: From<T>,
+    T: Into<CalculatorComplex>,
 {
     type Output = Self;
     fn sub(self, other: T) -> Self {
-        let other_from = Self::from(other);
+        let other_from: CalculatorComplex = other.into();
         CalculatorComplex {
             re: self.re - other_from.re,
             im: self.im - other_from.im,
@@ -376,10 +396,10 @@ where
 ///
 impl<T> ops::SubAssign<T> for CalculatorComplex
 where
-    CalculatorComplex: From<T>,
+    T: Into<CalculatorComplex>,
 {
     fn sub_assign(&mut self, other: T) {
-        let other_from = Self::from(other);
+        let other_from: CalculatorComplex = other.into();
         *self = CalculatorComplex {
             re: self.re.clone() - other_from.re,
             im: self.im.clone() - other_from.im,
@@ -407,11 +427,11 @@ impl ops::Neg for CalculatorComplex {
 ///
 impl<T> ops::Mul<T> for CalculatorComplex
 where
-    CalculatorComplex: From<T>,
+    T: Into<CalculatorComplex>,
 {
     type Output = Self;
     fn mul(self, other: T) -> Self {
-        let other_from = Self::from(other);
+        let other_from: CalculatorComplex = other.into();
         CalculatorComplex {
             re: self.re.clone() * &other_from.re - (self.im.clone() * &other_from.im),
             im: self.re * &other_from.im + (self.im * &other_from.re),
@@ -426,10 +446,10 @@ where
 ///
 impl<T> ops::MulAssign<T> for CalculatorComplex
 where
-    CalculatorComplex: From<T>,
+    T: Into<CalculatorComplex>,
 {
     fn mul_assign(&mut self, other: T) {
-        let other_from = Self::from(other);
+        let other_from: CalculatorComplex = other.into();
         *self = CalculatorComplex {
             re: self.re.clone() * &other_from.re - (self.im.clone() * &other_from.im),
             im: self.re.clone() * &other_from.im + (self.im.clone() * &other_from.re),
@@ -445,11 +465,11 @@ where
 ///
 impl<T> ops::Div<T> for CalculatorComplex
 where
-    CalculatorComplex: From<T>,
+    T: Into<CalculatorComplex>,
 {
     type Output = Self;
     fn div(self, other: T) -> Self {
-        let other_from = Self::from(other);
+        let other_from: CalculatorComplex = other.into();
         let norm = other_from.norm_sqr();
         CalculatorComplex {
             re: (self.re.clone() * &other_from.re + (self.im.clone() * &other_from.im)) / &norm,
@@ -465,10 +485,10 @@ where
 ///
 impl<T> ops::DivAssign<T> for CalculatorComplex
 where
-    CalculatorComplex: From<T>,
+    T: Into<CalculatorComplex>,
 {
     fn div_assign(&mut self, other: T) {
-        let other_from = Self::from(other);
+        let other_from: CalculatorComplex = other.into();
         let norm = other_from.norm_sqr();
         *self = CalculatorComplex {
             re: (self.re.clone() * &other_from.re + (self.im.clone() * &other_from.im)) / &norm,
@@ -773,6 +793,13 @@ mod tests {
         let x = CalculatorComplex::new(1, 2);
         let y = Complex::new(1.0, 2.0);
         assert_eq!(x.norm(), CalculatorFloat::from(y.norm()));
+    }
+
+    #[test]
+    fn abs() {
+        let x = CalculatorComplex::new(1, 2);
+        let y = Complex::new(1.0, 2.0);
+        assert_eq!(x.abs(), CalculatorFloat::from(y.norm()));
     }
 
     // Test the conjugate functionality of CalculatorComplex

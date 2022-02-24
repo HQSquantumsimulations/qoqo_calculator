@@ -15,6 +15,7 @@
 //! Provides CalculatorFloat enum and methods for parsing and evaluating
 //! mathematical expressions in string form to float.
 
+use crate::calculator::{Token, TokenIterator};
 use crate::CalculatorError;
 #[cfg(feature = "json_schema")]
 use schemars::schema::*;
@@ -56,6 +57,13 @@ impl schemars::JsonSchema for CalculatorFloat {
         return_schema.subschemas().one_of =
             Some(vec![<f64>::json_schema(gen), <String>::json_schema(gen)]);
         return_schema.into()
+    }
+}
+
+/// Implement Default value 0 for CalculatorFloat.
+impl Default for CalculatorFloat {
+    fn default() -> Self {
+        CalculatorFloat::Float(0.0)
     }
 }
 
@@ -431,6 +439,38 @@ impl From<&str> for CalculatorFloat {
     }
 }
 
+impl FromStr for CalculatorFloat {
+    type Err = CalculatorError;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        let f = f64::from_str(s);
+        match f {
+            Err(_) => {
+                let mut tokeniter = TokenIterator {
+                    current_expression: s,
+                };
+                match tokeniter.find(|t| {
+                    matches!(
+                        t,
+                        Token::VariableAssign(_) | Token::Assign | Token::Unrecognized
+                    )
+                }) {
+                    None => Ok(CalculatorFloat::Str(s.to_string())),
+                    Some(t) => match t {
+                        Token::VariableAssign(vs) => {
+                            Err(CalculatorError::NotParsableAssign { variable_name: vs })
+                        }
+                        Token::Assign => Err(CalculatorError::NotParsableSingleAssign),
+                        Token::Unrecognized => Err(CalculatorError::NotParsableUnrecognized),
+                        _ => panic!(""),
+                    },
+                }
+            }
+            Ok(x) => Ok(CalculatorFloat::Float(x)),
+        }
+    }
+}
+
 /// Try turning CalculatorFloat into f64 float.
 ///
 /// # Returns
@@ -537,9 +577,9 @@ impl CalculatorFloat {
     ///
     pub fn atan2<T>(&self, other: T) -> CalculatorFloat
     where
-        CalculatorFloat: From<T>,
+        T: Into<CalculatorFloat>,
     {
-        let other_from = Self::from(other);
+        let other_from: CalculatorFloat = other.into();
         match self {
             Self::Float(x) => match other_from {
                 Self::Float(y) => CalculatorFloat::Float(x.atan2(y)),
@@ -560,9 +600,9 @@ impl CalculatorFloat {
     ///
     pub fn powf<T>(&self, other: T) -> CalculatorFloat
     where
-        CalculatorFloat: From<T>,
+        T: Into<CalculatorFloat>,
     {
-        let other_from = Self::from(other);
+        let other_from: CalculatorFloat = other.into();
         match self {
             Self::Float(x) => match other_from {
                 Self::Float(y) => CalculatorFloat::Float(x.powf(y)),
@@ -620,9 +660,9 @@ impl CalculatorFloat {
     /// Return True if self value is close to other value.
     pub fn isclose<T>(&self, other: T) -> bool
     where
-        CalculatorFloat: From<T>,
+        T: Into<CalculatorFloat>,
     {
-        let other_from = Self::from(other);
+        let other_from: CalculatorFloat = other.into();
         match self {
             Self::Float(x) => match other_from {
                 Self::Float(y) => (x - y).abs() <= (ATOL + RTOL * y.abs()),
@@ -659,11 +699,11 @@ impl CalculatorFloat {
 ///
 impl<T> ops::Add<T> for CalculatorFloat
 where
-    CalculatorFloat: From<T>,
+    T: Into<CalculatorFloat>,
 {
     type Output = Self;
     fn add(self, other: T) -> Self {
-        let other_from = Self::from(other);
+        let other_from: CalculatorFloat = other.into();
         match self {
             Self::Float(x) => match other_from {
                 Self::Float(y) => CalculatorFloat::Float(x + y),
@@ -713,10 +753,10 @@ impl std::iter::Sum for CalculatorFloat {
 ///
 impl<T> ops::AddAssign<T> for CalculatorFloat
 where
-    CalculatorFloat: From<T>,
+    T: Into<CalculatorFloat>,
 {
     fn add_assign(&mut self, other: T) {
-        let other_from = CalculatorFloat::from(other);
+        let other_from: CalculatorFloat = other.into();
 
         match self {
             Self::Float(x) => match other_from {
@@ -800,11 +840,11 @@ where
 ///
 impl<T> ops::Div<T> for CalculatorFloat
 where
-    CalculatorFloat: From<T>,
+    T: Into<CalculatorFloat>,
 {
     type Output = Self;
     fn div(self, other: T) -> Self {
-        let other_from = Self::from(other);
+        let other_from: CalculatorFloat = other.into();
         match self {
             Self::Float(x) => match other_from {
                 Self::Float(y) => {
@@ -851,10 +891,10 @@ where
 ///
 impl<T> ops::DivAssign<T> for CalculatorFloat
 where
-    CalculatorFloat: From<T>,
+    T: Into<CalculatorFloat>,
 {
     fn div_assign(&mut self, other: T) {
-        let other_from = Self::from(other);
+        let other_from: CalculatorFloat = other.into();
         match self {
             Self::Float(x) => match other_from {
                 Self::Float(y) => {
@@ -902,11 +942,11 @@ where
 ///
 impl<T> ops::Mul<T> for CalculatorFloat
 where
-    CalculatorFloat: From<T>,
+    T: Into<CalculatorFloat>,
 {
     type Output = Self;
     fn mul(self, other: T) -> Self {
-        let other_from = Self::from(other);
+        let other_from: CalculatorFloat = other.into();
         match self {
             Self::Float(x) => match other_from {
                 Self::Float(y) => Self::Float(x * y),
@@ -936,6 +976,48 @@ where
     }
 }
 
+/// Implement `*` (multiply) for CalculatorFloat and generic type `T`.
+///
+/// # Arguments
+///
+/// * `other` - Any type T for which CalculatorFloat::From<T> trait is implemented
+///
+impl<T> ops::Mul<T> for &CalculatorFloat
+where
+    T: Into<CalculatorFloat>,
+{
+    type Output = CalculatorFloat;
+    fn mul(self, other: T) -> CalculatorFloat {
+        let other_from: CalculatorFloat = other.into();
+        match self {
+            CalculatorFloat::Float(x) => match other_from {
+                CalculatorFloat::Float(y) => CalculatorFloat::Float(x * y),
+                CalculatorFloat::Str(y) => {
+                    if *x == 0.0 {
+                        CalculatorFloat::Float(0.0)
+                    } else if (x - 1.0).abs() < ATOL {
+                        CalculatorFloat::Str(y)
+                    } else {
+                        CalculatorFloat::Str(format!("({:e} * {})", x, &y))
+                    }
+                }
+            },
+            CalculatorFloat::Str(x) => match other_from {
+                CalculatorFloat::Float(y) => {
+                    if y == 0.0 {
+                        CalculatorFloat::Float(0.0)
+                    } else if (y - 1.0).abs() < ATOL {
+                        CalculatorFloat::Str(x.to_string())
+                    } else {
+                        CalculatorFloat::Str(format!("({} * {:e})", &x, y))
+                    }
+                }
+                CalculatorFloat::Str(y) => CalculatorFloat::Str(format!("({} * {})", x, y)),
+            },
+        }
+    }
+}
+
 /// Implement `*=` (multiply) for CalculatorFloat and generic type `T`.
 ///
 /// # Arguments
@@ -944,10 +1026,10 @@ where
 ///
 impl<T> ops::MulAssign<T> for CalculatorFloat
 where
-    CalculatorFloat: From<T>,
+    T: Into<CalculatorFloat>,
 {
     fn mul_assign(&mut self, other: T) {
-        let other_from = Self::from(other);
+        let other_from: CalculatorFloat = other.into();
         match self {
             Self::Float(x) => match other_from {
                 Self::Float(y) => {
@@ -991,11 +1073,11 @@ where
 ///
 impl<T> ops::Sub<T> for CalculatorFloat
 where
-    CalculatorFloat: From<T>,
+    T: Into<CalculatorFloat>,
 {
     type Output = Self;
     fn sub(self, other: T) -> Self {
-        let other_from = Self::from(other);
+        let other_from: CalculatorFloat = other.into();
         match self {
             CalculatorFloat::Float(x) => match other_from {
                 CalculatorFloat::Float(y) => CalculatorFloat::Float(x - y),
@@ -1029,10 +1111,10 @@ where
 ///
 impl<T> ops::SubAssign<T> for CalculatorFloat
 where
-    CalculatorFloat: From<T>,
+    T: Into<CalculatorFloat>,
 {
     fn sub_assign(&mut self, other: T) {
-        let other_from = Self::from(other);
+        let other_from: CalculatorFloat = other.into();
         match self {
             Self::Float(x) => match other_from {
                 Self::Float(y) => {
@@ -1082,7 +1164,7 @@ mod tests {
     #[cfg(feature = "json_schema")]
     use schemars::schema_for;
     use serde_test::{assert_tokens, Configure, Token};
-    use std::convert::TryFrom;
+    use std::{convert::TryFrom, str::FromStr};
 
     // Test the serialization/deserialization of CalculatorFloat from string
     #[test]
@@ -1513,6 +1595,34 @@ mod tests {
 
         x3s *= 0.0;
         assert_eq!(x3s, CalculatorFloat::Float(0.0));
+
+        let x4 = &CalculatorFloat::from(4.0);
+        let x5 = &CalculatorFloat::from(5.0);
+
+        assert_eq!(x4 * x5, CalculatorFloat::Float(20.0));
+    }
+
+    #[test]
+    fn default() {
+        let a = CalculatorFloat::default();
+        assert_eq!(a, CalculatorFloat::Float(0.0));
+    }
+
+    #[test]
+    fn from_str() {
+        let expression = "=";
+        let result = CalculatorFloat::from_str(expression);
+        assert!(result.is_err());
+        let expression = "a=3";
+        let result = CalculatorFloat::from_str(expression);
+        assert!(result.is_err());
+        let expression = "?";
+        let result = CalculatorFloat::from_str(expression);
+        assert!(result.is_err());
+        let expression = "a+2";
+        let result = CalculatorFloat::from_str(expression);
+        assert!(result.is_ok());
+        assert_eq!(result.unwrap(), CalculatorFloat::Str("a+2".to_string()))
     }
 
     // Test the subtract functionality of CalculatorFloat with all possible input types

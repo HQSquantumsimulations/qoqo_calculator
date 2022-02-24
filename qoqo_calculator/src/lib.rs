@@ -90,6 +90,24 @@ pub enum CalculatorError {
     /// Not enough function arguments provided in parsed expression.
     #[error("Not enough function arguments.")]
     NotEnoughFunctionArguments,
+    /// Trying to assign variable in side-effect free parsing.
+    #[error("Trying to assign variable {variable_name} in side-effect free parsing. Set variable in Calculator with .set_variable, replace with number in str or use parse_str_assign to resolve error.")]
+    ForbiddenAssign {
+        /// Name of the variable that is being assigned
+        variable_name: String,
+    },
+    /// Error raised when checking if a String-CalculatorFloat is valid and can be parsed
+    #[error("CalculatorFloat::Str is not a valid expression that can be parsed: Variable assignment to {variable_name}")]
+    NotParsableAssign {
+        /// Name of the variable that is being assigned
+        variable_name: String,
+    },
+    /// Error raised when checking if a String-CalculatorFloat is valid and can be parsed
+    #[error("CalculatorFloat::Str is not a valid expression that can be parsed: Urecognized elements in expression")]
+    NotParsableUnrecognized,
+    /// Error raised when checking if a String-CalculatorFloat is valid and can be parsed
+    #[error("CalculatorFloat::Str is not a valid expression that can be parsed: Assign operator `=` found in expression")]
+    NotParsableSingleAssign,
 }
 
 #[cfg(test)]
