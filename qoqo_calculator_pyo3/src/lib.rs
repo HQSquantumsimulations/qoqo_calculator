@@ -47,6 +47,7 @@ fn qoqo_calculator_pyo3(_py: Python, m: &PyModule) -> PyResult<()> {
     m.add_class::<CalculatorWrapper>()?;
     m.add_class::<CalculatorFloatWrapper>()?;
     m.add_class::<CalculatorComplexWrapper>()?;
-    m.add_function(wrap_pyfunction!(parse_string_assign, m)?).unwrap();
+    m.add_function(wrap_pyfunction!(parse_string_assign, m)?).
+        unwrap();
     Ok(())
 }

@@ -16,7 +16,7 @@
 //! mathematical expressions in string form to float.
 
 use crate::calculator::{Token, TokenIterator};
-use crate::{CalculatorError};
+use crate::CalculatorError;
 #[cfg(feature = "json_schema")]
 use schemars::schema::*;
 use serde::de::{Deserializer, Error, Visitor};
@@ -703,7 +703,7 @@ where
 {
     type Output = Self;
     fn add(self, other: T) -> Self {
-        let other_from:CalculatorFloat = other.into();
+        let other_from: CalculatorFloat = other.into();
         match self {
             Self::Float(x) => match other_from {
                 Self::Float(y) => CalculatorFloat::Float(x + y),
@@ -844,7 +844,7 @@ where
 {
     type Output = Self;
     fn div(self, other: T) -> Self {
-        let other_from:CalculatorFloat = other.into();
+        let other_from: CalculatorFloat = other.into();
         match self {
             Self::Float(x) => match other_from {
                 Self::Float(y) => {
@@ -1603,7 +1603,7 @@ mod tests {
     }
 
     #[test]
-    fn default(){
+    fn default() {
         let a = CalculatorFloat::default();
         assert_eq!(a, CalculatorFloat::Float(0.0));
     }

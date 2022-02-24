@@ -108,8 +108,8 @@ impl<'de> Deserialize<'de> for CalculatorComplex {
 impl Default for CalculatorComplex {
     fn default() -> Self {
         CalculatorComplex {
-            re:         CalculatorFloat::Float(0.0),
-            im:         CalculatorFloat::Float(0.0),
+            re: CalculatorFloat::Float(0.0),
+            im: CalculatorFloat::Float(0.0),
         }
     }
 }
@@ -128,12 +128,15 @@ impl<'a> From<&'a CalculatorComplex> for CalculatorComplex {
 
 /// I
 impl<T1, T2> From<(T1, T2)> for CalculatorComplex
-where 
+where
     T1: Into<CalculatorFloat>,
-    T2: Into<CalculatorFloat>
-    {
-        fn from(input: (T1, T2)) -> Self {
-        CalculatorComplex{re: input.0.into(), im: input.1.into()}
+    T2: Into<CalculatorFloat>,
+{
+    fn from(input: (T1, T2)) -> Self {
+        CalculatorComplex{
+            re: input.0.into(),
+            im: input.1.into(),
+        }
     }
 }
 
