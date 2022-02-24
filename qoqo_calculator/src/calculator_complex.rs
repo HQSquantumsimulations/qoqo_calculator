@@ -133,7 +133,7 @@ where
     T2: Into<CalculatorFloat>,
 {
     fn from(input: (T1, T2)) -> Self {
-        CalculatorComplex{
+        CalculatorComplex {
             re: input.0.into(),
             im: input.1.into(),
         }
