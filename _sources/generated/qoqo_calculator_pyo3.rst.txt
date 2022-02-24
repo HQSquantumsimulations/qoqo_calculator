@@ -1,0 +1,37 @@
+﻿qoqo\_calculator\_pyo3
+======================
+
+.. automodule:: qoqo_calculator_pyo3
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      parse_string_assign
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      Calculator
+      CalculatorComplex
+      CalculatorFloat
+   
+   
+
+   
+   
+   
+
+
+

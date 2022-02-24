@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="English" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>qoqo_calculator_pyo3 &mdash; qoqo_calculator_pyo3 0.7 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="qoqo_aqt documentation" href="../modules.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> qoqo_calculator_pyo3
+          </a>
+              <div class="version">
+                0.7
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../modules.html">qoqo_aqt documentation</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">qoqo_calculator_pyo3</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">qoqo_calculator_pyo3</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../modules.html">qoqo_aqt documentation</a> &raquo;</li>
+      <li>qoqo_calculator_pyo3</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/generated/qoqo_calculator_pyo3.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<section id="module-qoqo_calculator_pyo3">
+<span id="qoqo-calculator-pyo3"></span><h1>qoqo_calculator_pyo3<a class="headerlink" href="#module-qoqo_calculator_pyo3" title="Permalink to this headline"></a></h1>
+<p class="rubric">Functions</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#qoqo_calculator_pyo3.parse_string_assign" title="qoqo_calculator_pyo3.parse_string_assign"><code class="xref py py-obj docutils literal notranslate"><span class="pre">parse_string_assign</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Classes</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#qoqo_calculator_pyo3.Calculator" title="qoqo_calculator_pyo3.Calculator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Calculator</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#qoqo_calculator_pyo3.CalculatorComplex" title="qoqo_calculator_pyo3.CalculatorComplex"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CalculatorComplex</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#qoqo_calculator_pyo3.CalculatorFloat" title="qoqo_calculator_pyo3.CalculatorFloat"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CalculatorFloat</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py class">
+<dt class="sig sig-object py" id="qoqo_calculator_pyo3.Calculator">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qoqo_calculator_pyo3.</span></span><span class="sig-name descname"><span class="pre">Calculator</span></span><a class="headerlink" href="#qoqo_calculator_pyo3.Calculator" title="Permalink to this definition"></a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="qoqo_calculator_pyo3.Calculator.parse_get">
+<span class="sig-name descname"><span class="pre">parse_get</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qoqo_calculator_pyo3.Calculator.parse_get" title="Permalink to this definition"></a></dt>
+<dd><p>Parse an input to float.</p>
+<p># Arguments</p>
+<ul class="simple">
+<li><p><cite>input</cite> - Parsed string CalculatorFloat or returns float value</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qoqo_calculator_pyo3.Calculator.parse_str">
+<span class="sig-name descname"><span class="pre">parse_str</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qoqo_calculator_pyo3.Calculator.parse_str" title="Permalink to this definition"></a></dt>
+<dd><p>Parse a string expression.</p>
+<p># Arguments</p>
+<ul class="simple">
+<li><p><cite>input</cite> - Expression that is parsed</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qoqo_calculator_pyo3.Calculator.parse_str_assign">
+<span class="sig-name descname"><span class="pre">parse_str_assign</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qoqo_calculator_pyo3.Calculator.parse_str_assign" title="Permalink to this definition"></a></dt>
+<dd><p>Parse a string expression.</p>
+<p># Arguments</p>
+<ul class="simple">
+<li><p><cite>input</cite> - Expression that is parsed</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qoqo_calculator_pyo3.Calculator.set">
+<span class="sig-name descname"><span class="pre">set</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qoqo_calculator_pyo3.Calculator.set" title="Permalink to this definition"></a></dt>
+<dd><p>Set variable for Calculator.</p>
+<p># Arguments</p>
+<ul class="simple">
+<li><p><cite>variable_string</cite> - string of the variable name</p></li>
+<li><p><cite>val</cite> - Float value of the variable</p></li>
+</ul>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qoqo_calculator_pyo3.CalculatorComplex">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qoqo_calculator_pyo3.</span></span><span class="sig-name descname"><span class="pre">CalculatorComplex</span></span><a class="headerlink" href="#qoqo_calculator_pyo3.CalculatorComplex" title="Permalink to this definition"></a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="qoqo_calculator_pyo3.CalculatorComplex.abs">
+<span class="sig-name descname"><span class="pre">abs</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qoqo_calculator_pyo3.CalculatorComplex.abs" title="Permalink to this definition"></a></dt>
+<dd><p>Return absolute value of complex number x: <a href="#id1"><span class="problematic" id="id2">|</span></a>x|=(x.re^2+x.im^2)^1/2.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qoqo_calculator_pyo3.CalculatorComplex.arg">
+<span class="sig-name descname"><span class="pre">arg</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qoqo_calculator_pyo3.CalculatorComplex.arg" title="Permalink to this definition"></a></dt>
+<dd><p>Return phase of complex number x: arg(x).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qoqo_calculator_pyo3.CalculatorComplex.conj">
+<span class="sig-name descname"><span class="pre">conj</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qoqo_calculator_pyo3.CalculatorComplex.conj" title="Permalink to this definition"></a></dt>
+<dd><p>Return complex conjugate of x: x*=x.re-i*x.im.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qoqo_calculator_pyo3.CalculatorComplex.from_pair">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_pair</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qoqo_calculator_pyo3.CalculatorComplex.from_pair" title="Permalink to this definition"></a></dt>
+<dd><p>Create a new instance of CalculatorComplex from a pair of values.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qoqo_calculator_pyo3.CalculatorComplex.imag">
+<span class="sig-name descname"><span class="pre">imag</span></span><a class="headerlink" href="#qoqo_calculator_pyo3.CalculatorComplex.imag" title="Permalink to this definition"></a></dt>
+<dd><p>Get imaginary part of CalculatorComplex.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qoqo_calculator_pyo3.CalculatorComplex.isclose">
+<span class="sig-name descname"><span class="pre">isclose</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qoqo_calculator_pyo3.CalculatorComplex.isclose" title="Permalink to this definition"></a></dt>
+<dd><p>Return true when x is close to y.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qoqo_calculator_pyo3.CalculatorComplex.real">
+<span class="sig-name descname"><span class="pre">real</span></span><a class="headerlink" href="#qoqo_calculator_pyo3.CalculatorComplex.real" title="Permalink to this definition"></a></dt>
+<dd><p>Get real part of CalculatorComplex.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qoqo_calculator_pyo3.CalculatorComplex.to_dict">
+<span class="sig-name descname"><span class="pre">to_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qoqo_calculator_pyo3.CalculatorComplex.to_dict" title="Permalink to this definition"></a></dt>
+<dd><p>Convert contents of CalculatorComplex to a Python dictionary.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qoqo_calculator_pyo3.CalculatorFloat">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qoqo_calculator_pyo3.</span></span><span class="sig-name descname"><span class="pre">CalculatorFloat</span></span><a class="headerlink" href="#qoqo_calculator_pyo3.CalculatorFloat" title="Permalink to this definition"></a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="qoqo_calculator_pyo3.CalculatorFloat.abs">
+<span class="sig-name descname"><span class="pre">abs</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qoqo_calculator_pyo3.CalculatorFloat.abs" title="Permalink to this definition"></a></dt>
+<dd><p>Return absolute value abs(x) for CalculatorFloat.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qoqo_calculator_pyo3.CalculatorFloat.acos">
+<span class="sig-name descname"><span class="pre">acos</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qoqo_calculator_pyo3.CalculatorFloat.acos" title="Permalink to this definition"></a></dt>
+<dd><p>Return arccosine function acos(x) for CalculatorFloat.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qoqo_calculator_pyo3.CalculatorFloat.atan2">
+<span class="sig-name descname"><span class="pre">atan2</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qoqo_calculator_pyo3.CalculatorFloat.atan2" title="Permalink to this definition"></a></dt>
+<dd><p>Return atan2 for CalculatorFloat and generic type <cite>Py&lt;PyAny&gt;</cite>.</p>
+<p># Arguments</p>
+<ul class="simple">
+<li><p><cite>other</cite> - Any Python object that can be converted to CalculatorFloat</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qoqo_calculator_pyo3.CalculatorFloat.cos">
+<span class="sig-name descname"><span class="pre">cos</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qoqo_calculator_pyo3.CalculatorFloat.cos" title="Permalink to this definition"></a></dt>
+<dd><p>Return cosine function cos(x) for CalculatorFloat.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qoqo_calculator_pyo3.CalculatorFloat.exp">
+<span class="sig-name descname"><span class="pre">exp</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qoqo_calculator_pyo3.CalculatorFloat.exp" title="Permalink to this definition"></a></dt>
+<dd><p>Return exponential function exp(x) for CalculatorFloat.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qoqo_calculator_pyo3.CalculatorFloat.float">
+<span class="sig-name descname"><span class="pre">float</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qoqo_calculator_pyo3.CalculatorFloat.float" title="Permalink to this definition"></a></dt>
+<dd><p>Python getter function which returns True when
+CalculatorFloat does not contain symbolic expression.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qoqo_calculator_pyo3.CalculatorFloat.is_float">
+<span class="sig-name descname"><span class="pre">is_float</span></span><a class="headerlink" href="#qoqo_calculator_pyo3.CalculatorFloat.is_float" title="Permalink to this definition"></a></dt>
+<dd><p>Python getter function which returns True when
+CalculatorFloat does not contain symbolic expression.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qoqo_calculator_pyo3.CalculatorFloat.isclose">
+<span class="sig-name descname"><span class="pre">isclose</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qoqo_calculator_pyo3.CalculatorFloat.isclose" title="Permalink to this definition"></a></dt>
+<dd><p>Return True if self value is close to other value.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qoqo_calculator_pyo3.CalculatorFloat.sign">
+<span class="sig-name descname"><span class="pre">sign</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qoqo_calculator_pyo3.CalculatorFloat.sign" title="Permalink to this definition"></a></dt>
+<dd><p>Returns signum value sign(x) for CalculatorFloat.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qoqo_calculator_pyo3.CalculatorFloat.signum">
+<span class="sig-name descname"><span class="pre">signum</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qoqo_calculator_pyo3.CalculatorFloat.signum" title="Permalink to this definition"></a></dt>
+<dd><p>Return signum value sign(x) for CalculatorFloat.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qoqo_calculator_pyo3.CalculatorFloat.sin">
+<span class="sig-name descname"><span class="pre">sin</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qoqo_calculator_pyo3.CalculatorFloat.sin" title="Permalink to this definition"></a></dt>
+<dd><p>Return sine function sin(x) for CalculatorFloat.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qoqo_calculator_pyo3.CalculatorFloat.sqrt">
+<span class="sig-name descname"><span class="pre">sqrt</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qoqo_calculator_pyo3.CalculatorFloat.sqrt" title="Permalink to this definition"></a></dt>
+<dd><p>Returns square root of CalculatorFloat.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qoqo_calculator_pyo3.CalculatorFloat.value">
+<span class="sig-name descname"><span class="pre">value</span></span><a class="headerlink" href="#qoqo_calculator_pyo3.CalculatorFloat.value" title="Permalink to this definition"></a></dt>
+<dd><p>Python getter function which returns the value stored in CalculatorFloat.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="qoqo_calculator_pyo3.parse_string_assign">
+<span class="sig-prename descclassname"><span class="pre">qoqo_calculator_pyo3.</span></span><span class="sig-name descname"><span class="pre">parse_string_assign</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qoqo_calculator_pyo3.parse_string_assign" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../modules.html" class="btn btn-neutral float-left" title="qoqo_aqt documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, HQS Quantum Simulations GmbH.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
