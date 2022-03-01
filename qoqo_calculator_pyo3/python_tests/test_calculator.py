@@ -22,29 +22,6 @@ def test_calculator_parse():
     c.set("a",1)
     assert c.parse_get("sin(a+1)") == math.sin(2)
 
-@pytest.mark.skip()
-@pytest.mark.parametrize("initial", [
-    (1, 1, ),
-    ('a', 'sign(a)'),
-    (-1, -1,),
-    (2, 1, ),
-    (-3, -1,),
-    (0, 0, ),
-])
-def test_float_sign(initial):
-    t = calculator.float_sign(initial[0])
-    assert t == initial[1]
-
-@pytest.mark.skip()
-@pytest.mark.parametrize("initial", [
-    (0, np.pi/2),
-    (1, 0),
-    (-1, np.pi,),
-    ('a', 'acos(a)', ),
-])
-def test_float_acos(initial):
-    t = calculator.float_acos(initial[0])
-    assert t.isclose(initial[1])
 
 if __name__ == '__main__':
     pytest.main(sys.argv)

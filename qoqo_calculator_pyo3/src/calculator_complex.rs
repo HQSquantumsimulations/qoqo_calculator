@@ -348,7 +348,7 @@ impl CalculatorComplexWrapper {
             PyTypeError::new_err("Right hand side can not be converted to Calculator Complex")
         })?;
         Ok(CalculatorComplexWrapper {
-            cc_internal: (self_cc + other_cc),
+            cc_internal: (other_cc + self_cc),
         })
     }
 

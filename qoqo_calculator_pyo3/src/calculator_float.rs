@@ -322,7 +322,7 @@ impl CalculatorFloatWrapper {
             PyTypeError::new_err("Right hand side can not be converted to Calculator Float")
         })?;
         Ok(CalculatorFloatWrapper {
-            cf_internal: (self_cf + other_cf),
+            cf_internal: (other_cf + self_cf),
         })
     }
 
@@ -438,7 +438,7 @@ impl CalculatorFloatWrapper {
             PyTypeError::new_err("Right hand side can not be converted to Calculator Float")
         })?;
         Ok(CalculatorFloatWrapper {
-            cf_internal: (self_cf * other_cf),
+            cf_internal: (other_cf * self_cf),
         })
     }
 
