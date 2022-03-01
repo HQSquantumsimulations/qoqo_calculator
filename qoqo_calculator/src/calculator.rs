@@ -336,7 +336,7 @@ where
                         .current_expression
                         .char_indices()
                         .find_map(|(ind, c)| if c.is_whitespace() { None } else { Some(ind) })
-                        .unwrap_or_else(|| self.current_expression.len());
+                        .unwrap_or(self.current_expression.len());
                     self.cut_current_expression(end);
                     if self.current_expression.is_empty() {
                         return Some(Token::EndOfString);
@@ -347,7 +347,7 @@ where
                         .current_expression
                         .char_indices()
                         .find_map(|(ind, c)| if c != '\u{000A}' { None } else { Some(ind + 1) })
-                        .unwrap_or_else(|| self.current_expression.len());
+                        .unwrap_or(self.current_expression.len());
                     self.cut_current_expression(end);
                     if self.current_expression.is_empty() {
                         return Some(Token::EndOfString);
@@ -375,7 +375,7 @@ where
                             Some(ind)
                         }
                     })
-                    .unwrap_or_else(|| self.current_expression.len());
+                    .unwrap_or(self.current_expression.len());
                 // Get next token from TokenIterator with shortened expression
                 let next_token = if end >= self.current_expression.len() {
                     TokenIterator {
@@ -423,7 +423,7 @@ where
                     .current_expression
                     .char_indices()
                     .find(|(_, c)| !c.is_ascii_digit() && c != &'.')
-                    .unwrap_or_else(|| (self.current_expression.len(), ' '));
+                    .unwrap_or((self.current_expression.len(), ' '));
                 let mut end_offset = 0;
                 let mut start: usize = 0;
                 // Handle scientific notation.
@@ -451,7 +451,7 @@ where
                     end_offset = self.current_expression[end + start..]
                         .char_indices()
                         .find_map(|(ind, c)| if c.is_ascii_digit() { None } else { Some(ind) })
-                        .unwrap_or_else(|| self.current_expression.len() - (end + start));
+                        .unwrap_or(self.current_expression.len() - (end + start));
                 }
                 let end_total = end + start + end_offset;
                 let number_expression = &self.current_expression[..end_total];
