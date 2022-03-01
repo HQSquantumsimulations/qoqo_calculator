@@ -21,7 +21,6 @@ use pyo3::class::basic::CompareOp;
 use pyo3::exceptions::{PyNotImplementedError, PyTypeError, PyValueError, PyZeroDivisionError};
 use pyo3::prelude::*;
 use pyo3::ToPyObject;
-use pyo3::{PyNumberProtocol, PyObjectProtocol};
 use qoqo_calculator::{CalculatorComplex, CalculatorError, CalculatorFloat};
 use std::collections::HashMap;
 use std::convert::TryInto;
@@ -130,11 +129,11 @@ impl CalculatorComplexWrapper {
     /// `((PyObject,), HashMap<String, String>)` - arguments of CalculatorComplex
     ///
     fn __getnewargs_ex__(&self) -> ((PyObject,), HashMap<String, String>) {
-        let gil = pyo3::Python::acquire_gil();
-        let py = gil.python();
-        let x = 0.0;
-        let object = x.to_object(py);
-        ((object,), HashMap::new())
+        Python::with_gil(|py| {
+            let x = 0.0;
+            let object = x.to_object(py);
+            ((object,), HashMap::new())
+        })
     }
 
     /// Get real and imaginary parts of CalculatorComplexWrapper for Python.
@@ -144,48 +143,48 @@ impl CalculatorComplexWrapper {
     /// `(PyObject, PyObject)` - real and imaginary parts of CalculatorComplex
     ///
     fn __getstate__(&self) -> (PyObject, PyObject) {
-        let gil = pyo3::Python::acquire_gil();
-        let py = gil.python();
-        let object_real = match self.cc_internal.re {
-            CalculatorFloat::Float(ref x) => x.to_object(py),
-            CalculatorFloat::Str(ref x) => x.to_object(py),
-        };
-        let object_imag = match self.cc_internal.im {
-            CalculatorFloat::Float(ref x) => x.to_object(py),
-            CalculatorFloat::Str(ref x) => x.to_object(py),
-        };
-        (object_real, object_imag)
+        Python::with_gil(|py| {
+            let object_real = match self.cc_internal.re {
+                CalculatorFloat::Float(ref x) => x.to_object(py),
+                CalculatorFloat::Str(ref x) => x.to_object(py),
+            };
+            let object_imag = match self.cc_internal.im {
+                CalculatorFloat::Float(ref x) => x.to_object(py),
+                CalculatorFloat::Str(ref x) => x.to_object(py),
+            };
+            (object_real, object_imag)
+        })
     }
 
     /// Set real and imaginary parts of CalculatorComplexWrapper for Python.
-    fn __setstate__(&mut self, state: (Py<PyAny>, Py<PyAny>)) -> PyResult<()> {
+    fn __setstate__(&mut self, state: (&PyAny, &PyAny)) -> PyResult<()> {
         *self = CalculatorComplexWrapper::from_pair(state.0, state.1)?;
         Ok(())
     }
 
     /// Convert contents of CalculatorComplex to a Python dictionary.
     fn to_dict(&self) -> HashMap<String, PyObject> {
-        let mut dict = HashMap::new();
-        let gil = pyo3::Python::acquire_gil();
-        let py = gil.python();
-        dict.insert("is_calculator_complex".to_string(), true.to_object(py));
-        match &self.cc_internal.re {
-            CalculatorFloat::Float(x) => {
-                dict.insert("real".to_string(), x.to_object(py));
+        Python::with_gil(|py| {
+            let mut dict = HashMap::new();
+            dict.insert("is_calculator_complex".to_string(), true.to_object(py));
+            match &self.cc_internal.re {
+                CalculatorFloat::Float(x) => {
+                    dict.insert("real".to_string(), x.to_object(py));
+                }
+                CalculatorFloat::Str(x) => {
+                    dict.insert("real".to_string(), x.to_object(py));
+                }
             }
-            CalculatorFloat::Str(x) => {
-                dict.insert("real".to_string(), x.to_object(py));
+            match &self.cc_internal.im {
+                CalculatorFloat::Float(x) => {
+                    dict.insert("imag".to_string(), x.to_object(py));
+                }
+                CalculatorFloat::Str(x) => {
+                    dict.insert("imag".to_string(), x.to_object(py));
+                }
             }
-        }
-        match &self.cc_internal.im {
-            CalculatorFloat::Float(x) => {
-                dict.insert("imag".to_string(), x.to_object(py));
-            }
-            CalculatorFloat::Str(x) => {
-                dict.insert("imag".to_string(), x.to_object(py));
-            }
-        }
-        dict
+            dict
+        })
     }
 
     /// Get real part of CalculatorComplex.
@@ -206,15 +205,11 @@ impl CalculatorComplexWrapper {
 
     /// Create a new instance of CalculatorComplex from a pair of values.
     #[staticmethod]
-    fn from_pair(re: Py<PyAny>, im: Py<PyAny>) -> PyResult<CalculatorComplexWrapper> {
-        let gil = pyo3::Python::acquire_gil();
-        let py = gil.python();
-        let re_ref = re.as_ref(py);
-        let imag_ref = im.as_ref(py);
-        let re_cf = convert_into_calculator_float(re_ref).map_err(|_| {
+    fn from_pair(re: &PyAny, im: &PyAny) -> PyResult<CalculatorComplexWrapper> {
+        let re_cf = convert_into_calculator_float(re).map_err(|_| {
             PyTypeError::new_err("Real input can not be converted to Calculator Complex")
         })?;
-        let im_cf = convert_into_calculator_float(imag_ref).map_err(|_| {
+        let im_cf = convert_into_calculator_float(im).map_err(|_| {
             PyTypeError::new_err("Imag input can not be converted to Calculator Complex")
         })?;
         Ok(CalculatorComplexWrapper {
@@ -237,11 +232,8 @@ impl CalculatorComplexWrapper {
     }
 
     /// Return true when x is close to y.
-    fn isclose(&self, other: Py<PyAny>) -> PyResult<bool> {
-        let gil = pyo3::Python::acquire_gil();
-        let py = gil.python();
-        let other_ref = other.as_ref(py);
-        let other_cc = convert_into_calculator_complex(other_ref).map_err(|_| {
+    fn isclose(&self, other: &PyAny) -> PyResult<bool> {
+        let other_cc = convert_into_calculator_complex(other).map_err(|_| {
             PyTypeError::new_err("Right hand side can not be converted to Calculator Complex")
         })?;
         Ok(self.cc_internal.isclose(other_cc))
@@ -291,10 +283,7 @@ impl CalculatorComplexWrapper {
             Err(x) => Err(PyValueError::new_err(format!("{:?}", x))),
         }
     }
-}
 
-#[pyproto]
-impl PyObjectProtocol for CalculatorComplexWrapper {
     /// Return the __richcmp__ magic method to perform rich comparison.
     /// operations on CalculatorComplex.
     ///
@@ -308,11 +297,8 @@ impl PyObjectProtocol for CalculatorComplexWrapper {
     ///
     /// `PyResult<bool>` - whether the two operations compared evaluated to True or False
     ///
-    fn __richcmp__(&self, other: Py<PyAny>, op: CompareOp) -> PyResult<bool> {
-        let gil = pyo3::Python::acquire_gil();
-        let py = gil.python();
-        let other_ref = other.as_ref(py);
-        let other_cc = convert_into_calculator_complex(other_ref).map_err(|_| {
+    fn __richcmp__(&self, other: &PyAny, op: CompareOp) -> PyResult<bool> {
+        let other_cc = convert_into_calculator_complex(other).map_err(|_| {
             PyTypeError::new_err("Right hand side can not be converted to Calculator Complex")
         })?;
         match op {
@@ -323,10 +309,7 @@ impl PyObjectProtocol for CalculatorComplexWrapper {
             )),
         }
     }
-}
 
-#[pyproto]
-impl PyNumberProtocol for CalculatorComplexWrapper {
     /// Implement the `+` (__add__) magic method to add two CalculatorComplexes.
     ///
     /// # Arguments
@@ -338,19 +321,34 @@ impl PyNumberProtocol for CalculatorComplexWrapper {
     ///
     /// `PyResult<CalculatorComplexWrapper>` - lhs + rhs
     ///
-    fn __add__(lhs: Py<PyAny>, rhs: Py<PyAny>) -> PyResult<CalculatorComplexWrapper> {
-        let gil = pyo3::Python::acquire_gil();
-        let py = gil.python();
-        let lhs_ref = lhs.as_ref(py);
-        let rhs_ref = rhs.as_ref(py);
-        let self_cc = convert_into_calculator_complex(lhs_ref).map_err(|_| {
-            PyTypeError::new_err("Left hand side can not be converted to Calculator Complex")
-        })?;
-        let other_cc = convert_into_calculator_complex(rhs_ref).map_err(|_| {
+    fn __add__(&self, rhs: &PyAny) -> PyResult<CalculatorComplexWrapper> {
+        let self_cc = self.cc_internal.clone();
+        let other_cc = convert_into_calculator_complex(rhs).map_err(|_| {
             PyTypeError::new_err("Right hand side can not be converted to Calculator Complex")
         })?;
         Ok(CalculatorComplexWrapper {
             cc_internal: (self_cc + other_cc),
+        })
+    }
+
+    /// Implement the `+` (__radd__) magic method to add two CalculatorComplexes.
+    ///
+    /// # Arguments
+    ///
+    /// * `self` - the first CalculatorComplexWrapper object in the operation
+    /// * `other` - the second CalculatorComplexWrapper object in the operation
+    ///
+    /// # Returns
+    ///
+    /// `PyResult<CalculatorComplexWrapper>` - lhs + rhs
+    ///
+    fn __radd__(&self, other: &PyAny) -> PyResult<CalculatorComplexWrapper> {
+        let self_cc = self.cc_internal.clone();
+        let other_cc = convert_into_calculator_complex(other).map_err(|_| {
+            PyTypeError::new_err("Right hand side can not be converted to Calculator Complex")
+        })?;
+        Ok(CalculatorComplexWrapper {
+            cc_internal: (other_cc + self_cc),
         })
     }
 
@@ -362,11 +360,8 @@ impl PyNumberProtocol for CalculatorComplexWrapper {
     /// * `self` - the CalculatorComplexWrapper object
     /// * `other` - the CalculatorComplexWrapper object to be added to self
     ///
-    fn __iadd__(&mut self, other: Py<PyAny>) -> PyResult<()> {
-        let gil = pyo3::Python::acquire_gil();
-        let py = gil.python();
-        let other_ref = other.as_ref(py);
-        let other_cc = convert_into_calculator_complex(other_ref).map_err(|_| {
+    fn __iadd__(&mut self, other: &PyAny) -> PyResult<()> {
+        let other_cc = convert_into_calculator_complex(other).map_err(|_| {
             PyTypeError::new_err("Right hand side can not be converted to Calculator Complex")
         })?;
         self.cc_internal += other_cc;
@@ -384,19 +379,34 @@ impl PyNumberProtocol for CalculatorComplexWrapper {
     ///
     /// `PyResult<CalculatorComplexWrapper>` - lhs - rhs
     ///
-    fn __sub__(lhs: Py<PyAny>, rhs: Py<PyAny>) -> PyResult<CalculatorComplexWrapper> {
-        let gil = pyo3::Python::acquire_gil();
-        let py = gil.python();
-        let lhs_ref = lhs.as_ref(py);
-        let rhs_ref = rhs.as_ref(py);
-        let self_cc = convert_into_calculator_complex(lhs_ref).map_err(|_| {
-            PyTypeError::new_err("Left hand side can not be converted to Calculator Complex")
-        })?;
-        let other_cc = convert_into_calculator_complex(rhs_ref).map_err(|_| {
+    fn __sub__(&self, rhs: &PyAny) -> PyResult<CalculatorComplexWrapper> {
+        let self_cc = self.cc_internal.clone();
+        let other_cc = convert_into_calculator_complex(rhs).map_err(|_| {
             PyTypeError::new_err("Right hand side can not be converted to Calculator Complex")
         })?;
         Ok(CalculatorComplexWrapper {
             cc_internal: (self_cc - other_cc),
+        })
+    }
+
+    /// Implement the `-` (__rsub__) magic method to subtract two CalculatorComplexes.
+    ///
+    /// # Arguments
+    ///
+    /// * `self` - the first CalculatorComplexWrapper object in the operation
+    /// * `other` - the second CalculatorComplexWrapper object in the operation
+    ///
+    /// # Returns
+    ///
+    /// `PyResult<CalculatorComplexWrapper>` - lhs - rhs
+    ///
+    fn __rsub__(&self, other: &PyAny) -> PyResult<CalculatorComplexWrapper> {
+        let self_cc = self.cc_internal.clone();
+        let other_cc = convert_into_calculator_complex(other).map_err(|_| {
+            PyTypeError::new_err("Right hand side can not be converted to Calculator Complex")
+        })?;
+        Ok(CalculatorComplexWrapper {
+            cc_internal: (other_cc - self_cc),
         })
     }
 
@@ -408,11 +418,8 @@ impl PyNumberProtocol for CalculatorComplexWrapper {
     /// * `self` - the CalculatorComplexWrapper object
     /// * `other` - the CalculatorComplexWrapper object to be subtracted from self
     ///
-    fn __isub__(&mut self, other: Py<PyAny>) -> PyResult<()> {
-        let gil = pyo3::Python::acquire_gil();
-        let py = gil.python();
-        let other_ref = other.as_ref(py);
-        let other_cc = convert_into_calculator_complex(other_ref).map_err(|_| {
+    fn __isub__(&mut self, other: &PyAny) -> PyResult<()> {
+        let other_cc = convert_into_calculator_complex(other).map_err(|_| {
             PyTypeError::new_err("Right hand side can not be converted to Calculator Complex")
         })?;
         self.cc_internal -= other_cc;
@@ -430,19 +437,34 @@ impl PyNumberProtocol for CalculatorComplexWrapper {
     ///
     /// `PyResult<CalculatorComplexWrapper>` - lhs * rhs
     ///
-    fn __mul__(lhs: Py<PyAny>, rhs: Py<PyAny>) -> PyResult<CalculatorComplexWrapper> {
-        let gil = pyo3::Python::acquire_gil();
-        let py = gil.python();
-        let lhs_ref = lhs.as_ref(py);
-        let rhs_ref = rhs.as_ref(py);
-        let self_cc = convert_into_calculator_complex(lhs_ref).map_err(|_| {
-            PyTypeError::new_err("Left hand side can not be converted to Calculator Complex")
-        })?;
-        let other_cc = convert_into_calculator_complex(rhs_ref).map_err(|_| {
+    fn __mul__(&self, rhs: &PyAny) -> PyResult<CalculatorComplexWrapper> {
+        let self_cc = self.cc_internal.clone();
+        let other_cc = convert_into_calculator_complex(rhs).map_err(|_| {
             PyTypeError::new_err("Right hand side can not be converted to Calculator Complex")
         })?;
         Ok(CalculatorComplexWrapper {
             cc_internal: (self_cc * other_cc),
+        })
+    }
+
+    /// Implement the `*` (__rmul__) magic method to multiply two CalculatorComplexes.
+    ///
+    /// # Arguments
+    ///
+    /// * `self` - the first CalculatorComplexWrapper object in the operation
+    /// * `other` - the second CalculatorComplexWrapper object in the operation
+    ///
+    /// # Returns
+    ///
+    /// `PyResult<CalculatorComplexWrapper>` - lhs * rhs
+    ///
+    fn __rmul__(&self, other: &PyAny) -> PyResult<CalculatorComplexWrapper> {
+        let self_cc = self.cc_internal.clone();
+        let other_cc = convert_into_calculator_complex(other).map_err(|_| {
+            PyTypeError::new_err("Right hand side can not be converted to Calculator Complex")
+        })?;
+        Ok(CalculatorComplexWrapper {
+            cc_internal: (other_cc * self_cc),
         })
     }
 
@@ -454,11 +476,8 @@ impl PyNumberProtocol for CalculatorComplexWrapper {
     /// * `self` - the CalculatorComplexWrapper object
     /// * `other` - the CalculatorComplexWrapper object to multiply self by
     ///
-    fn __imul__(&mut self, other: Py<PyAny>) -> PyResult<()> {
-        let gil = pyo3::Python::acquire_gil();
-        let py = gil.python();
-        let other_ref = other.as_ref(py);
-        let other_cc = convert_into_calculator_complex(other_ref).map_err(|_| {
+    fn __imul__(&mut self, other: &PyAny) -> PyResult<()> {
+        let other_cc = convert_into_calculator_complex(other).map_err(|_| {
             PyTypeError::new_err("Right hand side can not be converted to Calculator Complex")
         })?;
         self.cc_internal *= other_cc;
@@ -476,18 +495,37 @@ impl PyNumberProtocol for CalculatorComplexWrapper {
     ///
     /// `PyResult<CalculatorComplexWrapper>` - lhs / rhs
     ///
-    fn __truediv__(lhs: Py<PyAny>, rhs: Py<PyAny>) -> PyResult<CalculatorComplexWrapper> {
-        let gil = pyo3::Python::acquire_gil();
-        let py = gil.python();
-        let lhs_ref = lhs.as_ref(py);
-        let rhs_ref = rhs.as_ref(py);
-        let self_cc = convert_into_calculator_complex(lhs_ref).map_err(|_| {
-            PyTypeError::new_err("Left hand side can not be converted to Calculator Complex")
-        })?;
-        let other_cc = convert_into_calculator_complex(rhs_ref).map_err(|_| {
+    fn __truediv__(&self, rhs: &PyAny) -> PyResult<CalculatorComplexWrapper> {
+        let self_cc = self.cc_internal.clone();
+
+        let other_cc = convert_into_calculator_complex(rhs).map_err(|_| {
             PyTypeError::new_err("Right hand side can not be converted to Calculator Complex")
         })?;
         let res = catch_unwind(|| self_cc / other_cc);
+        match res {
+            Ok(x) => Ok(CalculatorComplexWrapper { cc_internal: x }),
+            Err(_) => Err(PyZeroDivisionError::new_err("Division by zero!")),
+        }
+    }
+
+    /// Implement the `/` (__rtruediv__) magic method to divide two CalculatorComplexes.
+    ///
+    /// # Arguments
+    ///
+    /// * `self` - the first CalculatorComplexWrapper object in the operation
+    /// * `other` - the second CalculatorComplexWrapper object in the operation
+    ///
+    /// # Returns
+    ///
+    /// `PyResult<CalculatorComplexWrapper>` - lhs / rhs
+    ///
+    fn __rtruediv__(&self, other: &PyAny) -> PyResult<CalculatorComplexWrapper> {
+        let self_cc = self.cc_internal.clone();
+
+        let other_cc = convert_into_calculator_complex(other).map_err(|_| {
+            PyTypeError::new_err("Right hand side can not be converted to Calculator Complex")
+        })?;
+        let res = catch_unwind(|| other_cc / self_cc);
         match res {
             Ok(x) => Ok(CalculatorComplexWrapper { cc_internal: x }),
             Err(_) => Err(PyZeroDivisionError::new_err("Division by zero!")),
@@ -502,11 +540,8 @@ impl PyNumberProtocol for CalculatorComplexWrapper {
     /// * `self` - the CalculatorComplexWrapper object
     /// * `other` - the CalculatorComplexWrapper object to divide self by
     ///
-    fn __itruediv__(&mut self, other: Py<PyAny>) -> PyResult<()> {
-        let gil = pyo3::Python::acquire_gil();
-        let py = gil.python();
-        let other_ref = other.as_ref(py);
-        let other_cc = convert_into_calculator_complex(other_ref).map_err(|_| {
+    fn __itruediv__(&mut self, other: &PyAny) -> PyResult<()> {
+        let other_cc = convert_into_calculator_complex(other).map_err(|_| {
             PyTypeError::new_err("Right hand side can not be converted to Calculator Complex")
         })?;
         if let CalculatorFloat::Float(x) = other_cc.norm() {
