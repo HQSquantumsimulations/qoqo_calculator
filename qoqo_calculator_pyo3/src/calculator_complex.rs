@@ -257,8 +257,7 @@ impl CalculatorComplexWrapper {
     /// into a Python error
     ///
     fn __float__(&self) -> PyResult<f64> {
-        let fl: Result<f64, CalculatorError> =
-            CalculatorComplex::try_into(self.internal.clone());
+        let fl: Result<f64, CalculatorError> = CalculatorComplex::try_into(self.internal.clone());
         match fl {
             Ok(x) => Ok(x),
             Err(x) => Err(PyValueError::new_err(format!("{:?}", x))),
@@ -580,10 +579,7 @@ impl CalculatorComplexWrapper {
         Python::with_gil(|py| -> PyResult<CalculatorComplex> {
             let input = input.as_ref(py);
             convert_into_calculator_complex(input).map_err(|err| {
-                PyValueError::new_err(format!(
-                    "Error in convert_to_calculator_complex: {:?}",
-                    err
-                ))
+                PyValueError::new_err(format!("Error in convert_to_calculator_complex: {:?}", err))
             })
         })
     }

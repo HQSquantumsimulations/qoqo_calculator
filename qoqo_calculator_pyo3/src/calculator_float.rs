@@ -593,10 +593,7 @@ impl CalculatorFloatWrapper {
         Python::with_gil(|py| -> PyResult<CalculatorFloat> {
             let input = input.as_ref(py);
             convert_into_calculator_float(input).map_err(|err| {
-                PyValueError::new_err(format!(
-                    "Error in convert_to_calculator_float: {:?}",
-                    err
-                ))
+                PyValueError::new_err(format!("Error in convert_to_calculator_float: {:?}", err))
             })
         })
     }
