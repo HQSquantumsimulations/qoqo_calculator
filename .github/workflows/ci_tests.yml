@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - uses: actions/setup-python@v2
+    - uses: actions/setup-python@v4
       with:
         python-version: 3.9
     - uses: actions-rs/toolchain@v1
@@ -19,6 +19,7 @@ jobs:
         profile: minimal
         toolchain: stable
         default: true
+    - uses: Swatinem/rust-cache@v1.4.0
     - name: Install dependencies
       run: |
         pip install maturin pytest numpy
@@ -35,6 +36,7 @@ jobs:
           profile: minimal
           toolchain: stable
           components: clippy
+      - uses: Swatinem/rust-cache@v1.4.0
       - run: |
           sudo apt install -y clang-12
           cargo clippy -- -D warnings
@@ -63,7 +65,8 @@ jobs:
           target: ${{ matrix.combinations.rust }}
           default: true
           components: rustfmt
-      - uses: actions/setup-python@v2
+      - uses: Swatinem/rust-cache@v1.4.0
+      - uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python.py }}
       - run: |
@@ -94,7 +97,8 @@ jobs:
           target: ${{ matrix.combinations.rust }}
           default: true
           components: rustfmt
-      - uses: actions/setup-python@v2
+      - uses: Swatinem/rust-cache@v1.4.0
+      - uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python.py }}
       - run: |
@@ -125,7 +129,8 @@ jobs:
           toolchain: stable
           target: ${{ matrix.combinations.rust }}
           default: true
-      - uses: actions/setup-python@v2
+      - uses: Swatinem/rust-cache@v1.4.0
+      - uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python.py }}
       - name: linux wheels
@@ -158,7 +163,8 @@ jobs:
           toolchain: stable
           target: ${{ matrix.combinations.rust }}
           default: true
-      - uses: actions/setup-python@v2
+      - uses: Swatinem/rust-cache@v1.4.0
+      - uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python.py }}
       - name: linux wheels
@@ -193,7 +199,8 @@ jobs:
           toolchain: stable
           target: ${{ matrix.combinations.rust }}
           default: true
-      - uses: actions/setup-python@v2
+      - uses: Swatinem/rust-cache@v1.4.0
+      - uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python.py }}
       - name: windows wheels
@@ -225,7 +232,8 @@ jobs:
           toolchain: stable
           target: "aarch64-apple-darwin"
           default: true
-      - uses: actions/setup-python@v2
+      - uses: Swatinem/rust-cache@v1.4.0
+      - uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python.py }}
       - name: Install dependencies
@@ -262,7 +270,8 @@ jobs:
           toolchain: stable
           target: "aarch64-apple-darwin"
           default: true
-      - uses: actions/setup-python@v2
+      - uses: Swatinem/rust-cache@v1.4.0
+      - uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python.py }}
       - name: Install dependencies
@@ -286,6 +295,7 @@ jobs:
           toolchain: stable
           target: x86_64-unknown-linux-gnu
           default: true
+      - uses: Swatinem/rust-cache@v1.4.0
       - run: |
           cargo test --doc --package=qoqo_calculator
 
@@ -298,6 +308,7 @@ jobs:
             toolchain: nightly
             components: clippy
             override: true
+      - uses: Swatinem/rust-cache@v1.4.0
       - run: |
           rustup component add llvm-tools-preview
           export RUSTFLAGS="-Zinstrument-coverage"

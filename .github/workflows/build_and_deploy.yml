@@ -17,6 +17,7 @@ jobs:
         profile: minimal
         toolchain: stable
         default: true
+    - uses: Swatinem/rust-cache@v1.4.0
     - name: setup cargo
       run: |
         cargo login ${{ secrets.CRATES_IO_API_TOKEN }}
@@ -48,7 +49,8 @@ jobs:
           toolchain: stable
           target: ${{ matrix.combinations.rust }}
           default: true
-      - uses: actions/setup-python@v2
+      - uses: Swatinem/rust-cache@v1.4.0
+      - uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python.py }}
       - name: linux wheels
@@ -87,7 +89,8 @@ jobs:
           toolchain: stable
           target: ${{ matrix.combinations.rust }}
           default: true
-      - uses: actions/setup-python@v2
+      - uses: Swatinem/rust-cache@v1.4.0
+      - uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python.py }}
       - name: linux wheels
@@ -129,7 +132,8 @@ jobs:
           toolchain: stable
           target: ${{ matrix.combinations.rust }}
           default: true
-      - uses: actions/setup-python@v2
+      - uses: Swatinem/rust-cache@v1.4.0
+      - uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python.py }}
       - name: windows wheels
@@ -167,7 +171,8 @@ jobs:
           toolchain: stable
           target: "aarch64-apple-darwin"
           default: true
-      - uses: actions/setup-python@v2
+      - uses: Swatinem/rust-cache@v1.4.0
+      - uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python.py }}
       - name: Install dependencies
@@ -194,7 +199,7 @@ jobs:
       needs: [deploy_cratesio, build_maturin_builds_macos, build_maturin_src_builds_linux, build_maturin_builds_linux]
       runs-on: ubuntu-latest
       steps:
-      - uses: actions/setup-python@v2
+      - uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python.py }}
       - uses: actions/download-artifact@v2
