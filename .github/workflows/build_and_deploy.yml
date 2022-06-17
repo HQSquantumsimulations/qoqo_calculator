@@ -207,7 +207,7 @@ jobs:
         with:
           python-version: ${{ matrix.python.py }}
           cache: 'pip'
-      - uses: actions/download-artifact@v2
+      - uses: actions/download-artifact@v3
         with:
           name: py_wheels
       - name: Publish
