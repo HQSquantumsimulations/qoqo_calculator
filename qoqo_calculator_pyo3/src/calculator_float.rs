@@ -65,7 +65,7 @@ pub fn convert_into_calculator_float(input: &PyAny) -> Result<CalculatorFloat, C
 #[pyclass(name = "CalculatorFloat", module = "qoqo_calculator_pyo3")]
 #[derive(Clone, Debug)]
 pub struct CalculatorFloatWrapper {
-    pub cf_internal: CalculatorFloat,
+    pub internal: CalculatorFloat,
 }
 /// Python wrapper for rust CalculatorFloat from qoqo_calculator.
 #[pymethods]
@@ -85,13 +85,13 @@ impl CalculatorFloatWrapper {
         let converted = convert_into_calculator_float(input)
             .map_err(|_| PyTypeError::new_err("Input can not be converted to Calculator Float"))?;
         Ok(CalculatorFloatWrapper {
-            cf_internal: converted,
+            internal: converted,
         })
     }
 
     /// Return the __format__ magic method to represent objects in Python of CalculatorFloat.
     fn __format__(&self, _format_spec: &str) -> PyResult<String> {
-        Ok(format!("{}", self.cf_internal))
+        Ok(format!("{}", self.internal))
     }
 
     /// Create Python copy of CalculatorFloatWrapper.
@@ -122,7 +122,7 @@ impl CalculatorFloatWrapper {
     ///
     fn __getnewargs_ex__(&self) -> ((PyObject,), HashMap<String, String>) {
         Python::with_gil(|py| {
-            let object = match self.cf_internal {
+            let object = match self.internal {
                 CalculatorFloat::Float(ref x) => x.to_object(py),
                 CalculatorFloat::Str(ref x) => x.to_object(py),
             };
@@ -134,14 +134,14 @@ impl CalculatorFloatWrapper {
     /// CalculatorFloat does not contain symbolic expression.
     #[getter]
     fn is_float(&self) -> bool {
-        self.cf_internal.is_float()
+        self.internal.is_float()
     }
 
     /// Python getter function which returns True when
     /// CalculatorFloat does not contain symbolic expression.
     fn float(&self) -> PyResult<f64> {
         Ok(*self
-            .cf_internal
+            .internal
             .float()
             .map_err(|_| PyTypeError::new_err("Symbolic value cannot be cast to float"))?)
     }
@@ -149,7 +149,7 @@ impl CalculatorFloatWrapper {
     /// Returns square root of CalculatorFloat.
     fn sqrt(&self) -> CalculatorFloatWrapper {
         CalculatorFloatWrapper {
-            cf_internal: self.cf_internal.sqrt(),
+            internal: self.internal.sqrt(),
         }
     }
 
@@ -164,7 +164,7 @@ impl CalculatorFloatWrapper {
             PyTypeError::new_err("Right hand side can not be converted to Calculator Float")
         })?;
         Ok(CalculatorFloatWrapper {
-            cf_internal: self.cf_internal.atan2(other_cf),
+            internal: self.internal.atan2(other_cf),
         })
     }
 
@@ -173,62 +173,62 @@ impl CalculatorFloatWrapper {
         let other_cf = convert_into_calculator_float(other).map_err(|_| {
             PyTypeError::new_err("Right hand side can not be converted to Calculator Float")
         })?;
-        Ok(self.cf_internal.isclose(other_cf))
+        Ok(self.internal.isclose(other_cf))
     }
 
     /// Return exponential function exp(x) for CalculatorFloat.
     fn exp(&self) -> CalculatorFloatWrapper {
         CalculatorFloatWrapper {
-            cf_internal: self.cf_internal.exp(),
+            internal: self.internal.exp(),
         }
     }
 
     /// Return sine function sin(x) for CalculatorFloat.
     fn sin(&self) -> CalculatorFloatWrapper {
         CalculatorFloatWrapper {
-            cf_internal: self.cf_internal.sin(),
+            internal: self.internal.sin(),
         }
     }
 
     /// Return cosine function cos(x) for CalculatorFloat.
     fn cos(&self) -> CalculatorFloatWrapper {
         CalculatorFloatWrapper {
-            cf_internal: self.cf_internal.cos(),
+            internal: self.internal.cos(),
         }
     }
 
     /// Return arccosine function acos(x) for CalculatorFloat.
     fn acos(&self) -> CalculatorFloatWrapper {
         CalculatorFloatWrapper {
-            cf_internal: self.cf_internal.acos(),
+            internal: self.internal.acos(),
         }
     }
 
     /// Return absolute value abs(x) for CalculatorFloat.
     fn abs(&self) -> CalculatorFloatWrapper {
         CalculatorFloatWrapper {
-            cf_internal: self.cf_internal.abs(),
+            internal: self.internal.abs(),
         }
     }
 
     /// Return signum value sign(x) for CalculatorFloat.
     fn signum(&self) -> CalculatorFloatWrapper {
         CalculatorFloatWrapper {
-            cf_internal: self.cf_internal.signum(),
+            internal: self.internal.signum(),
         }
     }
 
     /// Returns signum value sign(x) for CalculatorFloat.
     fn sign(&self) -> CalculatorFloatWrapper {
         CalculatorFloatWrapper {
-            cf_internal: self.cf_internal.signum(),
+            internal: self.internal.signum(),
         }
     }
 
     /// Python getter function which returns the value stored in CalculatorFloat.
     #[getter]
     fn value(&self) -> PyObject {
-        Python::with_gil(|py| match self.cf_internal {
+        Python::with_gil(|py| match self.internal {
             CalculatorFloat::Float(ref x) => x.to_object(py),
             CalculatorFloat::Str(ref x) => x.to_object(py),
         })
@@ -245,7 +245,7 @@ impl CalculatorFloatWrapper {
     /// into a Python error
     ///
     fn __complex__(&self) -> PyResult<Complex<f64>> {
-        match self.cf_internal {
+        match self.internal {
             CalculatorFloat::Float(x) => Ok(Complex::new(x, 0.0)),
             CalculatorFloat::Str(_) => Err(PyValueError::new_err(
                 "Symbolic Value can not be cast to complex.",
@@ -271,8 +271,8 @@ impl CalculatorFloatWrapper {
             PyTypeError::new_err("Right hand side can not be converted to Calculator Float")
         })?;
         match op {
-            CompareOp::Eq => Ok(self.cf_internal == other_cf),
-            CompareOp::Ne => Ok(self.cf_internal != other_cf),
+            CompareOp::Eq => Ok(self.internal == other_cf),
+            CompareOp::Ne => Ok(self.internal != other_cf),
             _ => Err(PyNotImplementedError::new_err(
                 "Other comparison not implemented.",
             )),
@@ -281,7 +281,7 @@ impl CalculatorFloatWrapper {
 
     /// Return the __repr__ magic method to represent objects in Python of CalculatorFloat.
     fn __repr__(&self) -> PyResult<String> {
-        Ok(format!("{}", self.cf_internal))
+        Ok(format!("{}", self.internal))
     }
 
     /// Implement the `+` (__add__) magic method to add two CalculatorFloats.
@@ -296,12 +296,12 @@ impl CalculatorFloatWrapper {
     /// `PyResult<CalculatorFloatWrapper>` - lhs + rhs
     ///
     fn __add__(&self, rhs: &PyAny) -> PyResult<CalculatorFloatWrapper> {
-        let self_cf = self.cf_internal.clone();
+        let self_cf = self.internal.clone();
         let other_cf = convert_into_calculator_float(rhs).map_err(|_| {
             PyTypeError::new_err("Right hand side can not be converted to Calculator Float")
         })?;
         Ok(CalculatorFloatWrapper {
-            cf_internal: (self_cf + other_cf),
+            internal: (self_cf + other_cf),
         })
     }
 
@@ -317,12 +317,12 @@ impl CalculatorFloatWrapper {
     /// `PyResult<CalculatorFloatWrapper>` - lhs + rhs
     ///
     fn __radd__(&self, other: &PyAny) -> PyResult<CalculatorFloatWrapper> {
-        let self_cf = self.cf_internal.clone();
+        let self_cf = self.internal.clone();
         let other_cf = convert_into_calculator_float(other).map_err(|_| {
             PyTypeError::new_err("Right hand side can not be converted to Calculator Float")
         })?;
         Ok(CalculatorFloatWrapper {
-            cf_internal: (other_cf + self_cf),
+            internal: (other_cf + self_cf),
         })
     }
 
@@ -338,7 +338,7 @@ impl CalculatorFloatWrapper {
         let other_cf = convert_into_calculator_float(other).map_err(|_| {
             PyTypeError::new_err("Right hand side can not be converted to Calculator Float")
         })?;
-        self.cf_internal += other_cf;
+        self.internal += other_cf;
         Ok(())
     }
 
@@ -354,12 +354,12 @@ impl CalculatorFloatWrapper {
     /// `PyResult<CalculatorFloatWrapper>` - lhs - rhs
     ///
     fn __sub__(&self, rhs: &PyAny) -> PyResult<CalculatorFloatWrapper> {
-        let self_cf = self.cf_internal.clone();
+        let self_cf = self.internal.clone();
         let other_cf = convert_into_calculator_float(rhs).map_err(|_| {
             PyTypeError::new_err("Right hand side can not be converted to Calculator Float")
         })?;
         Ok(CalculatorFloatWrapper {
-            cf_internal: (self_cf - other_cf),
+            internal: (self_cf - other_cf),
         })
     }
 
@@ -375,12 +375,12 @@ impl CalculatorFloatWrapper {
     /// `PyResult<CalculatorFloatWrapper>` - lhs - rhs
     ///
     fn __rsub__(&self, other: &PyAny) -> PyResult<CalculatorFloatWrapper> {
-        let self_cf = self.cf_internal.clone();
+        let self_cf = self.internal.clone();
         let other_cf = convert_into_calculator_float(other).map_err(|_| {
             PyTypeError::new_err("Right hand side can not be converted to Calculator Float")
         })?;
         Ok(CalculatorFloatWrapper {
-            cf_internal: (other_cf - self_cf),
+            internal: (other_cf - self_cf),
         })
     }
 
@@ -396,7 +396,7 @@ impl CalculatorFloatWrapper {
         let other_cf = convert_into_calculator_float(other).map_err(|_| {
             PyTypeError::new_err("Right hand side can not be converted to Calculator Float")
         })?;
-        self.cf_internal -= other_cf;
+        self.internal -= other_cf;
         Ok(())
     }
 
@@ -412,12 +412,12 @@ impl CalculatorFloatWrapper {
     /// `PyResult<CalculatorFloatWrapper>` - lhs * rhs
     ///
     fn __mul__(&self, rhs: &PyAny) -> PyResult<CalculatorFloatWrapper> {
-        let self_cf = self.cf_internal.clone();
+        let self_cf = self.internal.clone();
         let other_cf = convert_into_calculator_float(rhs).map_err(|_| {
             PyTypeError::new_err("Right hand side can not be converted to Calculator Float")
         })?;
         Ok(CalculatorFloatWrapper {
-            cf_internal: (self_cf * other_cf),
+            internal: (self_cf * other_cf),
         })
     }
 
@@ -433,12 +433,12 @@ impl CalculatorFloatWrapper {
     /// `PyResult<CalculatorFloatWrapper>` - lhs * rhs
     ///
     fn __rmul__(&self, other: &PyAny) -> PyResult<CalculatorFloatWrapper> {
-        let self_cf = self.cf_internal.clone();
+        let self_cf = self.internal.clone();
         let other_cf = convert_into_calculator_float(other).map_err(|_| {
             PyTypeError::new_err("Right hand side can not be converted to Calculator Float")
         })?;
         Ok(CalculatorFloatWrapper {
-            cf_internal: (other_cf * self_cf),
+            internal: (other_cf * self_cf),
         })
     }
 
@@ -454,7 +454,7 @@ impl CalculatorFloatWrapper {
         let other_cf = convert_into_calculator_float(other).map_err(|_| {
             PyTypeError::new_err("Right hand side can not be converted to Calculator Float")
         })?;
-        self.cf_internal *= other_cf;
+        self.internal *= other_cf;
         Ok(())
     }
 
@@ -472,12 +472,12 @@ impl CalculatorFloatWrapper {
         if let Some(_x) = modulo {
             return Err(PyNotImplementedError::new_err("Modulo is not implemented"));
         }
-        let self_cf = self.cf_internal.clone();
+        let self_cf = self.internal.clone();
         let other_cf = convert_into_calculator_float(rhs).map_err(|_| {
             PyTypeError::new_err("Right hand side can not be converted to Calculator Float")
         })?;
         Ok(CalculatorFloatWrapper {
-            cf_internal: (self_cf.powf(other_cf)),
+            internal: (self_cf.powf(other_cf)),
         })
     }
 
@@ -493,13 +493,13 @@ impl CalculatorFloatWrapper {
     /// `PyResult<CalculatorFloatWrapper>` - lhs / rhs
     ///
     fn __truediv__(&self, rhs: &PyAny) -> PyResult<CalculatorFloatWrapper> {
-        let self_cf = self.cf_internal.clone();
+        let self_cf = self.internal.clone();
         let other_cf = convert_into_calculator_float(rhs).map_err(|_| {
             PyTypeError::new_err("Right hand side can not be converted to Calculator Float")
         })?;
         let res = catch_unwind(|| self_cf / other_cf);
         match res {
-            Ok(x) => Ok(CalculatorFloatWrapper { cf_internal: x }),
+            Ok(x) => Ok(CalculatorFloatWrapper { internal: x }),
             Err(_) => Err(PyZeroDivisionError::new_err("Division by zero!")),
         }
     }
@@ -516,13 +516,13 @@ impl CalculatorFloatWrapper {
     /// `PyResult<CalculatorFloatWrapper>` - lhs / rhs
     ///
     fn __rtruediv__(&self, other: &PyAny) -> PyResult<CalculatorFloatWrapper> {
-        let self_cf = self.cf_internal.clone();
+        let self_cf = self.internal.clone();
         let other_cf = convert_into_calculator_float(other).map_err(|_| {
             PyTypeError::new_err("Right hand side can not be converted to Calculator Float")
         })?;
         let res = catch_unwind(|| other_cf / self_cf);
         match res {
-            Ok(x) => Ok(CalculatorFloatWrapper { cf_internal: x }),
+            Ok(x) => Ok(CalculatorFloatWrapper { internal: x }),
             Err(_) => Err(PyZeroDivisionError::new_err("Division by zero!")),
         }
     }
@@ -544,27 +544,27 @@ impl CalculatorFloatWrapper {
                 return Err(PyZeroDivisionError::new_err("Division by zero!"));
             }
         }
-        self.cf_internal /= other_cf;
+        self.internal /= other_cf;
         Ok(())
     }
 
     /// Implement Python minus sign for CalculatorFloat.
     fn __neg__(&self) -> PyResult<CalculatorFloatWrapper> {
         Ok(CalculatorFloatWrapper {
-            cf_internal: -self.cf_internal.clone(),
+            internal: -self.internal.clone(),
         })
     }
 
     /// Return Python absolute value abs(x) for CalculatorFloat.
     fn __abs__(&self) -> PyResult<CalculatorFloatWrapper> {
         Ok(CalculatorFloatWrapper {
-            cf_internal: self.cf_internal.abs(),
+            internal: self.internal.abs(),
         })
     }
     /// Implement Python Inverse `1/x` for CalculatorFloat.
     fn __invert__(&self) -> PyResult<CalculatorFloatWrapper> {
         Ok(CalculatorFloatWrapper {
-            cf_internal: self.cf_internal.recip(),
+            internal: self.internal.recip(),
         })
     }
 
@@ -579,11 +579,22 @@ impl CalculatorFloatWrapper {
     /// into a Python error
     ///
     fn __float__(&self) -> PyResult<f64> {
-        match self.cf_internal {
+        match self.internal {
             CalculatorFloat::Float(x) => Ok(x),
             CalculatorFloat::Str(_) => Err(PyValueError::new_err(
                 "Symbolic Value can not be cast to float.",
             )),
         }
+    }
+}
+
+impl CalculatorFloatWrapper {
+    pub fn from_pyany(input: Py<PyAny>) -> PyResult<CalculatorFloat> {
+        Python::with_gil(|py| -> PyResult<CalculatorFloat> {
+            let input = input.as_ref(py);
+            convert_into_calculator_float(input).map_err(|err| {
+                PyValueError::new_err(format!("Error in convert_to_calculator_float: {:?}", err))
+            })
+        })
     }
 }
