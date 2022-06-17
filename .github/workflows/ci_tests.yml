@@ -208,7 +208,7 @@ jobs:
       - uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python.py }}
-          cache: 'pip'
+          # cache: 'pip'
       - name: windows wheels
         uses: messense/maturin-action@v1
         with:
