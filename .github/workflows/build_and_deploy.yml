@@ -202,11 +202,10 @@ jobs:
       needs: [deploy_cratesio, build_maturin_builds_macos, build_maturin_src_builds_linux, build_maturin_builds_linux]
       runs-on: ubuntu-latest
       steps:
-      - uses: actions/setup-python@v4
+      - uses: actions/setup-python@v2
         with:
           python-version: ${{ matrix.python.py }}
-          # cache: 'pip'
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v2
         with:
           name: py_wheels
       - name: Publish
