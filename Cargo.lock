@@ -173,7 +173,7 @@ dependencies = [
 
 [[package]]
 name = "qoqo_calculator"
-version = "0.8.1"
+version = "0.8.2"
 dependencies = [
  "num-complex",
  "schemars",
@@ -185,7 +185,7 @@ dependencies = [
 
 [[package]]
 name = "qoqo_calculator_pyo3"
-version = "0.8.1"
+version = "0.8.2"
 dependencies = [
  "num-complex",
  "pyo3",
