@@ -1662,7 +1662,7 @@ limitations under the License.
 
 
 ====================================================
-num-complex 0.4.1
+num-complex 0.4.2
 https://github.com/rust-num/num-complex
 by The Rust Project Developers
 Complex numbers implementation for Rust
@@ -2865,7 +2865,7 @@ limitations under the License.
 
 
 ====================================================
-proc-macro2 1.0.39
+proc-macro2 1.0.40
 https://github.com/dtolnay/proc-macro2
 by David Tolnay <dtolnay@gmail.com>, Alex Crichton <alex@alexcrichton.com>
 A substitute implementation of the compiler's `proc_macro` API to decouple
@@ -4536,7 +4536,7 @@ LICENSE:
 
 
 ====================================================
-qoqo_calculator 0.7.0
+qoqo_calculator 0.8.3
 https://github.com/HQSquantumsimulations/qoqo_calculator
 by HQS Quantum Simulations <info@quantumsimulations.de>
 qoqo-calculator is the calculator backend of the qoqo quantum computing toolkit by HQS Quantum Simulations
@@ -4748,7 +4748,7 @@ LICENSE:
 
 
 ====================================================
-qoqo_calculator_pyo3 0.7.0
+qoqo_calculator_pyo3 0.8.3
 https://github.com/HQSquantumsimulations/qoqo_calculator_pyo3
 by HQS Quantum Simulations <info@quantumsimulations.de>
 Python interface to qoqo calculator, the calculator backend of the qoqo quantum computing toolkit by HQS Quantum Simulations
@@ -4960,7 +4960,7 @@ LICENSE:
 
 
 ====================================================
-quote 1.0.18
+quote 1.0.20
 https://github.com/dtolnay/quote
 by David Tolnay <dtolnay@gmail.com>
 Quasi-quoting macro quote!(...)
@@ -6916,7 +6916,7 @@ limitations under the License.
 
 
 ====================================================
-syn 1.0.96
+syn 1.0.98
 https://github.com/dtolnay/syn
 by David Tolnay <dtolnay@gmail.com>
 Parser for Rust source code
