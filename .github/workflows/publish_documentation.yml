@@ -54,7 +54,7 @@ jobs:
           cd qoqo_calculator
           cargo llvm-cov --no-default-features --lcov --output-path lcov.info --fail-under-lines=89
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v2
+        uses: codecov/codecov-action@v3
         with:
           # token: ${{ secrets.CODECOV_TOKEN }}
           files: lcov.info
