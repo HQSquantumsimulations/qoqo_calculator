@@ -1,8 +1,8 @@
 name: documentation
 
 on:
-  push:
-    branches: [main]
+  release:
+    types: [created]
 
 jobs:
 
@@ -37,3 +37,29 @@ jobs:
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./qoqo_calculator_pyo3/docs/_build/html/
+
+  code_coverage_rust:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - uses: actions-rs/toolchain@v1
+        with:
+            profile: minimal
+            toolchain: stable
+            components: llvm-tools-preview
+            override: true
+      - uses: Swatinem/rust-cache@v2.0.0
+      - uses: taiki-e/install-action@cargo-llvm-cov
+      - run: |
+          cd qoqo_calculator
+          cargo llvm-cov --no-default-features --lcov --output-path lcov.info --fail-under-lines=89
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v2
+        with:
+          # token: ${{ secrets.CODECOV_TOKEN }}
+          files: lcov.info
+          flags: unittests
+          name: codecov-umbrella
+          fail_ci_if_error: true
+          verbose: true
+    

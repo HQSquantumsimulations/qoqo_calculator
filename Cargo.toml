@@ -4,3 +4,8 @@ members = [
     "qoqo_calculator_pyo3",
 ]
 
+[profile.release]
+lto = true
+
+[profile.bench]
+lto = true
