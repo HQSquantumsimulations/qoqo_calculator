@@ -24,7 +24,6 @@ qoqo-calculator provides
 * CalculatorFloat: a struct that can represent a float value or a string based symbolic expression
 * CalculatorComplex: a struct that represents complex numbers where real and imaginary parts can be CalculatorFloat
 
-This software is still in the beta stage. Functions and documentation are not yet complete and breaking changes can occur.
 
 ## qoqo_calculator_pyo3
 
@@ -44,7 +43,6 @@ qoqo-calculator-pyo3 provides
 * A CalculatorFloat python class that can represent a float value or a string based symbolic expression
 * A CalculatorComplex python class that represents complex numbers where real and imaginary parts can be CalculatorFloat
 
-This software is still in the beta stage. Functions and documentation are not yet complete and breaking changes can occur.
 
 ### Installation
 

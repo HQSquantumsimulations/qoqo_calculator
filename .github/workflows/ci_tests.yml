@@ -307,31 +307,33 @@ jobs:
       - run: |
           cargo test --doc --package=qoqo_calculator
 
-  code_coverage_rust:
+  code_coverage_roqoqo:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@master
       - uses: actions-rs/toolchain@v1
         with:
-            toolchain: nightly
-            components: clippy
+            profile: minimal
+            toolchain: stable
+            components: llvm-tools-preview
             override: true
-      - uses: Swatinem/rust-cache@v1.4.0
-      - run: |
-          rustup component add llvm-tools-preview
-          export RUSTFLAGS="-Zinstrument-coverage"
-          export RUSTDOCFLAGS="-Zinstrument-coverage"
-          cargo build --verbose --locked
-          LLVM_PROFILE_FILE="coverage-%p-%m.profraw" cargo +nightly test --package=qoqo_calculator --no-default-features
-          cd qoqo_calculator/
-          cargo install grcov
-          grcov . --binary-path ../target/debug/ -s . -t lcov --branch --ignore-not-existing --ignore "cargo" --ignore "/mod.rs" --ignore "/lib.rs" --ignore "*/_auto_generated_operations.rs" --keep-only "src/*" -o lcov.info
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v2
+      - uses: Swatinem/rust-cache@v2.0.0
+      - uses: actions/setup-python@v4.1.0
         with:
-          # token: ${{ secrets.CODECOV_TOKEN }}
-          files: lcov.info
-          flags: unittests
-          name: codecov-umbrella
-          fail_ci_if_error: true
-          verbose: true
+          python-version: 3.9
+          cache: pip
+      - uses: taiki-e/install-action@cargo-llvm-cov
+      - run: |
+          cd qoqo_calculator
+          cargo llvm-cov --no-default-features --lcov --output-path lcov_roqoqo.info --fail-under-lines=89
+
+  cargo-deny:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: EmbarkStudios/cargo-deny-action@v1
+      with:
+        log-level: warn
+        command: check
+        arguments: --all-features
+        command-arguments: ""
