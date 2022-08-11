@@ -49,10 +49,6 @@ jobs:
             components: llvm-tools-preview
             override: true
       - uses: Swatinem/rust-cache@v2.0.0
-      - uses: actions/setup-python@v4.1.0
-        with:
-          python-version: 3.9
-          cache: pip
       - uses: taiki-e/install-action@cargo-llvm-cov
       - run: |
           cd qoqo_calculator
