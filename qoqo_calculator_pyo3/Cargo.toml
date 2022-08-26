@@ -1,6 +1,6 @@
 [package]
 name = "qoqo_calculator_pyo3"
-version = "1.0.0"
+version = "1.0.1"
 authors = ["HQS Quantum Simulations <info@quantumsimulations.de>"]
 license = "Apache-2.0"
 edition = "2018"
@@ -21,17 +21,17 @@ serde =  "1.0"
 thiserror = "1.0"
 
 [dependencies.pyo3]
-version = "0.16"
+version = "0.17"
 features = ["num-complex"]
 
 [build-dependencies]
-pyo3-build-config = "0.16"
+pyo3-build-config = "0.17"
 
 [features]
 extension-module = ["pyo3/extension-module"]
 default = ["extension-module"] 
 
-[package.metadata.maturin]
-maintainer = "HQS Quantum Simulations GmbH"
-maintainer-email = "info@quantumsimulations.de"
-requires-python = ">=3.7"
+# [package.metadata.maturin]
+# maintainer = "HQS Quantum Simulations GmbH"
+# maintainer-email = "info@quantumsimulations.de"
+# requires-python = ">=3.7"

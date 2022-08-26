@@ -40,9 +40,9 @@ checksum = "6c8af84674fe1f223a982c933a0ee1086ac4d4052aa0fb8060c12c6ad838e754"
 
 [[package]]
 name = "libc"
-version = "0.2.129"
+version = "0.2.132"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "64de3cc433455c14174d42e554d4027ee631c4d046d43e3ecc6efc4636cdc7a7"
+checksum = "8371e4e5341c3a96db127eb2465ac681ced4c433e01dd0e938adbef26ba93ba5"
 
 [[package]]
 name = "lock_api"
@@ -52,6 +52,15 @@ checksum = "327fa5b6a6940e4699ec49a9beae1ea4845c6bab9314e4f84ac68742139d8c53"
 dependencies = [
  "autocfg",
  "scopeguard",
+]
+
+[[package]]
+name = "memoffset"
+version = "0.6.5"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "5aa361d4faea93603064a027415f07bd8e1d5c88c9fbf68bf56a285428fd79ce"
+dependencies = [
+ "autocfg",
 ]
 
 [[package]]
@@ -75,9 +84,9 @@ dependencies = [
 
 [[package]]
 name = "once_cell"
-version = "1.13.0"
+version = "1.13.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "18a6dbe30758c9f83eb00cbea4ac95966305f5a7772f3f42ebfc7fc7eddbd8e1"
+checksum = "074864da206b4973b84eb91683020dbefd6a8c3f0f38e054d93954e891935e4e"
 
 [[package]]
 name = "parking_lot"
@@ -113,13 +122,14 @@ dependencies = [
 
 [[package]]
 name = "pyo3"
-version = "0.16.5"
+version = "0.17.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1e6302e85060011447471887705bb7838f14aba43fcb06957d823739a496b3dc"
+checksum = "68746a80543d80e9676e348d94e50d45cc25f19237dddfa2b61f2f02fc67670e"
 dependencies = [
  "cfg-if",
  "indoc",
  "libc",
+ "memoffset",
  "num-complex",
  "parking_lot",
  "pyo3-build-config",
@@ -130,9 +140,9 @@ dependencies = [
 
 [[package]]
 name = "pyo3-build-config"
-version = "0.16.5"
+version = "0.17.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b5b65b546c35d8a3b1b2f0ddbac7c6a569d759f357f2b9df884f5d6b719152c8"
+checksum = "0a35ea0dde58f923bcd30f0f9a64e79033cd51e176c32bd50efccbbe7f289b25"
 dependencies = [
  "once_cell",
  "target-lexicon",
@@ -140,9 +150,9 @@ dependencies = [
 
 [[package]]
 name = "pyo3-ffi"
-version = "0.16.5"
+version = "0.17.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c275a07127c1aca33031a563e384ffdd485aee34ef131116fcd58e3430d1742b"
+checksum = "79d0d60ae1b65b927c019352e16b94ff27cedee79916f017215dab3afe2a5cb3"
 dependencies = [
  "libc",
  "pyo3-build-config",
@@ -150,9 +160,9 @@ dependencies = [
 
 [[package]]
 name = "pyo3-macros"
-version = "0.16.5"
+version = "0.17.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "284fc4485bfbcc9850a6d661d627783f18d19c2ab55880b021671c4ba83e90f7"
+checksum = "9161973e2e1c245ddae80fe1a140df45197adf45da68a88832b6094acccf5343"
 dependencies = [
  "proc-macro2",
  "pyo3-macros-backend",
@@ -162,9 +172,9 @@ dependencies = [
 
 [[package]]
 name = "pyo3-macros-backend"
-version = "0.16.5"
+version = "0.17.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "53bda0f58f73f5c5429693c96ed57f7abdb38fdfc28ae06da4101a257adb7faf"
+checksum = "fedb3744eda135dbb40587ddf3e49b36b71903bad5b391c19b4862928c3cf424"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -173,7 +183,7 @@ dependencies = [
 
 [[package]]
 name = "qoqo_calculator"
-version = "1.0.0"
+version = "1.0.1"
 dependencies = [
  "num-complex",
  "schemars",
@@ -185,7 +195,7 @@ dependencies = [
 
 [[package]]
 name = "qoqo_calculator_pyo3"
-version = "1.0.0"
+version = "1.0.1"
 dependencies = [
  "num-complex",
  "pyo3",
@@ -251,18 +261,18 @@ checksum = "d29ab0c6d3fc0ee92fe66e2d99f700eab17a8d57d1c1d3b748380fb20baa78cd"
 
 [[package]]
 name = "serde"
-version = "1.0.143"
+version = "1.0.144"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "53e8e5d5b70924f74ff5c6d64d9a5acd91422117c60f48c4e07855238a254553"
+checksum = "0f747710de3dcd43b88c9168773254e809d8ddbdf9653b84e2554ab219f17860"
 dependencies = [
  "serde_derive",
 ]
 
 [[package]]
 name = "serde_derive"
-version = "1.0.143"
+version = "1.0.144"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d3d8e8de557aee63c26b85b947f5e59b690d0454c753f3adeb5cd7835ab88391"
+checksum = "94ed3a816fb1d101812f83e789f888322c34e291f894f19590dc310963e87a00"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -282,9 +292,9 @@ dependencies = [
 
 [[package]]
 name = "serde_json"
-version = "1.0.83"
+version = "1.0.85"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "38dd04e3c8279e75b31ef29dbdceebfe5ad89f4d0937213c53f7d49d01b3d5a7"
+checksum = "e55a28e3aaef9d5ce0506d0a14dbba8054ddc7e499ef522dd8b26859ec9d4a44"
 dependencies = [
  "itoa",
  "ryu",
@@ -293,9 +303,9 @@ dependencies = [
 
 [[package]]
 name = "serde_test"
-version = "1.0.143"
+version = "1.0.144"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d4b5b007c1bccdc70f8d8b5804da305a64d4279f990f1ae9e3b06eaae46f42e0"
+checksum = "6c7f3621491f256177206a7c2152c17f322c0d0b30af05359088172437d29e25"
 dependencies = [
  "serde",
 ]
