@@ -1421,7 +1421,7 @@ DEALINGS IN THE SOFTWARE.
 
 
 ====================================================
-lock_api 0.4.7
+lock_api 0.4.8
 https://github.com/Amanieu/parking_lot
 by Amanieu d'Antras <amanieu@gmail.com>
 Wrappers to create fully-featured Mutex and RwLock types. Compatible with no_std.
@@ -3135,7 +3135,7 @@ DEALINGS IN THE SOFTWARE.
 
 
 ====================================================
-pyo3 0.17.0
+pyo3 0.17.1
 https://github.com/pyo3/pyo3
 by PyO3 Project and Contributors <https://github.com/PyO3>
 Bindings to Python interpreter
@@ -3335,7 +3335,7 @@ LICENSE:
 
 
 ====================================================
-pyo3-build-config 0.17.0
+pyo3-build-config 0.17.1
 https://github.com/pyo3/pyo3
 by PyO3 Project and Contributors <https://github.com/PyO3>
 Build configuration for the PyO3 ecosystem
@@ -3535,7 +3535,7 @@ LICENSE:
 
 
 ====================================================
-pyo3-ffi 0.17.0
+pyo3-ffi 0.17.1
 https://github.com/pyo3/pyo3
 by PyO3 Project and Contributors <https://github.com/PyO3>
 Python-API bindings for the PyO3 ecosystem
@@ -4163,7 +4163,7 @@ docs/license.html_lib.
 
 
 ====================================================
-pyo3-macros 0.17.0
+pyo3-macros 0.17.1
 https://github.com/pyo3/pyo3
 by PyO3 Project and Contributors <https://github.com/PyO3>
 Proc macros for PyO3 package
@@ -4363,7 +4363,7 @@ LICENSE:
 
 
 ====================================================
-pyo3-macros-backend 0.17.0
+pyo3-macros-backend 0.17.1
 https://github.com/pyo3/pyo3
 by PyO3 Project and Contributors <https://github.com/PyO3>
 Code generation for PyO3 package
@@ -4775,7 +4775,7 @@ LICENSE:
 
 
 ====================================================
-qoqo_calculator_pyo3 1.0.1
+qoqo_calculator_pyo3 2.0.0
 https://github.com/HQSquantumsimulations/qoqo_calculator_pyo3
 by HQS Quantum Simulations <info@quantumsimulations.de>
 Python interface to qoqo calculator, the calculator backend of the qoqo quantum computing toolkit by HQS Quantum Simulations
@@ -7413,7 +7413,7 @@ Software.
 
 
 ====================================================
-thiserror 1.0.32
+thiserror 1.0.33
 https://github.com/dtolnay/thiserror
 by David Tolnay <dtolnay@gmail.com>
 derive(Error)
@@ -7652,7 +7652,7 @@ DEALINGS IN THE SOFTWARE.
 
 
 ====================================================
-thiserror-impl 1.0.32
+thiserror-impl 1.0.33
 https://github.com/dtolnay/thiserror
 by David Tolnay <dtolnay@gmail.com>
 Implementation detail of the `thiserror` crate

@@ -5,7 +5,7 @@ This changelog track changes to the qoqo_calculator project starting at version 
 ## 1.0.1
 
 * Update dependencies, update qoqo_calculator_pyo3 to build with pyo3 0.17
-* Moved metadata 
+* Moved metadata for python package to pyproject.toml
 
 ## 1.0.0
 
