@@ -6,6 +6,7 @@ This changelog track changes to the qoqo_calculator project starting at version 
 
 * Update dependencies, update qoqo_calculator_pyo3 to build with pyo3 0.17
 * Moved metadata for python package to pyproject.toml
+* Divergent version numbers in Python and Rust for qoqo_calculator_pyo3 
 
 ## 1.0.0
 
