@@ -15,5 +15,4 @@ compatibility = "manylinux2014"
 skip-auditwheel = false
 strip = true
 profile = "release"
-manifest-path = "Cargo.toml"
 
