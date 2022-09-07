@@ -6,7 +6,7 @@ maintainers = [{name = "HQS Quantum Simulations GmbH", email = "info@quantumsimu
 requires-python = ">=3.7"
 
 [build-system]
-requires = ["maturin>=0.13"]
+requires = ["maturin>=0.13,<0.14"]
 build-backend = "maturin"
 
 [tool.maturin]
@@ -16,5 +16,4 @@ skip-auditwheel = false
 strip = true
 profile = "release"
 manifest-path = "Cargo.toml"
-locked = true
 
