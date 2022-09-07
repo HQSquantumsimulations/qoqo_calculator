@@ -865,13 +865,13 @@ where
                     1 => function_1_argument(
                         &vsnew,
                         *(heap
-                            .get(0)
+                            .first()
                             .ok_or(CalculatorError::NotEnoughFunctionArguments)?),
                     ),
                     2 => function_2_arguments(
                         &vsnew,
                         *(heap
-                            .get(0)
+                            .first()
                             .ok_or(CalculatorError::NotEnoughFunctionArguments)?),
                         *(heap
                             .get(1)

@@ -111,7 +111,7 @@ jobs:
           cargo fmt --all -- --check
     
   test_maturin_builds_linux:
-    name: maturin_check-${{ matrix.combinations.runs_on }}
+    name: maturin_check-${{ matrix.python.py }}
     runs-on: ${{ matrix.combinations.runs_on }}
     strategy:
       matrix:
@@ -142,7 +142,7 @@ jobs:
         with:
           maturin-version: latest
           command: build
-          manylinux: 2010
+          manylinux: 2014
           args: -i python${{ matrix.python.py }} --out wheels -m qoqo_calculator_pyo3/Cargo.toml --locked
       - name: test install
         run: |

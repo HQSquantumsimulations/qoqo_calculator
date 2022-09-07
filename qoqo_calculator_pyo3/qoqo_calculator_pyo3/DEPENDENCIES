@@ -1204,7 +1204,7 @@ DEALINGS IN THE SOFTWARE.
 
 
 ====================================================
-libc 0.2.129
+libc 0.2.132
 https://github.com/rust-lang/libc
 by The Rust Project Developers
 Raw FFI bindings to platform libraries like libc.
@@ -1421,7 +1421,7 @@ DEALINGS IN THE SOFTWARE.
 
 
 ====================================================
-lock_api 0.4.7
+lock_api 0.4.8
 https://github.com/Amanieu/parking_lot
 by Amanieu d'Antras <amanieu@gmail.com>
 Wrappers to create fully-featured Mutex and RwLock types. Compatible with no_std.
@@ -1660,6 +1660,35 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR
 IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
 
+
+====================================================
+memoffset 0.6.5
+https://github.com/Gilnaa/memoffset
+by Gilad Naaman <gilad.naaman@gmail.com>
+offset_of functionality for Rust structs.
+License: MIT
+----------------------------------------------------
+LICENSE:
+
+Copyright (c) 2017 Gilad Naaman
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
 
 ====================================================
 num-complex 0.4.2
@@ -2144,7 +2173,7 @@ DEALINGS IN THE SOFTWARE.
 
 
 ====================================================
-once_cell 1.13.0
+once_cell 1.14.0
 https://github.com/matklad/once_cell
 by Aleksey Kladov <aleksey.kladov@gmail.com>
 Single assignment cells and lazy values.
@@ -3106,7 +3135,7 @@ DEALINGS IN THE SOFTWARE.
 
 
 ====================================================
-pyo3 0.16.5
+pyo3 0.17.1
 https://github.com/pyo3/pyo3
 by PyO3 Project and Contributors <https://github.com/PyO3>
 Bindings to Python interpreter
@@ -3306,7 +3335,7 @@ LICENSE:
 
 
 ====================================================
-pyo3-build-config 0.16.5
+pyo3-build-config 0.17.1
 https://github.com/pyo3/pyo3
 by PyO3 Project and Contributors <https://github.com/PyO3>
 Build configuration for the PyO3 ecosystem
@@ -3506,7 +3535,7 @@ LICENSE:
 
 
 ====================================================
-pyo3-ffi 0.16.5
+pyo3-ffi 0.17.1
 https://github.com/pyo3/pyo3
 by PyO3 Project and Contributors <https://github.com/PyO3>
 Python-API bindings for the PyO3 ecosystem
@@ -4134,7 +4163,7 @@ docs/license.html_lib.
 
 
 ====================================================
-pyo3-macros 0.16.5
+pyo3-macros 0.17.1
 https://github.com/pyo3/pyo3
 by PyO3 Project and Contributors <https://github.com/PyO3>
 Proc macros for PyO3 package
@@ -4334,7 +4363,7 @@ LICENSE:
 
 
 ====================================================
-pyo3-macros-backend 0.16.5
+pyo3-macros-backend 0.17.1
 https://github.com/pyo3/pyo3
 by PyO3 Project and Contributors <https://github.com/PyO3>
 Code generation for PyO3 package
@@ -4534,7 +4563,7 @@ LICENSE:
 
 
 ====================================================
-qoqo_calculator 1.0.0
+qoqo_calculator 1.1.0
 https://github.com/HQSquantumsimulations/qoqo_calculator
 by HQS Quantum Simulations <info@quantumsimulations.de>
 qoqo-calculator is the calculator backend of the qoqo quantum computing toolkit by HQS Quantum Simulations
@@ -4746,7 +4775,7 @@ LICENSE:
 
 
 ====================================================
-qoqo_calculator_pyo3 1.0.0
+qoqo_calculator_pyo3 1.1.0
 https://github.com/HQSquantumsimulations/qoqo_calculator_pyo3
 by HQS Quantum Simulations <info@quantumsimulations.de>
 Python interface to qoqo calculator, the calculator backend of the qoqo quantum computing toolkit by HQS Quantum Simulations
@@ -5717,7 +5746,7 @@ DEALINGS IN THE SOFTWARE.
 
 
 ====================================================
-serde 1.0.143
+serde 1.0.144
 https://serde.rs
 by Erick Tryzelaar <erick.tryzelaar@gmail.com>, David Tolnay <dtolnay@gmail.com>
 A generic serialization/deserialization framework
@@ -5956,7 +5985,7 @@ DEALINGS IN THE SOFTWARE.
 
 
 ====================================================
-serde_derive 1.0.143
+serde_derive 1.0.144
 https://serde.rs
 by Erick Tryzelaar <erick.tryzelaar@gmail.com>, David Tolnay <dtolnay@gmail.com>
 Macros 1.1 implementation of #[derive(Serialize, Deserialize)]
@@ -6195,7 +6224,7 @@ DEALINGS IN THE SOFTWARE.
 
 
 ====================================================
-serde_json 1.0.83
+serde_json 1.0.85
 https://github.com/serde-rs/json
 by Erick Tryzelaar <erick.tryzelaar@gmail.com>, David Tolnay <dtolnay@gmail.com>
 A JSON serialization file format
@@ -6434,7 +6463,7 @@ DEALINGS IN THE SOFTWARE.
 
 
 ====================================================
-serde_test 1.0.143
+serde_test 1.0.144
 https://serde.rs
 by Erick Tryzelaar <erick.tryzelaar@gmail.com>, David Tolnay <dtolnay@gmail.com>
 Token De/Serializer for testing De/Serialize implementations
@@ -7384,7 +7413,7 @@ Software.
 
 
 ====================================================
-thiserror 1.0.32
+thiserror 1.0.34
 https://github.com/dtolnay/thiserror
 by David Tolnay <dtolnay@gmail.com>
 derive(Error)
@@ -7623,7 +7652,7 @@ DEALINGS IN THE SOFTWARE.
 
 
 ====================================================
-thiserror-impl 1.0.32
+thiserror-impl 1.0.34
 https://github.com/dtolnay/thiserror
 by David Tolnay <dtolnay@gmail.com>
 Implementation detail of the `thiserror` crate

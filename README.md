@@ -52,9 +52,7 @@ This package can be installed directly from pypi using
 pip install qoqo-calculator-pyo3
 ```
 
-When building manually we recommend using [maturin](https://github.com/PyO3/maturin) to build the python package.
-
-A source distribution exists but requires a Rust install with a rust version > 1.47 and a maturin version { >= 0.12, <0.13 } in order to be built.
+For x86 based Linux, Windows and macOS machines pre-built binaries are available. For other platforms a working rust toolchain and [maturin](https://github.com/PyO3/maturin) are required to build the source distribution that is also available on PyPi.
 
 ## Contributing
 
