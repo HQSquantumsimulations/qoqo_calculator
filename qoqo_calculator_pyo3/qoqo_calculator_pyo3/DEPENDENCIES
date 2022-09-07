@@ -2173,7 +2173,7 @@ DEALINGS IN THE SOFTWARE.
 
 
 ====================================================
-once_cell 1.13.1
+once_cell 1.14.0
 https://github.com/matklad/once_cell
 by Aleksey Kladov <aleksey.kladov@gmail.com>
 Single assignment cells and lazy values.
@@ -4563,7 +4563,7 @@ LICENSE:
 
 
 ====================================================
-qoqo_calculator 1.0.1
+qoqo_calculator 1.1.0
 https://github.com/HQSquantumsimulations/qoqo_calculator
 by HQS Quantum Simulations <info@quantumsimulations.de>
 qoqo-calculator is the calculator backend of the qoqo quantum computing toolkit by HQS Quantum Simulations
@@ -7413,7 +7413,7 @@ Software.
 
 
 ====================================================
-thiserror 1.0.33
+thiserror 1.0.34
 https://github.com/dtolnay/thiserror
 by David Tolnay <dtolnay@gmail.com>
 derive(Error)
@@ -7652,7 +7652,7 @@ DEALINGS IN THE SOFTWARE.
 
 
 ====================================================
-thiserror-impl 1.0.33
+thiserror-impl 1.0.34
 https://github.com/dtolnay/thiserror
 by David Tolnay <dtolnay@gmail.com>
 Implementation detail of the `thiserror` crate
