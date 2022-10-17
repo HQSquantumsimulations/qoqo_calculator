@@ -20,7 +20,7 @@ jobs:
         toolchain: stable
         target: x86_64-unknown-linux-gnu
         default: true
-    - uses: Swatinem/rust-cache@v2.0.0
+    - uses: Swatinem/rust-cache@v2.0.1
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip maturin
@@ -48,7 +48,7 @@ jobs:
             toolchain: stable
             components: llvm-tools-preview
             override: true
-      - uses: Swatinem/rust-cache@v2.0.0
+      - uses: Swatinem/rust-cache@v2.0.1
       - uses: taiki-e/install-action@cargo-llvm-cov
       - run: |
           cd qoqo_calculator
