@@ -13,7 +13,6 @@
 #![deny(missing_docs)]
 #![warn(rustdoc::private_intra_doc_links)]
 #![warn(rustdoc::missing_crate_level_docs)]
-#![warn(rustdoc::missing_doc_code_examples)]
 #![warn(rustdoc::private_doc_tests)]
 #![deny(missing_debug_implementations)]
 
