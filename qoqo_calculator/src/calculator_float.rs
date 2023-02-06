@@ -500,7 +500,7 @@ impl TryFrom<CalculatorFloat> for f64 {
 ///
 impl From<CalculatorFloat> for String {
     fn from(value: CalculatorFloat) -> Self {
-        format!("{}", value)
+        format!("{value}")
     }
 }
 
@@ -523,8 +523,8 @@ impl<'a> From<&'a CalculatorFloat> for CalculatorFloat {
 impl fmt::Display for CalculatorFloat {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
-            CalculatorFloat::Float(x) => write!(f, "{:e}", x),
-            CalculatorFloat::Str(y) => write!(f, "{}", y),
+            CalculatorFloat::Float(x) => write!(f, "{x:e}"),
+            CalculatorFloat::Str(y) => write!(f, "{y}"),
         }
     }
 }
@@ -566,7 +566,7 @@ impl CalculatorFloat {
     pub fn sqrt(&self) -> CalculatorFloat {
         match self {
             CalculatorFloat::Float(f) => CalculatorFloat::Float(f.sqrt()),
-            CalculatorFloat::Str(s) => CalculatorFloat::Str(format!("sqrt({})", s)),
+            CalculatorFloat::Str(s) => CalculatorFloat::Str(format!("sqrt({s})")),
         }
     }
     /// Return atan2 for CalculatorFloat and generic type `T`.
@@ -586,7 +586,7 @@ impl CalculatorFloat {
                 Self::Str(y) => Self::Str(format!("atan2({:e}, {})", x, &y)),
             },
             Self::Str(x) => match other_from {
-                Self::Float(y) => Self::Str(format!("atan2({}, {:e})", x, y)),
+                Self::Float(y) => Self::Str(format!("atan2({x}, {y:e})")),
                 Self::Str(y) => Self::Str(format!("atan2({}, {})", x, &y)),
             },
         }
@@ -609,7 +609,7 @@ impl CalculatorFloat {
                 Self::Str(y) => Self::Str(format!("({:e} ^ {})", x, &y)),
             },
             Self::Str(x) => match other_from {
-                Self::Float(y) => Self::Str(format!("({} ^ {:e})", x, y)),
+                Self::Float(y) => Self::Str(format!("({x} ^ {y:e})")),
                 Self::Str(y) => Self::Str(format!("({} ^ {})", x, &y)),
             },
         }
@@ -619,42 +619,42 @@ impl CalculatorFloat {
     pub fn exp(&self) -> CalculatorFloat {
         match self {
             Self::Float(x) => CalculatorFloat::Float(x.exp()),
-            Self::Str(y) => Self::Str(format!("exp({})", y)),
+            Self::Str(y) => Self::Str(format!("exp({y})")),
         }
     }
     /// Return sine function sin(x) for CalculatorFloat.
     pub fn sin(&self) -> CalculatorFloat {
         match self {
             Self::Float(x) => CalculatorFloat::Float(x.sin()),
-            Self::Str(y) => Self::Str(format!("sin({})", y)),
+            Self::Str(y) => Self::Str(format!("sin({y})")),
         }
     }
     /// Return cosine function cos(x) for CalculatorFloat.
     pub fn cos(&self) -> CalculatorFloat {
         match self {
             Self::Float(x) => CalculatorFloat::Float(x.cos()),
-            Self::Str(y) => Self::Str(format!("cos({})", y)),
+            Self::Str(y) => Self::Str(format!("cos({y})")),
         }
     }
     /// Return arccosine function acos(x) for CalculatorFloat.
     pub fn acos(&self) -> CalculatorFloat {
         match self {
             Self::Float(x) => CalculatorFloat::Float(x.acos()),
-            Self::Str(y) => Self::Str(format!("acos({})", y)),
+            Self::Str(y) => Self::Str(format!("acos({y})")),
         }
     }
     /// Return absolute value abs(x) for CalculatorFloat.
     pub fn abs(&self) -> CalculatorFloat {
         match self {
             Self::Float(x) => CalculatorFloat::Float(x.abs()),
-            Self::Str(y) => Self::Str(format!("abs({})", y)),
+            Self::Str(y) => Self::Str(format!("abs({y})")),
         }
     }
     /// Return signum value sign(x) for CalculatorFloat.
     pub fn signum(&self) -> CalculatorFloat {
         match self {
             Self::Float(x) => CalculatorFloat::Float(x.signum()),
-            Self::Str(y) => Self::Str(format!("sign({})", y)),
+            Self::Str(y) => Self::Str(format!("sign({y})")),
         }
     }
     /// Return True if self value is close to other value.
@@ -666,10 +666,10 @@ impl CalculatorFloat {
         match self {
             Self::Float(x) => match other_from {
                 Self::Float(y) => (x - y).abs() <= (ATOL + RTOL * y.abs()),
-                Self::Str(y) => format!("{:e}", x) == y,
+                Self::Str(y) => format!("{x:e}") == y,
             },
             Self::Str(x) => match other_from {
-                Self::Float(y) => x == &format!("{:e}", y),
+                Self::Float(y) => x == &format!("{y:e}"),
                 Self::Str(y) => x == &y,
             },
         }
@@ -687,7 +687,7 @@ impl CalculatorFloat {
     pub fn recip(&self) -> CalculatorFloat {
         match self {
             Self::Float(x) => Self::Float(x.recip()),
-            Self::Str(y) => Self::Str(format!("(1 / {})", y)),
+            Self::Str(y) => Self::Str(format!("(1 / {y})")),
         }
     }
 }
@@ -777,7 +777,7 @@ where
                 Self::Float(y) => {
                     *self = {
                         if y != 0.0 {
-                            Self::Str(format!("({} + {:e})", x, y))
+                            Self::Str(format!("({x} + {y:e})"))
                         } else {
                             Self::Str(x.to_owned())
                         }
@@ -816,7 +816,7 @@ where
             CalculatorFloat::Str(x) => match other_from {
                 CalculatorFloat::Float(y) => {
                     if y != 0.0 {
-                        CalculatorFloat::Str(format!("({} + {:e})", x, y))
+                        CalculatorFloat::Str(format!("({x} + {y:e})"))
                     } else {
                         CalculatorFloat::Str(x.to_owned())
                     }
@@ -924,7 +924,7 @@ where
                         } else if (y - 1.0).abs() < ATOL {
                             Self::Str(x.to_owned())
                         } else {
-                            Self::Str(format!("({} / {:e})", x, y))
+                            Self::Str(format!("({x} / {y:e})"))
                         }
                     }
                 }
@@ -970,7 +970,7 @@ where
                         Self::Str(format!("({} * {:e})", &x, y))
                     }
                 }
-                Self::Str(y) => Self::Str(format!("({} * {})", x, y)),
+                Self::Str(y) => Self::Str(format!("({x} * {y})")),
             },
         }
     }
@@ -1012,7 +1012,7 @@ where
                         CalculatorFloat::Str(format!("({} * {:e})", &x, y))
                     }
                 }
-                CalculatorFloat::Str(y) => CalculatorFloat::Str(format!("({} * {})", x, y)),
+                CalculatorFloat::Str(y) => CalculatorFloat::Str(format!("({x} * {y})")),
             },
         }
     }
@@ -1042,7 +1042,7 @@ where
                         } else if (*x - 1.0).abs() < ATOL {
                             Self::Str(y)
                         } else {
-                            Self::Str(format!("({:e} * {})", x, y))
+                            Self::Str(format!("({x:e} * {y})"))
                         }
                     }
                 }
@@ -1055,11 +1055,11 @@ where
                         } else if (y - 1.0).abs() < ATOL {
                             Self::Str(x.to_string())
                         } else {
-                            Self::Str(format!("({} * {:e})", x, y))
+                            Self::Str(format!("({x} * {y:e})"))
                         }
                     }
                 }
-                Self::Str(y) => *self = Self::Str(format!("({} * {})", x, y)),
+                Self::Str(y) => *self = Self::Str(format!("({x} * {y})")),
             },
         }
     }
@@ -1083,7 +1083,7 @@ where
                 CalculatorFloat::Float(y) => CalculatorFloat::Float(x - y),
                 CalculatorFloat::Str(y) => {
                     if x != 0.0 {
-                        CalculatorFloat::Str(format!("({:e} - {})", x, y))
+                        CalculatorFloat::Str(format!("({x:e} - {y})"))
                     } else {
                         CalculatorFloat::Str(format!("(-{})", &y))
                     }
@@ -1092,12 +1092,12 @@ where
             CalculatorFloat::Str(x) => match other_from {
                 CalculatorFloat::Float(y) => {
                     if y != 0.0 {
-                        CalculatorFloat::Str(format!("({} - {:e})", x, y))
+                        CalculatorFloat::Str(format!("({x} - {y:e})"))
                     } else {
                         CalculatorFloat::Str(x)
                     }
                 }
-                CalculatorFloat::Str(y) => CalculatorFloat::Str(format!("({} - {})", x, y)),
+                CalculatorFloat::Str(y) => CalculatorFloat::Str(format!("({x} - {y})")),
             },
         }
     }
@@ -1123,9 +1123,9 @@ where
                 Self::Str(y) => {
                     *self = {
                         if (*x - 0.0).abs() > ATOL {
-                            Self::Str(format!("({:e} - {})", x, y))
+                            Self::Str(format!("({x:e} - {y})"))
                         } else {
-                            Self::Str(format!("(-{})", y))
+                            Self::Str(format!("(-{y})"))
                         }
                     }
                 }
@@ -1134,13 +1134,13 @@ where
                 Self::Float(y) => {
                     *self = {
                         if y != 0.0 {
-                            Self::Str(format!("({} - {:e})", x, y))
+                            Self::Str(format!("({x} - {y:e})"))
                         } else {
                             Self::Str(x.to_owned())
                         }
                     }
                 }
-                Self::Str(y) => *self = Self::Str(format!("({} - {})", x, y)),
+                Self::Str(y) => *self = Self::Str(format!("({x} - {y})")),
             },
         }
     }
@@ -1153,7 +1153,7 @@ impl ops::Neg for CalculatorFloat {
     fn neg(self) -> Self {
         match self {
             Self::Float(x) => Self::Float(-x),
-            Self::Str(y) => Self::Str(format!("(-{})", y)),
+            Self::Str(y) => Self::Str(format!("(-{y})")),
         }
     }
 }
@@ -1815,8 +1815,8 @@ mod tests {
     fn display() {
         let x2 = CalculatorFloat::from(-3);
         let x3 = CalculatorFloat::from("-3t");
-        assert_eq!(format!("{}", x2), "-3e0");
-        assert_eq!(format!("{}", x3), "-3t");
+        assert_eq!(format!("{x2}"), "-3e0");
+        assert_eq!(format!("{x3}"), "-3t");
     }
 
     // Test the isclose functionality of CalculatorFloat with all possible input types
@@ -1867,10 +1867,10 @@ mod tests {
     #[test]
     fn debug() {
         let x = CalculatorFloat::from(3.0);
-        assert_eq!(format!("{:?}", x), "Float(3.0)");
+        assert_eq!(format!("{x:?}"), "Float(3.0)");
 
         let xs = CalculatorFloat::from("3x");
-        assert_eq!(format!("{:?}", xs), "Str(\"3x\")");
+        assert_eq!(format!("{xs:?}"), "Str(\"3x\")");
     }
 
     // Test the Clone trait for CalculatorFloat
