@@ -8,7 +8,7 @@ fn test_initialising_calculator_float() {
         let new_result = python_type
             .call((1.0,), None)
             .unwrap()
-            .cast_as::<PyCell<CalculatorFloatWrapper>>()
+            .downcast::<PyCell<CalculatorFloatWrapper>>()
             .unwrap();
         let float_value = f64::extract(new_result.call_method0("__float__").unwrap()).unwrap();
         assert!((float_value - 1.0).abs() < f64::EPSILON);
