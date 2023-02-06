@@ -690,7 +690,7 @@ mod tests {
     #[test]
     fn display() {
         let x = CalculatorComplex::new(-3, 2);
-        let x_formatted = format!("{}", x);
+        let x_formatted = format!("{x}");
         assert_eq!(x_formatted, "(-3e0 + i * 2e0)");
     }
 
@@ -840,13 +840,13 @@ mod tests {
     fn debug() {
         let x = CalculatorComplex::from(3.0);
         assert_eq!(
-            format!("{:?}", x),
+            format!("{x:?}"),
             "CalculatorComplex { re: Float(3.0), im: Float(0.0) }"
         );
 
         let xs = CalculatorComplex::from("3x");
         assert_eq!(
-            format!("{:?}", xs),
+            format!("{xs:?}"),
             "CalculatorComplex { re: Str(\"3x\"), im: Float(0.0) }"
         );
     }

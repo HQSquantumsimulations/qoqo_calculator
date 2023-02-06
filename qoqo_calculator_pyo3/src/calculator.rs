@@ -58,10 +58,7 @@ impl CalculatorWrapper {
     pub fn parse_str_assign(&mut self, input: &str) -> PyResult<f64> {
         match self.r_calculator.parse_str_assign(input) {
             Ok(x) => Ok(x),
-            Err(x) => Err(PyValueError::new_err(format!(
-                "{:?}; expression: {}",
-                x, input
-            ))),
+            Err(x) => Err(PyValueError::new_err(format!("{x:?}; expression: {input}"))),
         }
     }
 
@@ -74,10 +71,7 @@ impl CalculatorWrapper {
     pub fn parse_str(&self, input: &str) -> PyResult<f64> {
         match self.r_calculator.parse_str(input) {
             Ok(x) => Ok(x),
-            Err(x) => Err(PyValueError::new_err(format!(
-                "{:?}; expression: {}",
-                x, input
-            ))),
+            Err(x) => Err(PyValueError::new_err(format!("{x:?}; expression: {input}"))),
         }
     }
 
@@ -93,7 +87,7 @@ impl CalculatorWrapper {
         let out = self.r_calculator.parse_get(converted);
         match out {
             Ok(x) => Ok(x),
-            Err(x) => Err(PyValueError::new_err(format!("{:?}", x))),
+            Err(x) => Err(PyValueError::new_err(format!("{x:?}"))),
         }
     }
 }
@@ -109,8 +103,7 @@ pub fn parse_str_assign(expression: &str) -> PyResult<f64> {
     match calculator.parse_str_assign(expression) {
         Ok(x) => Ok(x),
         Err(x) => Err(PyValueError::new_err(format!(
-            "{:?}; expression {}",
-            x, expression
+            "{x:?}; expression {expression}"
         ))),
     }
 }
