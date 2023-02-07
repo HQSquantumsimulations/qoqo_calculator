@@ -16,7 +16,6 @@ jobs:
 
   build_maturin_builds_linux:
     name: maturin_build-linux
-    needs: deploy_cratesio
     runs-on: 'ubuntu-latest'
     steps:
       - uses: actions/checkout@v3
@@ -44,7 +43,6 @@ jobs:
 
   build_maturin_src_builds_linux:
     name: maturin_build-src
-    needs: deploy_cratesio
     runs-on: 'ubuntu-latest'
     steps:
       - uses: actions/checkout@v3
@@ -72,7 +70,6 @@ jobs:
   
   build_maturin_builds_windows:
     name: maturin_build-${{ matrix.combinations.runs_on }}
-    needs: deploy_cratesio
     runs-on: ${{ matrix.combinations.runs_on }}
     strategy:
       matrix:
@@ -112,7 +109,6 @@ jobs:
   
   build_maturin_builds_macos:
     name: maturin_build-${{ matrix.combinations.runs_on }}
-    needs: deploy_cratesio
     runs-on: ${{ matrix.combinations.runs_on }}
     strategy:
       matrix:
