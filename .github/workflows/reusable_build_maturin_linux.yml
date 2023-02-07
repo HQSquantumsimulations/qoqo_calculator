@@ -109,6 +109,7 @@ jobs:
 
   deploy:
     if: ${{inputs.deploy}}
+    needs: [build_maturin_src_builds_linux, build_maturin_builds_linux_arm, build_maturin_builds_linux]
     runs-on: ubuntu-latest
     steps:
     - uses: actions/setup-python@v2

@@ -18,7 +18,7 @@ on:
         description: "Location of the py interface folder"
         required: true
         type: string
-    deploy:
+      deploy:
         description: "Determines if build python wheels should be deployed to PyPi"
         required: false
         default: false
@@ -51,6 +51,7 @@ jobs:
 
   deploy:
     if: ${{inputs.deploy}}
+    needs: build_maturin_builds_windows
     runs-on: ubuntu-latest
     steps:
     - uses: actions/setup-python@v2
