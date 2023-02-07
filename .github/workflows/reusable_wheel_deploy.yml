@@ -1,4 +1,4 @@
-name: reusable_build_maturin_macos
+name: reusable_wheel_deploy
 
 on:
   workflow_dispatch:
