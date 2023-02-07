@@ -29,12 +29,39 @@ jobs:
         with:
           python-version: '3.10'
       - name: linux wheels
-        uses: messense/maturin-action@v1
+        uses: PyO3/maturin-action@v1
         with:
           maturin-version: latest
           command: build
           manylinux: 2014
           args: --find-interpreter --out wheels -m qoqo_calculator_pyo3/Cargo.toml --release --locked
+      - name: store artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: py_wheels
+          path: wheels
+
+  build_maturin_builds_linux_arm:
+    name: maturin_build-linux
+    runs-on: 'ubuntu-latest'
+    steps:
+      - uses: actions/checkout@v3
+      - uses: Swatinem/rust-cache@v2
+      - uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: stable
+          default: true
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      - name: linux wheels
+        uses: PyO3/maturin-action@v1
+        with:
+          maturin-version: latest
+          command: build
+          manylinux: 2014
+          args: --find-interpreter --out wheels -m qoqo_calculator_pyo3/Cargo.toml --zig --target aarch64-unknown-linux-gnu --release --locked
       - name: store artifact
         uses: actions/upload-artifact@v3
         with:
@@ -57,7 +84,7 @@ jobs:
           python-version: '3.10'
           cache: 'pip'
       - name: linux wheels
-        uses: messense/maturin-action@v1
+        uses: PyO3/maturin-action@v1
         with:
           maturin-version: latest
           command: sdist
@@ -69,20 +96,8 @@ jobs:
           path: wheels
   
   build_maturin_builds_windows:
-    name: maturin_build-${{ matrix.combinations.runs_on }}
-    runs-on: ${{ matrix.combinations.runs_on }}
-    strategy:
-      matrix:
-        combinations: [
-          { runs_on: 'windows-latest', rust: "x86_64-pc-windows-msvc" },
-        ]
-        python: [
-            {py: '3.7', interpreter: "python3.7"},
-            {py: '3.8', interpreter: "python3.8"},
-            {py: '3.9', interpreter: "python3.9"},
-            {py: '3.10', interpreter: "python3.10"},
-            {py: '3.11', interpreter: "python3.11"},
-        ]
+    name: maturin_build-windows
+    runs-on: 'windows-latest'
     steps:
       - uses: actions/checkout@v3
       - uses: Swatinem/rust-cache@v2
@@ -90,17 +105,13 @@ jobs:
         with:
           profile: minimal
           toolchain: stable
-          target: ${{ matrix.combinations.rust }}
           default: true
-      - uses: actions/setup-python@v4
-        with:
-          python-version: ${{ matrix.python.py }}
       - name: windows wheels
-        uses: messense/maturin-action@v1
+        uses: PyO3/maturin-action@v1
         with:
           maturin-version: latest
           command: build
-          args: -i python --out wheels -m qoqo_calculator_pyo3/Cargo.toml --release --locked
+          args: --find-interpreter --out wheels -m qoqo_calculator_pyo3/Cargo.toml --release --locked
       - name: store artifact
         uses: actions/upload-artifact@v3
         with:
@@ -108,71 +119,45 @@ jobs:
           path: wheels
   
   build_maturin_builds_macos:
-    name: maturin_build-${{ matrix.combinations.runs_on }}
-    runs-on: ${{ matrix.combinations.runs_on }}
-    strategy:
-      matrix:
-        combinations: [
-          { runs_on: 'macOS-latest', rust: "aarch64-apple-darwin" },
-        ]
-        python: [
-            {py: '3.7', interpreter: "python3.7"},
-            {py: '3.8', interpreter: "python3.8"},
-            {py: '3.9', interpreter: "python3.9"},
-            {py: '3.10', interpreter: "python3.10"},
-            {py: '3.11', interpreter: "python3.11"}
-
-        ]
+    name: maturin_build-macos
+    runs-on: 'macOS-latest'
     steps:
       - uses: actions/checkout@v3
+      - uses: Swatinem/rust-cache@v2
       - uses: actions-rs/toolchain@v1
         with:
           profile: minimal
           toolchain: stable
-          target: "aarch64-apple-darwin"
           default: true
-      - uses: Swatinem/rust-cache@v2.0.0
-      - uses: actions/setup-python@v4
+     - name: macos wheels
+        uses: PyO3/maturin-action@v1
         with:
-          python-version: ${{ matrix.python.py }}
-          cache: 'pip'
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip maturin pytest numpy twine        
-      - name: macos wheels
-        if: ${{ matrix.combinations.runs_on == 'macOS-latest' && matrix.python-version < '3.8'}}
-        run: |
-          RUSTFLAGS="-C link-arg=-undefined -C link-arg=dynamic_lookup" maturin build -i ${{ matrix.python.interpreter }} --out wheels -m qoqo_calculator_pyo3/Cargo.toml --release --locked
-      - name: universal wheels
-        if: ${{ matrix.combinations.runs_on == 'macOS-latest' && matrix.python-version >= '3.8' }}
-        run: |
-          RUSTFLAGS="-C link-arg=-undefined -C link-arg=dynamic_lookup" maturin build -i ${{ matrix.python.interpreter }} --universal2 --out wheels -m qoqo_calculator_pyo3/Cargo.toml --release --locked
-      - name: test install
-        run: |
-          pip install wheels/* --force-reinstall
+          maturin-version: latest
+          command: build
+          args: --find-interpreter --out wheels -m qoqo_calculator_pyo3/Cargo.toml --release --universal2 --locked
       - name: store artifact
         uses: actions/upload-artifact@v3
         with:
           name: py_wheels
           path: wheels
 
-  deploy:
-      needs: [build_maturin_builds_macos, build_maturin_src_builds_linux, build_maturin_builds_linux]
-      runs-on: ubuntu-latest
-      steps:
-      - uses: actions/setup-python@v2
-        with:
-          python-version: ${{ matrix.python.py }}
-      - uses: actions/download-artifact@v3
-        with:
-          name: py_wheels
-      - name: Publish
-        env:
-          TWINE_USERNAME: __token__
-          TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
-        run: |
-          python -m pip install --upgrade pip
-          pip install twine
-          python -m twine upload --skip-existing *
+  # deploy:
+  #     needs: [build_maturin_builds_macos, build_maturin_src_builds_linux, build_maturin_builds_linux]
+  #     runs-on: ubuntu-latest
+  #     steps:
+  #     - uses: actions/setup-python@v2
+  #       with:
+  #         python-version: ${{ matrix.python.py }}
+  #     - uses: actions/download-artifact@v3
+  #       with:
+  #         name: py_wheels
+  #     - name: Publish
+  #       env:
+  #         TWINE_USERNAME: __token__
+  #         TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
+  #       run: |
+  #         python -m pip install --upgrade pip
+  #         pip install twine
+  #         python -m twine upload --skip-existing *
 
 
