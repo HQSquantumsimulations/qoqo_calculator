@@ -28,22 +28,22 @@ jobs:
     name: maturin_build-linux
     needs: deploy_cratesio
     uses: .github/wokflows/reusable_build_maturin_linux.yml
-      with: 
-        py_interface_folder: "qoqo_calculator_pyo3"
+    with: 
+      py_interface_folder: "qoqo_calculator_pyo3"
 
   build_maturin_builds_macos:
     name: maturin_build-macos
     needs: deploy_cratesio
     uses: .github/wokflows/reusable_build_maturin_macos.yml
-      with: 
-        py_interface_folder: "qoqo_calculator_pyo3"
+    with: 
+      py_interface_folder: "qoqo_calculator_pyo3"
 
   build_maturin_builds_windows:
     name: maturin_build-windows
     needs: deploy_cratesio
     uses: .github/wokflows/reusable_build_maturin_windows.yml
-      with: 
-        py_interface_folder: "qoqo_calculator_pyo3"
+    with: 
+      py_interface_folder: "qoqo_calculator_pyo3"
 
   publish:
     name: publish_on_pypi
