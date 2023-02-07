@@ -8,7 +8,7 @@ on:
 jobs:
 
   publish_documentation:
-    uses: .github/wokflows/reusable_unittests_rust_pyo3.yml
+    uses: ./.github/wokflows/reusable_unittests_rust_pyo3.yml
     with: 
       py_interface_folder: "qoqo_calculator_pyo3"
       py_docs_folder: "qoqo_calculator_pyo3/docs"

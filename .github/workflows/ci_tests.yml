@@ -7,17 +7,17 @@ on:
 
 jobs:
   linting:
-    uses: .github/wokflows/reusable_linting_rust_pyo3.yml
+    uses: ./.github/wokflows/reusable_linting_rust_pyo3.yml@main
 
   unittests:
-    uses: .github/wokflows/reusable_unittests_rust_pyo3.yml
+    uses: ./.github/wokflows/reusable_unittests_rust_pyo3.yml@main
     with:
       windows: true
       macos: true
       rust_package_name: "qoqo_calculator"
 
   build_tests:
-    uses: .github/wokflows/reusable_build_tests_rust_pyo3.yml
+    uses: ./.github/wokflows/reusable_build_tests_rust_pyo3.yml
     with: 
       windows: true
       macos: true
