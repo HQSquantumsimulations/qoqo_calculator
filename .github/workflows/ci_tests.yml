@@ -7,10 +7,10 @@ on:
 
 jobs:
   linting:
-    uses: ./.github/workflows/reusable_linting_rust_pyo3.yml@main
+    uses: ./.github/workflows/reusable_linting_rust_pyo3.yml
 
   unittests:
-    uses: ./.github/workflows/reusable_unittests_rust_pyo3.yml@main
+    uses: ./.github/workflows/reusable_unittests_rust_pyo3.yml
     with:
       windows: true
       macos: true
