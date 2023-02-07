@@ -14,24 +14,6 @@ on:
 
 jobs:
 
-  deploy_cratesio:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v3
-    - uses: Swatinem/rust-cache@v2
-    - uses: actions-rs/toolchain@v1
-      with:
-        profile: minimal
-        toolchain: stable
-        default: true
-    - name: setup cargo
-      run: |
-        cargo login ${{ secrets.CRATES_IO_API_TOKEN }}
-        cargo publish --manifest-path=qoqo_calculator/Cargo.toml
-        sleep 60
-        cargo publish --manifest-path=qoqo_calculator_pyo3/Cargo.toml
-
-
   build_maturin_builds_linux:
     name: maturin_build-linux
     needs: deploy_cratesio
@@ -47,7 +29,6 @@ jobs:
       - uses: actions/setup-python@v4
         with:
           python-version: '3.10'
-          cache: 'pip'
       - name: linux wheels
         uses: messense/maturin-action@v1
         with:
@@ -180,7 +161,7 @@ jobs:
           path: wheels
 
   deploy:
-      needs: [deploy_cratesio, build_maturin_builds_macos, build_maturin_src_builds_linux, build_maturin_builds_linux]
+      needs: [build_maturin_builds_macos, build_maturin_src_builds_linux, build_maturin_builds_linux]
       runs-on: ubuntu-latest
       steps:
       - uses: actions/setup-python@v2
