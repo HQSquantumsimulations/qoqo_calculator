@@ -2,6 +2,26 @@ name: reusable_build_tests_rust_pyo3
 
 on:
   workflow_dispatch:
+    inputs:
+      py_interface_folder:
+        description: "Location of the py interface folder"
+        required: true
+        type: string
+      has_python_tests:
+        description: "Is there a python_tests folder inside the python interface folder"
+        required: false
+        default: false
+        type: boolean
+      windows:
+        description: "Run unittests on windows"
+        required: false
+        default: false
+        type: boolean
+      macos:
+        description: "Run unittests on macOS"
+        required: false
+        default: true
+        type: boolean
   workflow_call:
     inputs:
       py_interface_folder:

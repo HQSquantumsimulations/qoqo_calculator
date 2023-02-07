@@ -2,6 +2,21 @@ name: reusable_unittests_rust_pyo3
 
 on:
   workflow_dispatch:
+    inputs:
+      windows:
+        description: "Run unittests on windows"
+        required: false
+        default: false
+        type: boolean
+      macos:
+        description: "Run unittests on macOS"
+        required: false
+        default: true
+        type: boolean
+      rust_package_name:
+        description: "Name of the pure rust package"
+        required: true
+        type: string
   workflow_call:
     inputs:
       windows:

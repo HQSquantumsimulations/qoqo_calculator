@@ -8,12 +8,12 @@ on:
 jobs:
 
   publish_documentation:
-    uses: .github/wokflows/reusable_unittests_rust_pyo3
-      with: 
-        py_interface_folder: "qoqo_calculator_pyo3"
-        py_docs_folder: "qoqo_calculator_pyo3/docs"
-      secrets:
-        tmp_github_token: ${{ secrets.GITHUB_TOKEN }}
+    uses: .github/wokflows/reusable_unittests_rust_pyo3.yml
+    with: 
+      py_interface_folder: "qoqo_calculator_pyo3"
+      py_docs_folder: "qoqo_calculator_pyo3/docs"
+    # secrets:
+    #   tmp_github_token: ${{ secrets.GITHUB_TOKEN }}
 
   code_coverage_rust:
     runs-on: ubuntu-latest
