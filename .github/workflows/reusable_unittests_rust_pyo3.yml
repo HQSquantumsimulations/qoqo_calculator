@@ -97,7 +97,7 @@ jobs:
   
   unittests_check_linux:
     name: unittests-macos-${{ matrix.python.interpreter }}
-    runs-on: ${{ matrix.combinations.runs_on }}
+    runs-on: "ubuntu-latest"
     strategy:
       matrix:
         python: [
@@ -114,7 +114,6 @@ jobs:
         with:
           profile: minimal
           toolchain: stable
-          target: ${{ matrix.combinations.rust }}
           default: true
           components: rustfmt
       - uses: actions/setup-python@v4

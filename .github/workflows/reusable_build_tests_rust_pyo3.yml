@@ -50,6 +50,7 @@ jobs:
     name: maturin_check_linux-${{ matrix.python.interpreter }}
     runs-on: "ubuntu-latest"
     strategy:
+      matrix:
         python: [
             {py: '3.7', interpreter: "python3.7"},
             {py: '3.8', interpreter: "python3.8"},
@@ -82,6 +83,7 @@ jobs:
     name: maturin_check_windows-${{ matrix.python.interpreter }}
     runs-on: "windows-latest"
     strategy:
+      matrix:
         python: [
             {py: '3.7', interpreter: "python3.7"},
             {py: '3.8', interpreter: "python3.8"},
