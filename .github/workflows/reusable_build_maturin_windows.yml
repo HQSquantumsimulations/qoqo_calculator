@@ -1,4 +1,4 @@
-name: reusable_build_maturin_linux
+name: reusable_build_maturin_windows
 
 on:
   workflow_dispatch:
