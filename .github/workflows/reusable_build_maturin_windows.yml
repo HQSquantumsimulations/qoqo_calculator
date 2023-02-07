@@ -51,6 +51,7 @@ jobs:
 
   deploy:
     if: ${{inputs.deploy}}
+    needs: build_maturin_builds_windows
     runs-on: ubuntu-latest
     steps:
     - uses: actions/setup-python@v2

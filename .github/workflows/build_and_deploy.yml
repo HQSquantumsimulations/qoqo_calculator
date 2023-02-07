@@ -31,6 +31,7 @@ jobs:
     with: 
       py_interface_folder: "qoqo_calculator_pyo3"
       deploy: true
+    secrets: inherit
 
   build_maturin_builds_macos:
     name: maturin_build-macos
@@ -39,6 +40,7 @@ jobs:
     with: 
       py_interface_folder: "qoqo_calculator_pyo3"
       deploy: true
+    secrets: inherit
 
   build_maturin_builds_windows:
     name: maturin_build-windows
@@ -47,3 +49,4 @@ jobs:
     with: 
       py_interface_folder: "qoqo_calculator_pyo3"
       deploy: true
+    secrets: inherit
