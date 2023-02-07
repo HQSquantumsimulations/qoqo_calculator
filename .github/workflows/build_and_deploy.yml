@@ -30,6 +30,7 @@ jobs:
     uses: ./.github/workflows/reusable_build_maturin_linux.yml
     with: 
       py_interface_folder: "qoqo_calculator_pyo3"
+      deploy: true
 
   build_maturin_builds_macos:
     name: maturin_build-macos
@@ -37,6 +38,7 @@ jobs:
     uses: ./.github/workflows/reusable_build_maturin_macos.yml
     with: 
       py_interface_folder: "qoqo_calculator_pyo3"
+      deploy: true
 
   build_maturin_builds_windows:
     name: maturin_build-windows
@@ -44,10 +46,4 @@ jobs:
     uses: ./.github/workflows/reusable_build_maturin_windows.yml
     with: 
       py_interface_folder: "qoqo_calculator_pyo3"
-
-  publish:
-    name: publish_on_pypi
-    needs: [build_maturin_builds_macos, build_maturin_src_builds_linux, build_maturin_builds_linux]
-    uses: ./.github/workflows/reusable_build_maturin_macos.yml
-      # secrets: 
-      #   pypi_api_token: ${{secrets.PYPI_API_TOKEN}}
+      deploy: true
