@@ -27,7 +27,7 @@ jobs:
           profile: minimal
           toolchain: stable
           default: true
-     - name: macos wheels
+      - name: macos wheels
         uses: PyO3/maturin-action@v1
         with:
           maturin-version: latest
