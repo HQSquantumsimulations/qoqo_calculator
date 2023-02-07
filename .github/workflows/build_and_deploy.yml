@@ -1,163 +1,53 @@
-# This workflow will upload a Python Package using Twine when a release is created
-# For more information see: https://help.github.com/en/actions/language-and-framework-guides/using-python-with-github-actions#publishing-to-package-registries
 name: Build and deploy
 
 on:
   workflow_dispatch:
-    inputs:
-      tags:
-          description: 'Test scenario tags'
-          required: false
-          type: boolean
   release:
     types: [created]
 
 jobs:
 
+  deploy_cratesio:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: Swatinem/rust-cache@v2
+    - uses: actions-rs/toolchain@v1
+      with:
+        profile: minimal
+        toolchain: stable
+        default: true
+    - name: setup cargo
+      run: |
+        cargo login ${{ secrets.CRATES_IO_API_TOKEN }}
+        cargo publish --manifest-path=qoqo_calculator/Cargo.toml
+        sleep 60
+        cargo publish --manifest-path=qoqo_calculator_pyo3/Cargo.toml
+
   build_maturin_builds_linux:
     name: maturin_build-linux
-    runs-on: 'ubuntu-latest'
-    steps:
-      - uses: actions/checkout@v3
-      - uses: Swatinem/rust-cache@v2
-      - uses: actions-rs/toolchain@v1
-        with:
-          profile: minimal
-          toolchain: stable
-          default: true
-      - uses: actions/setup-python@v4
-        with:
-          python-version: '3.10'
-      - name: linux wheels
-        uses: PyO3/maturin-action@v1
-        with:
-          maturin-version: latest
-          command: build
-          manylinux: 2014
-          args: --find-interpreter --out wheels -m qoqo_calculator_pyo3/Cargo.toml --release --locked
-      - name: store artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: py_wheels
-          path: wheels
+    needs: deploy_cratesio
+    uses: .github/wokflows/reusable_build_maturin_linux
+      with: 
+        py_interface_folder: "qoqo_calculator_pyo3"
 
-  build_maturin_builds_linux_arm:
-    name: maturin_build-linux
-    runs-on: 'ubuntu-latest'
-    steps:
-      - uses: actions/checkout@v3
-      - uses: Swatinem/rust-cache@v2
-      - uses: actions-rs/toolchain@v1
-        with:
-          profile: minimal
-          toolchain: stable
-          default: true
-      - uses: actions/setup-python@v4
-        with:
-          python-version: '3.10'
-      - name: linux wheels
-        uses: PyO3/maturin-action@v1
-        with:
-          maturin-version: latest
-          command: build
-          manylinux: 2014
-          args: --find-interpreter --out wheels -m qoqo_calculator_pyo3/Cargo.toml --zig --target aarch64-unknown-linux-gnu --release --locked
-      - name: store artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: py_wheels
-          path: wheels
-
-  build_maturin_src_builds_linux:
-    name: maturin_build-src
-    runs-on: 'ubuntu-latest'
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions-rs/toolchain@v1
-        with:
-          profile: minimal
-          toolchain: stable
-          default: true
-      - uses: Swatinem/rust-cache@v2.0.0
-      - uses: actions/setup-python@v4
-        with:
-          python-version: '3.10'
-          cache: 'pip'
-      - name: linux wheels
-        uses: PyO3/maturin-action@v1
-        with:
-          maturin-version: latest
-          command: sdist
-          args: --out wheels -m qoqo_calculator_pyo3/Cargo.toml
-      - name: store artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: py_wheels
-          path: wheels
-  
-  build_maturin_builds_windows:
-    name: maturin_build-windows
-    runs-on: 'windows-latest'
-    steps:
-      - uses: actions/checkout@v3
-      - uses: Swatinem/rust-cache@v2
-      - uses: actions-rs/toolchain@v1
-        with:
-          profile: minimal
-          toolchain: stable
-          default: true
-      - name: windows wheels
-        uses: PyO3/maturin-action@v1
-        with:
-          maturin-version: latest
-          command: build
-          args: --find-interpreter --out wheels -m qoqo_calculator_pyo3/Cargo.toml --release --locked
-      - name: store artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: py_wheels
-          path: wheels
-  
   build_maturin_builds_macos:
     name: maturin_build-macos
-    runs-on: 'macOS-latest'
-    steps:
-      - uses: actions/checkout@v3
-      - uses: Swatinem/rust-cache@v2
-      - uses: actions-rs/toolchain@v1
-        with:
-          profile: minimal
-          toolchain: stable
-          default: true
-     - name: macos wheels
-        uses: PyO3/maturin-action@v1
-        with:
-          maturin-version: latest
-          command: build
-          args: --find-interpreter --out wheels -m qoqo_calculator_pyo3/Cargo.toml --release --universal2 --locked
-      - name: store artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: py_wheels
-          path: wheels
+    needs: deploy_cratesio
+    uses: .github/wokflows/reusable_build_maturin_macos
+      with: 
+        py_interface_folder: "qoqo_calculator_pyo3"
 
-  # deploy:
-  #     needs: [build_maturin_builds_macos, build_maturin_src_builds_linux, build_maturin_builds_linux]
-  #     runs-on: ubuntu-latest
-  #     steps:
-  #     - uses: actions/setup-python@v2
-  #       with:
-  #         python-version: ${{ matrix.python.py }}
-  #     - uses: actions/download-artifact@v3
-  #       with:
-  #         name: py_wheels
-  #     - name: Publish
-  #       env:
-  #         TWINE_USERNAME: __token__
-  #         TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
-  #       run: |
-  #         python -m pip install --upgrade pip
-  #         pip install twine
-  #         python -m twine upload --skip-existing *
+  build_maturin_builds_windows:
+    name: maturin_build-windows
+    needs: deploy_cratesio
+    uses: .github/wokflows/reusable_build_maturin_windows
+      with: 
+        py_interface_folder: "qoqo_calculator_pyo3"
 
-
+  publish:
+    name: publish_on_pypi
+    needs: [build_maturin_builds_macos, build_maturin_src_builds_linux, build_maturin_builds_linux]
+    uses: .github/wokflows/reusable_build_maturin_macos
+      secrets: 
+        pypi_api_token: ${{secrets.PYPI_API_TOKEN}}
