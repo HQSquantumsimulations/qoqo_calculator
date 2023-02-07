@@ -49,5 +49,5 @@ jobs:
     name: publish_on_pypi
     needs: [build_maturin_builds_macos, build_maturin_src_builds_linux, build_maturin_builds_linux]
     uses: .github/wokflows/reusable_build_maturin_macos.yml
-      secrets: 
-        pypi_api_token: ${{secrets.PYPI_API_TOKEN}}
+      # secrets: 
+      #   pypi_api_token: ${{secrets.PYPI_API_TOKEN}}

@@ -12,8 +12,8 @@ jobs:
       with: 
         py_interface_folder: "qoqo_calculator_pyo3"
         py_docs_folder: "qoqo_calculator_pyo3/docs"
-      secrets:
-        tmp_github_token: ${{ secrets.GITHUB_TOKEN }}
+      # secrets:
+      #   tmp_github_token: ${{ secrets.GITHUB_TOKEN }}
 
   code_coverage_rust:
     runs-on: ubuntu-latest

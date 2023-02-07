@@ -2,6 +2,11 @@ name: reusable_build_maturin_macos
 
 on:
   workflow_dispatch:
+    inputs:
+      py_interface_folder:
+        description: "Location of the py interface folder"
+        required: true
+        type: string
   workflow_call:
     inputs:
       py_interface_folder:

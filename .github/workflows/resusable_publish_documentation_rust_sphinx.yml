@@ -12,11 +12,11 @@ on:
         description: "Location of the sphinx doc folder"
         required: true
         type: string
-    secrets:
-      tmp_github_token:
-        description: "Github token for upload"
-        required: true
-        type: string
+    # secrets:
+    #   tmp_github_token:
+    #     description: "Github token for upload"
+    #     required: true
+    #     type: string
 
 jobs:
 
@@ -48,5 +48,5 @@ jobs:
       uses: peaceiris/actions-gh-pages@v3
       if: ${{ github.ref == 'refs/heads/main' }}
       with:
-        github_token: ${{ secrets.tmp_github_token }}
+        github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ${{inputs.py_docs_folder}}/_build/html/
