@@ -19,10 +19,10 @@ on:
         required: true
         type: string
       deploy:
-          description: "Determines if build python wheels should be deployed to PyPi"
-          required: false
-          default: false
-          type: boolean
+        description: "Determines if build python wheels should be deployed to PyPi"
+        required: false
+        default: false
+        type: boolean
 
 jobs:
 
