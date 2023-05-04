@@ -1,9 +1,0 @@
-qoqo_calculator_pyo3>=0.8.0
-numpy
-sphinx >= 2.1
-nbsphinx
-pygments
-recommonmark
-myst_parser
-sphinx_rtd_theme
-toml
