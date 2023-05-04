@@ -24,6 +24,6 @@ docs = [
     "recommonmark",
     "myst_parser",
     "sphinx_rtd_theme",
-    "toml",
+    "tomli",
     "numpy"
 ]
