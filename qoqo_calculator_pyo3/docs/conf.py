@@ -2,14 +2,8 @@
 # -*- coding: utf-8 -*-
 #
 """Configuration of sphinx documentation module"""
-import toml
-
-with open('../Cargo.toml') as f:
-    toml_data = toml.load(f)
-version = toml_data["package"]["version"]
-
-versions = version.split(".")
-main_version = "{}.{}".format(versions[0], versions[1])
+import tomli
+main_version = tomli.load(open("../pyproject.toml", "rb"))["project"]["version"]
 
 
 # -- General configuration ------------------------------------------------
