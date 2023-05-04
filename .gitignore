@@ -1,11 +1,3 @@
 target/*
-*.profraw
-*.DS_Store*
-coverage.lcov
-coverage/*
-coveragehtml/*
-*__pycache__*
-*.pytest_cache*
-*.vscode*
 */docs/generated*
 */docs/_build*
