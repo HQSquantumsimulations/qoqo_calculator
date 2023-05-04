@@ -285,10 +285,10 @@ pub enum Token {
 impl fmt::Display for Token {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
-            Token::Number(x) => write!(f, "Token::Number({:e})", x),
-            Token::VariableAssign(y) => write!(f, "Token::VariableAssign({})", y),
-            Token::Variable(y) => write!(f, "Token::Variable({})", y),
-            Token::Function(y) => write!(f, "Token::Function({})", y),
+            Token::Number(x) => write!(f, "Token::Number({x:e})"),
+            Token::VariableAssign(y) => write!(f, "Token::VariableAssign({y})"),
+            Token::Variable(y) => write!(f, "Token::Variable({y})"),
+            Token::Function(y) => write!(f, "Token::Function({y})"),
             Token::Plus => write!(f, "Token::Plus"),
             Token::Minus => write!(f, "Token::Minus"),
             Token::Multiply => write!(f, "Token::Multiply"),
@@ -1101,7 +1101,7 @@ mod tests {
         let mut calculator = Calculator::new();
         calculator.set_variable("x", 0.1);
         assert_eq!(
-            format!("{:?}", calculator),
+            format!("{calculator:?}"),
             "Calculator { variables: {\"x\": 0.1} }"
         );
     }
@@ -1355,75 +1355,75 @@ mod tests {
     #[test]
     fn test_display() {
         let f = Token::Number(0.1);
-        let f_formatted = format!("{}", f);
+        let f_formatted = format!("{f}");
         assert_eq!(f_formatted, "Token::Number(1e-1)");
 
         let f = Token::VariableAssign(String::from("x"));
-        let f_formatted = format!("{}", f);
+        let f_formatted = format!("{f}");
         assert_eq!(f_formatted, "Token::VariableAssign(x)");
 
         let f = Token::Variable(String::from("3t"));
-        let f_formatted = format!("{}", f);
+        let f_formatted = format!("{f}");
         assert_eq!(f_formatted, "Token::Variable(3t)");
 
         let f = Token::Function(String::from("2s"));
-        let f_formatted = format!("{}", f);
+        let f_formatted = format!("{f}");
         assert_eq!(f_formatted, "Token::Function(2s)");
 
         let f = Token::Plus;
-        let f_formatted = format!("{}", f);
+        let f_formatted = format!("{f}");
         assert_eq!(f_formatted, "Token::Plus");
 
         let f = Token::Minus;
-        let f_formatted = format!("{}", f);
+        let f_formatted = format!("{f}");
         assert_eq!(f_formatted, "Token::Minus");
 
         let f = Token::Multiply;
-        let f_formatted = format!("{}", f);
+        let f_formatted = format!("{f}");
         assert_eq!(f_formatted, "Token::Multiply");
 
         let f = Token::Divide;
-        let f_formatted = format!("{}", f);
+        let f_formatted = format!("{f}");
         assert_eq!(f_formatted, "Token::Divide");
 
         let f = Token::Power;
-        let f_formatted = format!("{}", f);
+        let f_formatted = format!("{f}");
         assert_eq!(f_formatted, "Token::Power");
 
         let f = Token::Factorial;
-        let f_formatted = format!("{}", f);
+        let f_formatted = format!("{f}");
         assert_eq!(f_formatted, "Token::Factorial");
 
         let f = Token::DoubleFactorial;
-        let f_formatted = format!("{}", f);
+        let f_formatted = format!("{f}");
         assert_eq!(f_formatted, "Token::DoubleFactorial");
 
         let f = Token::BracketOpen;
-        let f_formatted = format!("{}", f);
+        let f_formatted = format!("{f}");
         assert_eq!(f_formatted, "Token::BracketOpen");
 
         let f = Token::BracketClose;
-        let f_formatted = format!("{}", f);
+        let f_formatted = format!("{f}");
         assert_eq!(f_formatted, "Token::BracketClose");
 
         let f = Token::Assign;
-        let f_formatted = format!("{}", f);
+        let f_formatted = format!("{f}");
         assert_eq!(f_formatted, "Token::Assign");
 
         let f = Token::Comma;
-        let f_formatted = format!("{}", f);
+        let f_formatted = format!("{f}");
         assert_eq!(f_formatted, "Token::Comma");
 
         let f = Token::EndOfExpression;
-        let f_formatted = format!("{}", f);
+        let f_formatted = format!("{f}");
         assert_eq!(f_formatted, "Token::EndOfExpression");
 
         let f = Token::EndOfString;
-        let f_formatted = format!("{}", f);
+        let f_formatted = format!("{f}");
         assert_eq!(f_formatted, "Token::EndOfString");
 
         let f = Token::Unrecognized;
-        let f_formatted = format!("{}", f);
+        let f_formatted = format!("{f}");
         assert_eq!(f_formatted, "Token::Unrecognized");
     }
 }
