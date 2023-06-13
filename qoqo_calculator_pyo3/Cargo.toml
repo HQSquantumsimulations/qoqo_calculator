@@ -21,11 +21,11 @@ serde =  "1.0"
 thiserror = "1.0"
 
 [dependencies.pyo3]
-version = "0.18"
+version = "0.19"
 features = ["num-complex"]
 
 [build-dependencies]
-pyo3-build-config = "0.18"
+pyo3-build-config = "0.19"
 
 [features]
 extension-module = ["pyo3/extension-module"]
