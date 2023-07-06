@@ -940,7 +940,7 @@ DEALINGS IN THE SOFTWARE.
 
 
 ====================================================
-itoa 1.0.6
+itoa 1.0.8
 https://github.com/dtolnay/itoa
 by David Tolnay <dtolnay@gmail.com>
 Fast integer primitive to string conversion
@@ -1154,7 +1154,7 @@ DEALINGS IN THE SOFTWARE.
 
 
 ====================================================
-libc 0.2.146
+libc 0.2.147
 https://github.com/rust-lang/libc
 by The Rust Project Developers
 Raw FFI bindings to platform libraries like libc.
@@ -2844,7 +2844,7 @@ DEALINGS IN THE SOFTWARE.
 
 
 ====================================================
-proc-macro2 1.0.60
+proc-macro2 1.0.63
 https://github.com/dtolnay/proc-macro2
 by David Tolnay <dtolnay@gmail.com>, Alex Crichton <alex@alexcrichton.com>
 A substitute implementation of the compiler's `proc_macro` API to decouple token-based libraries from the procedural macro use case.
@@ -3058,7 +3058,7 @@ DEALINGS IN THE SOFTWARE.
 
 
 ====================================================
-pyo3 0.19.0
+pyo3 0.19.1
 https://github.com/pyo3/pyo3
 by PyO3 Project and Contributors <https://github.com/PyO3>
 Bindings to Python interpreter
@@ -3258,7 +3258,7 @@ LICENSE:
 
 
 ====================================================
-pyo3-build-config 0.19.0
+pyo3-build-config 0.19.1
 https://github.com/pyo3/pyo3
 by PyO3 Project and Contributors <https://github.com/PyO3>
 Build configuration for the PyO3 ecosystem
@@ -3458,7 +3458,7 @@ LICENSE:
 
 
 ====================================================
-pyo3-ffi 0.19.0
+pyo3-ffi 0.19.1
 https://github.com/pyo3/pyo3
 by PyO3 Project and Contributors <https://github.com/PyO3>
 Python-API bindings for the PyO3 ecosystem
@@ -4086,7 +4086,7 @@ docs/license.html_lib.
 
 
 ====================================================
-pyo3-macros 0.19.0
+pyo3-macros 0.19.1
 https://github.com/pyo3/pyo3
 by PyO3 Project and Contributors <https://github.com/PyO3>
 Proc macros for PyO3 package
@@ -4286,7 +4286,7 @@ LICENSE:
 
 
 ====================================================
-pyo3-macros-backend 0.19.0
+pyo3-macros-backend 0.19.1
 https://github.com/pyo3/pyo3
 by PyO3 Project and Contributors <https://github.com/PyO3>
 Code generation for PyO3 package
@@ -4486,7 +4486,7 @@ LICENSE:
 
 
 ====================================================
-qoqo_calculator 1.1.1
+qoqo_calculator 1.1.2
 https://github.com/HQSquantumsimulations/qoqo_calculator
 by HQS Quantum Simulations <info@quantumsimulations.de>
 qoqo-calculator is the calculator backend of the qoqo quantum computing toolkit by HQS Quantum Simulations
@@ -4698,7 +4698,7 @@ LICENSE:
 
 
 ====================================================
-qoqo_calculator_pyo3 1.1.1
+qoqo_calculator_pyo3 1.1.2
 https://github.com/HQSquantumsimulations/qoqo_calculator_pyo3
 by HQS Quantum Simulations <info@quantumsimulations.de>
 Python interface to qoqo calculator, the calculator backend of the qoqo quantum computing toolkit by HQS Quantum Simulations
@@ -4910,7 +4910,7 @@ LICENSE:
 
 
 ====================================================
-quote 1.0.28
+quote 1.0.29
 https://github.com/dtolnay/quote
 by David Tolnay <dtolnay@gmail.com>
 Quasi-quoting macro quote!(...)
@@ -5157,7 +5157,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
 ====================================================
-ryu 1.0.13
+ryu 1.0.14
 https://github.com/dtolnay/ryu
 by David Tolnay <dtolnay@gmail.com>
 Fast floating point to string conversion
@@ -5617,7 +5617,7 @@ DEALINGS IN THE SOFTWARE.
 
 
 ====================================================
-serde 1.0.164
+serde 1.0.166
 https://serde.rs
 by Erick Tryzelaar <erick.tryzelaar@gmail.com>, David Tolnay <dtolnay@gmail.com>
 A generic serialization/deserialization framework
@@ -5831,7 +5831,7 @@ DEALINGS IN THE SOFTWARE.
 
 
 ====================================================
-serde_derive 1.0.164
+serde_derive 1.0.166
 https://serde.rs
 by Erick Tryzelaar <erick.tryzelaar@gmail.com>, David Tolnay <dtolnay@gmail.com>
 Macros 1.1 implementation of #[derive(Serialize, Deserialize)]
@@ -6045,7 +6045,7 @@ DEALINGS IN THE SOFTWARE.
 
 
 ====================================================
-serde_json 1.0.96
+serde_json 1.0.100
 https://github.com/serde-rs/json
 by Erick Tryzelaar <erick.tryzelaar@gmail.com>, David Tolnay <dtolnay@gmail.com>
 A JSON serialization file format
@@ -6259,7 +6259,7 @@ DEALINGS IN THE SOFTWARE.
 
 
 ====================================================
-serde_test 1.0.164
+serde_test 1.0.166
 https://serde.rs
 by Erick Tryzelaar <erick.tryzelaar@gmail.com>, David Tolnay <dtolnay@gmail.com>
 Token De/Serializer for testing De/Serialize implementations
@@ -6953,7 +6953,7 @@ DEALINGS IN THE SOFTWARE.
 
 
 ====================================================
-syn 2.0.18
+syn 2.0.23
 https://github.com/dtolnay/syn
 by David Tolnay <dtolnay@gmail.com>
 Parser for Rust source code
@@ -7167,7 +7167,7 @@ DEALINGS IN THE SOFTWARE.
 
 
 ====================================================
-target-lexicon 0.12.7
+target-lexicon 0.12.8
 https://github.com/bytecodealliance/target-lexicon
 by Dan Gohman <sunfish@mozilla.com>
 Targeting utilities for compilers and related tools
@@ -7398,7 +7398,7 @@ Software.
 
 
 ====================================================
-thiserror 1.0.40
+thiserror 1.0.41
 https://github.com/dtolnay/thiserror
 by David Tolnay <dtolnay@gmail.com>
 derive(Error)
@@ -7612,7 +7612,7 @@ DEALINGS IN THE SOFTWARE.
 
 
 ====================================================
-thiserror-impl 1.0.40
+thiserror-impl 1.0.41
 https://github.com/dtolnay/thiserror
 by David Tolnay <dtolnay@gmail.com>
 Implementation detail of the `thiserror` crate
@@ -7826,7 +7826,7 @@ DEALINGS IN THE SOFTWARE.
 
 
 ====================================================
-unicode-ident 1.0.9
+unicode-ident 1.0.10
 https://github.com/dtolnay/unicode-ident
 by David Tolnay <dtolnay@gmail.com>
 Determine whether characters have the XID_Start or XID_Continue properties according to Unicode Standard Annex #31
@@ -8329,7 +8329,7 @@ DEALINGS IN THE SOFTWARE.
 
 
 ====================================================
-windows-targets 0.48.0
+windows-targets 0.48.1
 https://github.com/microsoft/windows-rs
 by Microsoft
 Import libs for Windows
