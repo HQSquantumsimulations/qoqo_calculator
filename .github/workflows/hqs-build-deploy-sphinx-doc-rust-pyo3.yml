@@ -1,4 +1,4 @@
-name: reusable_publish_documentation_rust_sphinx
+name: HQS build Sphinx docs for rust pyo3 repos
 
 on:
   workflow_dispatch:
