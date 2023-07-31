@@ -22,16 +22,14 @@ jobs:
         # Authentication at crates.io with HQS organizational token
         cargo login ${{ secrets.CRATES_IO_API_TOKEN }}
         # publishing a specific package to crates.io
-        cargo publish --manifest-path=quest-sys/Cargo.toml
+        cargo publish --manifest-path=qoqo_calculator/Cargo.toml
         # Wait to publish next package (e.g. the Python interface)
         # that depends on previous package so that crates.io is
         # updated and accepts the upload
         sleep 60
         # publish second package
-        cargo publish --manifest-path=roqoqo-quest/Cargo.toml
-        sleep 60
-        # publish second package
-        cargo publish --manifest-path=qoqo-quest/Cargo.toml
+        cargo publish --manifest-path=qoqo_calculator_pyo3/Cargo.toml
+
 
 # Build linux wheels and upload them to PyPi
   build_maturin_builds_linux:
