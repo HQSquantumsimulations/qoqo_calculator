@@ -7,10 +7,10 @@ on:
 
 jobs:
   linting:
-    uses: HQSquantumsimulations/reusable_workflows/.github/workflows/reusable_linting_rust_pyo3.yml@main
+    uses: kbarkhqs/reusable_workflows/.github/workflows/reusable_linting_rust_pyo3.yml@main
 
   unittests:
-    uses: HQSquantumsimulations/reusable_workflows/.github/workflows/reusable_unittests_rust_pyo3.yml@main
+    uses: kbarkhqs/reusable_workflows/.github/workflows/reusable_unittests_rust_pyo3.yml@main
     with:
       # Run tests also on windows runners
       windows: true
@@ -21,7 +21,7 @@ jobs:
       rust_package_name: "qoqo_calculator"
 
   build_tests:
-    uses: HQSquantumsimulations/reusable_workflows/.github/workflows/reusable_build_tests_rust_pyo3.yml@main
+    uses: kbarkhqs/reusable_workflows/.github/workflows/reusable_build_tests_rust_pyo3.yml@main
     with: 
       # Run tests also on windows runners
       windows: true
