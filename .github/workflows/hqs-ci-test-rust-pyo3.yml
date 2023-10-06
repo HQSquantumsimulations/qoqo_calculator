@@ -1,4 +1,4 @@
-name: qoqo-quest-ci-tests
+name: HQS CI tests for rust pyo3 repos
 
 on:
   workflow_dispatch:
