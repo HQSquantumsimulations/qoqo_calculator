@@ -1,6 +1,6 @@
 [package]
 name = "qoqo_calculator_pyo3"
-version = "1.1.1"
+version = "1.1.2"
 authors = ["HQS Quantum Simulations <info@quantumsimulations.de>"]
 license = "Apache-2.0"
 edition = "2021"
@@ -16,16 +16,16 @@ crate-type = ["cdylib", "rlib"]
 
 [dependencies]
 num-complex = "0.4"
-qoqo_calculator = {version="1.1.0", path="../qoqo_calculator"}
+qoqo_calculator = {version="1.1.2", path="../qoqo_calculator"}
 serde =  "1.0"
 thiserror = "1.0"
 
 [dependencies.pyo3]
-version = "0.18"
+version = "0.19"
 features = ["num-complex"]
 
 [build-dependencies]
-pyo3-build-config = "0.18"
+pyo3-build-config = "0.19"
 
 [features]
 extension-module = ["pyo3/extension-module"]
