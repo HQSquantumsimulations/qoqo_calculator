@@ -2,6 +2,10 @@
 
 This changelog track changes to the qoqo_calculator project starting at version 0.6.0
 
+## 1.1.4
+
+* TEMP
+
 ## 1.1.3
 
 * Update to python 3.12
