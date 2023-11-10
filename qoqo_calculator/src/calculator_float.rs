@@ -1336,6 +1336,34 @@ mod tests {
         }
         assert!(x.is_float());
 
+        // u64 init
+        let x = CalculatorFloat::from(3u64);
+        if let CalculatorFloat::Float(y) = x {
+            assert!((y - 3.0).abs() < f64::EPSILON)
+        }
+        assert!(x.is_float());
+
+        // &u64 init
+        let x = CalculatorFloat::from(&3u64);
+        if let CalculatorFloat::Float(y) = x {
+            assert!((y - 3.0).abs() < f64::EPSILON)
+        }
+        assert!(x.is_float());
+
+        // i64 init
+        let x = CalculatorFloat::from(3i64);
+        if let CalculatorFloat::Float(y) = x {
+            assert!((y - 3.0).abs() < f64::EPSILON)
+        }
+        assert!(x.is_float());
+
+        // &i64 init
+        let x = CalculatorFloat::from(&3i64);
+        if let CalculatorFloat::Float(y) = x {
+            assert!((y - 3.0).abs() < f64::EPSILON)
+        }
+        assert!(x.is_float());
+
         let x = CalculatorFloat::from(&3.0);
         if let CalculatorFloat::Float(y) = x {
             assert!((y - 3.0).abs() < f64::EPSILON)
