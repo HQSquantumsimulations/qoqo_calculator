@@ -180,6 +180,24 @@ impl<'de> Deserialize<'de> for CalculatorFloat {
                     Ok(CalculatorFloat::from(value))
                 }
 
+                // Visit function for u64 value.
+                //
+                // # Arguments
+                //
+                // * `self` - Error
+                // * `value` - value to be deserialized
+                //
+                // # Returns
+                //
+                // `Result<CalculatorFloat, E>` - CalculatorFloat of value or corresponding error
+                //
+                fn visit_u64<E>(self, value: u64) -> Result<CalculatorFloat, E>
+                where
+                    E: Error,
+                {
+                    Ok(CalculatorFloat::from(value))
+                }
+
                 // Visit function for i32 value.
                 //
                 // # Arguments
@@ -192,6 +210,24 @@ impl<'de> Deserialize<'de> for CalculatorFloat {
                 // `Result<CalculatorFloat, E>` - CalculatorFloat of value or corresponding error
                 //
                 fn visit_i32<E>(self, value: i32) -> Result<CalculatorFloat, E>
+                where
+                    E: Error,
+                {
+                    Ok(CalculatorFloat::from(value))
+                }
+
+                // Visit function for i64 value.
+                //
+                // # Arguments
+                //
+                // * `self` - Error
+                // * `value` - value to be deserialized
+                //
+                // # Returns
+                //
+                // `Result<CalculatorFloat, E>` - CalculatorFloat of value or corresponding error
+                //
+                fn visit_i64<E>(self, value: i64) -> Result<CalculatorFloat, E>
                 where
                     E: Error,
                 {
@@ -331,6 +367,18 @@ impl From<i32> for CalculatorFloat {
     }
 }
 
+/// Initialize CalculatorFloat from i64 value.
+///
+/// # Returns
+///
+/// * `CalculatorFloat::Float`
+///
+impl From<i64> for CalculatorFloat {
+    fn from(item: i64) -> Self {
+        CalculatorFloat::Float(item as f64)
+    }
+}
+
 /// Initialize CalculatorFloat from usize value.
 ///
 /// # Returns
@@ -339,6 +387,18 @@ impl From<i32> for CalculatorFloat {
 ///
 impl From<u32> for CalculatorFloat {
     fn from(item: u32) -> Self {
+        CalculatorFloat::Float(item as f64)
+    }
+}
+
+/// Initialize CalculatorFloat from u64 value.
+///
+/// # Returns
+///
+/// * `CalculatorFloat::Float`
+///
+impl From<u64> for CalculatorFloat {
+    fn from(item: u64) -> Self {
         CalculatorFloat::Float(item as f64)
     }
 }
@@ -355,7 +415,19 @@ impl<'a> From<&'a i32> for CalculatorFloat {
     }
 }
 
-/// Initialize CalculatorFloat from usize reference &.
+/// Initialize CalculatorFloat from i64 reference &.
+///
+/// # Returns
+///
+/// * `CalculatorFloat::Float`
+///
+impl<'a> From<&'a i64> for CalculatorFloat {
+    fn from(item: &'a i64) -> Self {
+        CalculatorFloat::Float(*item as f64)
+    }
+}
+
+/// Initialize CalculatorFloat from u43 reference &.
 ///
 /// # Returns
 ///
@@ -363,6 +435,18 @@ impl<'a> From<&'a i32> for CalculatorFloat {
 ///
 impl<'a> From<&'a u32> for CalculatorFloat {
     fn from(item: &'a u32) -> Self {
+        CalculatorFloat::Float(*item as f64)
+    }
+}
+
+/// Initialize CalculatorFloat from u64 reference &.
+///
+/// # Returns
+///
+/// * `CalculatorFloat::Float`
+///
+impl<'a> From<&'a u64> for CalculatorFloat {
+    fn from(item: &'a u64) -> Self {
         CalculatorFloat::Float(*item as f64)
     }
 }
