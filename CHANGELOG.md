@@ -2,6 +2,10 @@
 
 This changelog track changes to the qoqo_calculator project starting at version 0.6.0
 
+## 1.1.5
+
+* Update to pyo3 0.20
+
 ## 1.1.4
 
 * Fixes issue when deserializing a float from json when float is represented by integer (e.g. `1` instead of `1.0`)
