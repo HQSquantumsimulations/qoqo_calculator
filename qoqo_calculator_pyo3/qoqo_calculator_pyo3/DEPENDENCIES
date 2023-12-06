@@ -940,7 +940,7 @@ END OF TERMS AND CONDITIONS
 
 
 ====================================================
-itoa 1.0.8
+itoa 1.0.9
 https://github.com/dtolnay/itoa
 by David Tolnay <dtolnay@gmail.com>
 Fast integer primitive to string conversion
@@ -1154,7 +1154,7 @@ END OF TERMS AND CONDITIONS
 
 
 ====================================================
-libc 0.2.147
+libc 0.2.150
 https://github.com/rust-lang/libc
 by The Rust Project Developers
 Raw FFI bindings to platform libraries like libc.
@@ -1371,7 +1371,7 @@ END OF TERMS AND CONDITIONS
 
 
 ====================================================
-lock_api 0.4.10
+lock_api 0.4.11
 https://github.com/Amanieu/parking_lot
 by Amanieu d'Antras <amanieu@gmail.com>
 Wrappers to create fully-featured Mutex and RwLock types. Compatible with no_std.
@@ -1641,7 +1641,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 ====================================================
-num-complex 0.4.3
+num-complex 0.4.4
 https://github.com/rust-num/num-complex
 by The Rust Project Developers
 Complex numbers implementation for Rust
@@ -1882,7 +1882,7 @@ limitations under the License.
 
 
 ====================================================
-num-traits 0.2.15
+num-traits 0.2.17
 https://github.com/rust-num/num-traits
 by The Rust Project Developers
 Numeric traits for generic mathematics
@@ -2603,7 +2603,7 @@ limitations under the License.
 
 
 ====================================================
-parking_lot_core 0.9.8
+parking_lot_core 0.9.9
 https://github.com/Amanieu/parking_lot
 by Amanieu d'Antras <amanieu@gmail.com>
 An advanced API for creating custom synchronization primitives.
@@ -2844,7 +2844,7 @@ limitations under the License.
 
 
 ====================================================
-proc-macro2 1.0.63
+proc-macro2 1.0.70
 https://github.com/dtolnay/proc-macro2
 by David Tolnay <dtolnay@gmail.com>, Alex Crichton <alex@alexcrichton.com>
 A substitute implementation of the compiler's `proc_macro` API to decouple token-based libraries from the procedural macro use case.
@@ -3058,7 +3058,7 @@ END OF TERMS AND CONDITIONS
 
 
 ====================================================
-pyo3 0.19.1
+pyo3 0.19.2
 https://github.com/pyo3/pyo3
 by PyO3 Project and Contributors <https://github.com/PyO3>
 Bindings to Python interpreter
@@ -3258,7 +3258,7 @@ LICENSE:
 
 
 ====================================================
-pyo3-build-config 0.19.1
+pyo3-build-config 0.19.2
 https://github.com/pyo3/pyo3
 by PyO3 Project and Contributors <https://github.com/PyO3>
 Build configuration for the PyO3 ecosystem
@@ -3458,7 +3458,7 @@ LICENSE:
 
 
 ====================================================
-pyo3-ffi 0.19.1
+pyo3-ffi 0.19.2
 https://github.com/pyo3/pyo3
 by PyO3 Project and Contributors <https://github.com/PyO3>
 Python-API bindings for the PyO3 ecosystem
@@ -4086,7 +4086,7 @@ docs/license.html_lib.
 
 
 ====================================================
-pyo3-macros 0.19.1
+pyo3-macros 0.19.2
 https://github.com/pyo3/pyo3
 by PyO3 Project and Contributors <https://github.com/PyO3>
 Proc macros for PyO3 package
@@ -4286,7 +4286,7 @@ LICENSE:
 
 
 ====================================================
-pyo3-macros-backend 0.19.1
+pyo3-macros-backend 0.19.2
 https://github.com/pyo3/pyo3
 by PyO3 Project and Contributors <https://github.com/PyO3>
 Code generation for PyO3 package
@@ -4486,7 +4486,7 @@ LICENSE:
 
 
 ====================================================
-qoqo_calculator 1.1.3
+qoqo_calculator 1.1.4
 https://github.com/HQSquantumsimulations/qoqo_calculator
 by HQS Quantum Simulations <info@quantumsimulations.de>
 qoqo-calculator is the calculator backend of the qoqo quantum computing toolkit by HQS Quantum Simulations
@@ -4698,7 +4698,7 @@ LICENSE:
 
 
 ====================================================
-qoqo_calculator_pyo3 1.1.3
+qoqo_calculator_pyo3 1.1.4
 https://github.com/HQSquantumsimulations/qoqo_calculator_pyo3
 by HQS Quantum Simulations <info@quantumsimulations.de>
 Python interface to qoqo calculator, the calculator backend of the qoqo quantum computing toolkit by HQS Quantum Simulations
@@ -4910,7 +4910,7 @@ LICENSE:
 
 
 ====================================================
-quote 1.0.29
+quote 1.0.33
 https://github.com/dtolnay/quote
 by David Tolnay <dtolnay@gmail.com>
 Quasi-quoting macro quote!(...)
@@ -5124,7 +5124,7 @@ END OF TERMS AND CONDITIONS
 
 
 ====================================================
-redox_syscall 0.3.5
+redox_syscall 0.4.1
 https://gitlab.redox-os.org/redox-os/syscall
 by Jeremy Soller <jackpot51@gmail.com>
 A Rust library to access raw Redox system calls
@@ -5157,7 +5157,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
 ====================================================
-ryu 1.0.14
+ryu 1.0.15
 https://github.com/dtolnay/ryu
 by David Tolnay <dtolnay@gmail.com>
 Fast floating point to string conversion
@@ -5371,7 +5371,7 @@ DEALINGS IN THE SOFTWARE.
 
 
 ====================================================
-scopeguard 1.1.0
+scopeguard 1.2.0
 https://github.com/bluss/scopeguard
 by bluss
 A RAII scope guard that will run a given closure when it goes out of scope,
@@ -5380,7 +5380,7 @@ even if the code between panics (assuming unwinding panic).
 Defines the macros `defer!`, `defer_on_unwind!`, `defer_on_success!` as
 shorthands for guards with one of the implemented strategies.
 
-License: MIT/Apache-2.0
+License: MIT OR Apache-2.0
 ----------------------------------------------------
 LICENSE-MIT:
 
@@ -5617,7 +5617,7 @@ limitations under the License.
 
 
 ====================================================
-serde 1.0.166
+serde 1.0.193
 https://serde.rs
 by Erick Tryzelaar <erick.tryzelaar@gmail.com>, David Tolnay <dtolnay@gmail.com>
 A generic serialization/deserialization framework
@@ -5831,7 +5831,7 @@ END OF TERMS AND CONDITIONS
 
 
 ====================================================
-serde_derive 1.0.166
+serde_derive 1.0.193
 https://serde.rs
 by Erick Tryzelaar <erick.tryzelaar@gmail.com>, David Tolnay <dtolnay@gmail.com>
 Macros 1.1 implementation of #[derive(Serialize, Deserialize)]
@@ -6045,7 +6045,7 @@ END OF TERMS AND CONDITIONS
 
 
 ====================================================
-serde_json 1.0.100
+serde_json 1.0.108
 https://github.com/serde-rs/json
 by Erick Tryzelaar <erick.tryzelaar@gmail.com>, David Tolnay <dtolnay@gmail.com>
 A JSON serialization file format
@@ -6259,8 +6259,8 @@ END OF TERMS AND CONDITIONS
 
 
 ====================================================
-serde_test 1.0.166
-https://serde.rs
+serde_test 1.0.176
+https://github.com/serde-rs/test
 by Erick Tryzelaar <erick.tryzelaar@gmail.com>, David Tolnay <dtolnay@gmail.com>
 Token De/Serializer for testing De/Serialize implementations
 License: MIT OR Apache-2.0
@@ -6473,7 +6473,7 @@ END OF TERMS AND CONDITIONS
 
 
 ====================================================
-smallvec 1.10.0
+smallvec 1.11.2
 https://github.com/servo/rust-smallvec
 by The Servo Project Developers
 'Small vector' optimization: store up to a small number of items on the stack
@@ -6953,7 +6953,7 @@ limitations under the License.
 
 
 ====================================================
-syn 2.0.23
+syn 2.0.39
 https://github.com/dtolnay/syn
 by David Tolnay <dtolnay@gmail.com>
 Parser for Rust source code
@@ -7167,7 +7167,7 @@ END OF TERMS AND CONDITIONS
 
 
 ====================================================
-target-lexicon 0.12.8
+target-lexicon 0.12.12
 https://github.com/bytecodealliance/target-lexicon
 by Dan Gohman <sunfish@mozilla.com>
 Targeting utilities for compilers and related tools
@@ -7398,7 +7398,7 @@ Software.
 
 
 ====================================================
-thiserror 1.0.41
+thiserror 1.0.50
 https://github.com/dtolnay/thiserror
 by David Tolnay <dtolnay@gmail.com>
 derive(Error)
@@ -7612,7 +7612,7 @@ END OF TERMS AND CONDITIONS
 
 
 ====================================================
-thiserror-impl 1.0.41
+thiserror-impl 1.0.50
 https://github.com/dtolnay/thiserror
 by David Tolnay <dtolnay@gmail.com>
 Implementation detail of the `thiserror` crate
@@ -7826,7 +7826,7 @@ END OF TERMS AND CONDITIONS
 
 
 ====================================================
-unicode-ident 1.0.10
+unicode-ident 1.0.12
 https://github.com/dtolnay/unicode-ident
 by David Tolnay <dtolnay@gmail.com>
 Determine whether characters have the XID_Start or XID_Continue properties according to Unicode Standard Annex #31
@@ -8329,7 +8329,7 @@ limitations under the License.
 
 
 ====================================================
-windows-targets 0.48.1
+windows-targets 0.48.5
 https://github.com/microsoft/windows-rs
 by Microsoft
 Import libs for Windows
@@ -8566,7 +8566,7 @@ license-mit:
 
 
 ====================================================
-windows_aarch64_gnullvm 0.48.0
+windows_aarch64_gnullvm 0.48.5
 https://github.com/microsoft/windows-rs
 by Microsoft
 Import lib for Windows
@@ -8803,7 +8803,7 @@ license-mit:
 
 
 ====================================================
-windows_aarch64_msvc 0.48.0
+windows_aarch64_msvc 0.48.5
 https://github.com/microsoft/windows-rs
 by Microsoft
 Import lib for Windows
@@ -9040,7 +9040,7 @@ license-mit:
 
 
 ====================================================
-windows_i686_gnu 0.48.0
+windows_i686_gnu 0.48.5
 https://github.com/microsoft/windows-rs
 by Microsoft
 Import lib for Windows
@@ -9277,7 +9277,7 @@ license-mit:
 
 
 ====================================================
-windows_i686_msvc 0.48.0
+windows_i686_msvc 0.48.5
 https://github.com/microsoft/windows-rs
 by Microsoft
 Import lib for Windows
@@ -9514,7 +9514,7 @@ license-mit:
 
 
 ====================================================
-windows_x86_64_gnu 0.48.0
+windows_x86_64_gnu 0.48.5
 https://github.com/microsoft/windows-rs
 by Microsoft
 Import lib for Windows
@@ -9751,7 +9751,7 @@ license-mit:
 
 
 ====================================================
-windows_x86_64_gnullvm 0.48.0
+windows_x86_64_gnullvm 0.48.5
 https://github.com/microsoft/windows-rs
 by Microsoft
 Import lib for Windows
@@ -9988,7 +9988,7 @@ license-mit:
 
 
 ====================================================
-windows_x86_64_msvc 0.48.0
+windows_x86_64_msvc 0.48.5
 https://github.com/microsoft/windows-rs
 by Microsoft
 Import lib for Windows
