@@ -40,8 +40,7 @@ use std::panic::catch_unwind;
 pub fn convert_into_calculator_complex(
     input: &Bound<PyAny>,
 ) -> Result<CalculatorComplex, CalculatorError> {
-    let input_object = input.as_gil_ref();
-    let try_real_part = input_object.getattr("real");
+    let try_real_part = input.as_gil_ref().getattr("real");
     match try_real_part {
         Ok(x) => {
             let real_part_converted = convert_into_calculator_float(&x.as_borrowed())?;
