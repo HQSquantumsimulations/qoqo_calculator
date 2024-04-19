@@ -38,16 +38,17 @@ use std::panic::catch_unwind;
 /// `CalculatorError` - error in the conversion process
 ///
 pub fn convert_into_calculator_complex(
-    input: &PyAny,
+    input: &Bound<PyAny>,
 ) -> Result<CalculatorComplex, CalculatorError> {
-    let try_real_part = input.getattr("real");
+    let input_object = input.as_gil_ref();
+    let try_real_part = input_object.getattr("real");
     match try_real_part {
         Ok(x) => {
-            let real_part_converted = convert_into_calculator_float(x)?;
+            let real_part_converted = convert_into_calculator_float(&x.as_borrowed())?;
             let try_imag_part = input.getattr("imag");
             match try_imag_part {
                 Ok(y) => {
-                    let imag_part_converted = convert_into_calculator_float(y)?;
+                    let imag_part_converted = convert_into_calculator_float(&y.as_borrowed())?;
                     Ok(CalculatorComplex::new(
                         real_part_converted,
                         imag_part_converted,
@@ -83,7 +84,7 @@ impl CalculatorComplexWrapper {
     /// `PyResult<Self>` - CalculatorComplexWrapper of converted input or corresponding Python error
     ///
     #[new]
-    fn new(input: &PyAny) -> PyResult<Self> {
+    fn new(input: &Bound<PyAny>) -> PyResult<Self> {
         let converted = convert_into_calculator_complex(input).map_err(|_| {
             PyTypeError::new_err("Input can not be converted to Calculator Complex")
         })?;
@@ -158,7 +159,8 @@ impl CalculatorComplexWrapper {
 
     /// Set real and imaginary parts of CalculatorComplexWrapper for Python.
     fn __setstate__(&mut self, state: (&PyAny, &PyAny)) -> PyResult<()> {
-        *self = CalculatorComplexWrapper::from_pair(state.0, state.1)?;
+        *self =
+            CalculatorComplexWrapper::from_pair(&state.0.as_borrowed(), &state.1.as_borrowed())?;
         Ok(())
     }
 
@@ -205,7 +207,7 @@ impl CalculatorComplexWrapper {
 
     /// Create a new instance of CalculatorComplex from a pair of values.
     #[staticmethod]
-    fn from_pair(re: &PyAny, im: &PyAny) -> PyResult<CalculatorComplexWrapper> {
+    fn from_pair(re: &Bound<PyAny>, im: &Bound<PyAny>) -> PyResult<CalculatorComplexWrapper> {
         let re_cf = convert_into_calculator_float(re).map_err(|_| {
             PyTypeError::new_err("Real input can not be converted to Calculator Complex")
         })?;
@@ -232,7 +234,7 @@ impl CalculatorComplexWrapper {
     }
 
     /// Return true when x is close to y.
-    fn isclose(&self, other: &PyAny) -> PyResult<bool> {
+    fn isclose(&self, other: &Bound<PyAny>) -> PyResult<bool> {
         let other_cc = convert_into_calculator_complex(other).map_err(|_| {
             PyTypeError::new_err("Right hand side can not be converted to Calculator Complex")
         })?;
@@ -296,7 +298,7 @@ impl CalculatorComplexWrapper {
     ///
     /// `PyResult<bool>` - whether the two operations compared evaluated to True or False
     ///
-    fn __richcmp__(&self, other: &PyAny, op: CompareOp) -> PyResult<bool> {
+    fn __richcmp__(&self, other: &Bound<PyAny>, op: CompareOp) -> PyResult<bool> {
         let other_cc = convert_into_calculator_complex(other).map_err(|_| {
             PyTypeError::new_err("Right hand side can not be converted to Calculator Complex")
         })?;
@@ -320,7 +322,7 @@ impl CalculatorComplexWrapper {
     ///
     /// `PyResult<CalculatorComplexWrapper>` - lhs + rhs
     ///
-    fn __add__(&self, rhs: &PyAny) -> PyResult<CalculatorComplexWrapper> {
+    fn __add__(&self, rhs: &Bound<PyAny>) -> PyResult<CalculatorComplexWrapper> {
         let self_cc = self.internal.clone();
         let other_cc = convert_into_calculator_complex(rhs).map_err(|_| {
             PyTypeError::new_err("Right hand side can not be converted to Calculator Complex")
@@ -341,7 +343,7 @@ impl CalculatorComplexWrapper {
     ///
     /// `PyResult<CalculatorComplexWrapper>` - lhs + rhs
     ///
-    fn __radd__(&self, other: &PyAny) -> PyResult<CalculatorComplexWrapper> {
+    fn __radd__(&self, other: &Bound<PyAny>) -> PyResult<CalculatorComplexWrapper> {
         let self_cc = self.internal.clone();
         let other_cc = convert_into_calculator_complex(other).map_err(|_| {
             PyTypeError::new_err("Right hand side can not be converted to Calculator Complex")
@@ -359,7 +361,7 @@ impl CalculatorComplexWrapper {
     /// * `self` - the CalculatorComplexWrapper object
     /// * `other` - the CalculatorComplexWrapper object to be added to self
     ///
-    fn __iadd__(&mut self, other: &PyAny) -> PyResult<()> {
+    fn __iadd__(&mut self, other: &Bound<PyAny>) -> PyResult<()> {
         let other_cc = convert_into_calculator_complex(other).map_err(|_| {
             PyTypeError::new_err("Right hand side can not be converted to Calculator Complex")
         })?;
@@ -378,7 +380,7 @@ impl CalculatorComplexWrapper {
     ///
     /// `PyResult<CalculatorComplexWrapper>` - lhs - rhs
     ///
-    fn __sub__(&self, rhs: &PyAny) -> PyResult<CalculatorComplexWrapper> {
+    fn __sub__(&self, rhs: &Bound<PyAny>) -> PyResult<CalculatorComplexWrapper> {
         let self_cc = self.internal.clone();
         let other_cc = convert_into_calculator_complex(rhs).map_err(|_| {
             PyTypeError::new_err("Right hand side can not be converted to Calculator Complex")
@@ -399,7 +401,7 @@ impl CalculatorComplexWrapper {
     ///
     /// `PyResult<CalculatorComplexWrapper>` - lhs - rhs
     ///
-    fn __rsub__(&self, other: &PyAny) -> PyResult<CalculatorComplexWrapper> {
+    fn __rsub__(&self, other: &Bound<PyAny>) -> PyResult<CalculatorComplexWrapper> {
         let self_cc = self.internal.clone();
         let other_cc = convert_into_calculator_complex(other).map_err(|_| {
             PyTypeError::new_err("Right hand side can not be converted to Calculator Complex")
@@ -417,7 +419,7 @@ impl CalculatorComplexWrapper {
     /// * `self` - the CalculatorComplexWrapper object
     /// * `other` - the CalculatorComplexWrapper object to be subtracted from self
     ///
-    fn __isub__(&mut self, other: &PyAny) -> PyResult<()> {
+    fn __isub__(&mut self, other: &Bound<PyAny>) -> PyResult<()> {
         let other_cc = convert_into_calculator_complex(other).map_err(|_| {
             PyTypeError::new_err("Right hand side can not be converted to Calculator Complex")
         })?;
@@ -436,7 +438,7 @@ impl CalculatorComplexWrapper {
     ///
     /// `PyResult<CalculatorComplexWrapper>` - lhs * rhs
     ///
-    fn __mul__(&self, rhs: &PyAny) -> PyResult<CalculatorComplexWrapper> {
+    fn __mul__(&self, rhs: &Bound<PyAny>) -> PyResult<CalculatorComplexWrapper> {
         let self_cc = self.internal.clone();
         let other_cc = convert_into_calculator_complex(rhs).map_err(|_| {
             PyTypeError::new_err("Right hand side can not be converted to Calculator Complex")
@@ -457,7 +459,7 @@ impl CalculatorComplexWrapper {
     ///
     /// `PyResult<CalculatorComplexWrapper>` - lhs * rhs
     ///
-    fn __rmul__(&self, other: &PyAny) -> PyResult<CalculatorComplexWrapper> {
+    fn __rmul__(&self, other: &Bound<PyAny>) -> PyResult<CalculatorComplexWrapper> {
         let self_cc = self.internal.clone();
         let other_cc = convert_into_calculator_complex(other).map_err(|_| {
             PyTypeError::new_err("Right hand side can not be converted to Calculator Complex")
@@ -475,7 +477,7 @@ impl CalculatorComplexWrapper {
     /// * `self` - the CalculatorComplexWrapper object
     /// * `other` - the CalculatorComplexWrapper object to multiply self by
     ///
-    fn __imul__(&mut self, other: &PyAny) -> PyResult<()> {
+    fn __imul__(&mut self, other: &Bound<PyAny>) -> PyResult<()> {
         let other_cc = convert_into_calculator_complex(other).map_err(|_| {
             PyTypeError::new_err("Right hand side can not be converted to Calculator Complex")
         })?;
@@ -494,7 +496,7 @@ impl CalculatorComplexWrapper {
     ///
     /// `PyResult<CalculatorComplexWrapper>` - lhs / rhs
     ///
-    fn __truediv__(&self, rhs: &PyAny) -> PyResult<CalculatorComplexWrapper> {
+    fn __truediv__(&self, rhs: &Bound<PyAny>) -> PyResult<CalculatorComplexWrapper> {
         let self_cc = self.internal.clone();
 
         let other_cc = convert_into_calculator_complex(rhs).map_err(|_| {
@@ -518,7 +520,7 @@ impl CalculatorComplexWrapper {
     ///
     /// `PyResult<CalculatorComplexWrapper>` - lhs / rhs
     ///
-    fn __rtruediv__(&self, other: &PyAny) -> PyResult<CalculatorComplexWrapper> {
+    fn __rtruediv__(&self, other: &Bound<PyAny>) -> PyResult<CalculatorComplexWrapper> {
         let self_cc = self.internal.clone();
 
         let other_cc = convert_into_calculator_complex(other).map_err(|_| {
@@ -539,7 +541,7 @@ impl CalculatorComplexWrapper {
     /// * `self` - the CalculatorComplexWrapper object
     /// * `other` - the CalculatorComplexWrapper object to divide self by
     ///
-    fn __itruediv__(&mut self, other: &PyAny) -> PyResult<()> {
+    fn __itruediv__(&mut self, other: &Bound<PyAny>) -> PyResult<()> {
         let other_cc = convert_into_calculator_complex(other).map_err(|_| {
             PyTypeError::new_err("Right hand side can not be converted to Calculator Complex")
         })?;
@@ -577,7 +579,7 @@ impl CalculatorComplexWrapper {
 impl CalculatorComplexWrapper {
     pub fn from_pyany(input: Py<PyAny>) -> PyResult<CalculatorComplex> {
         Python::with_gil(|py| -> PyResult<CalculatorComplex> {
-            let input = input.as_ref(py);
+            let input = input.bind(py);
             convert_into_calculator_complex(input).map_err(|err| {
                 PyValueError::new_err(format!("Error in convert_to_calculator_complex: {err:?}"))
             })

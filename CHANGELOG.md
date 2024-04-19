@@ -2,6 +2,10 @@
 
 This changelog track changes to the qoqo_calculator project starting at version 0.6.0
 
+## 1.2.0
+
+* Update to pyo3 0.21
+
 ## 1.1.5
 
 * Update to pyo3 0.20
