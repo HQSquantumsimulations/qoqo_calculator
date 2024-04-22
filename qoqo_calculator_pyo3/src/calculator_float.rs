@@ -50,7 +50,7 @@ pub fn convert_into_calculator_float(
                 Ok("str") => Ok(CalculatorFloat::from(
                     String::extract(input_object).map_err(|_| CalculatorError::NotConvertable)?,
                 )),
-                Ok("CalculatorFloat") => {
+                Ok("qoqo_calculator_pyo3.CalculatorFloat") => {
                     let try_cf_conversion = input_object
                         .call_method0("__str__")
                         .map_err(|_| CalculatorError::NotConvertable)?;
