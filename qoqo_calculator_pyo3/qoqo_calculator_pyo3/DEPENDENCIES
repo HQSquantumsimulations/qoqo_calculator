@@ -4660,7 +4660,7 @@ LICENSE-APACHE:
 
 
 ====================================================
-qoqo_calculator 1.2.0
+qoqo_calculator 1.2.1
 https://github.com/HQSquantumsimulations/qoqo_calculator
 by HQS Quantum Simulations <info@quantumsimulations.de>
 qoqo-calculator is the calculator backend of the qoqo quantum computing toolkit by HQS Quantum Simulations
@@ -4872,7 +4872,7 @@ LICENSE:
 
 
 ====================================================
-qoqo_calculator_pyo3 1.2.0
+qoqo_calculator_pyo3 1.2.1
 https://github.com/HQSquantumsimulations/qoqo_calculator_pyo3
 by HQS Quantum Simulations <info@quantumsimulations.de>
 Python interface to qoqo calculator, the calculator backend of the qoqo quantum computing toolkit by HQS Quantum Simulations
