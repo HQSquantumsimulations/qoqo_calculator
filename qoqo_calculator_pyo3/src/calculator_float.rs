@@ -592,12 +592,9 @@ impl CalculatorFloatWrapper {
 }
 
 impl CalculatorFloatWrapper {
-    pub fn from_pyany(input: Py<PyAny>) -> PyResult<CalculatorFloat> {
-        Python::with_gil(|py| -> PyResult<CalculatorFloat> {
-            let input = input.bind(py);
-            convert_into_calculator_float(&input.as_borrowed()).map_err(|err| {
-                PyValueError::new_err(format!("Error in convert_to_calculator_float: {err:?}"))
-            })
+    pub fn from_pyany(input: &Bound<PyAny>) -> PyResult<CalculatorFloat> {
+        convert_into_calculator_float(input).map_err(|err| {
+            PyValueError::new_err(format!("Error in convert_to_calculator_float: {err:?}"))
         })
     }
 }
