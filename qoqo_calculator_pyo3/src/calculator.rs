@@ -81,7 +81,7 @@ impl CalculatorWrapper {
     ///
     /// * `input` - Parsed string CalculatorFloat or returns float value
     ///
-    pub fn parse_get(&self, input: &PyAny) -> PyResult<f64> {
+    pub fn parse_get(&self, input: &Bound<PyAny>) -> PyResult<f64> {
         let converted = convert_into_calculator_float(input)
             .map_err(|_| PyTypeError::new_err("Input can not be converted to Calculator Float"))?;
         let out = self.r_calculator.parse_get(converted);

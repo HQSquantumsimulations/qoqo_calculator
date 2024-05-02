@@ -43,7 +43,7 @@ fn parse_string_assign(expression: &str) -> PyResult<f64> {
 /// Uses the pyo3 rust crate to create the Python bindings.
 ///
 #[pymodule]
-fn qoqo_calculator_pyo3(_py: Python, m: &PyModule) -> PyResult<()> {
+fn qoqo_calculator_pyo3(_py: Python, m: &Bound<PyModule>) -> PyResult<()> {
     m.add_class::<CalculatorWrapper>()?;
     m.add_class::<CalculatorFloatWrapper>()?;
     m.add_class::<CalculatorComplexWrapper>()?;
