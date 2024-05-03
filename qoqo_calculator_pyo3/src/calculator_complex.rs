@@ -576,9 +576,12 @@ impl CalculatorComplexWrapper {
 }
 
 impl CalculatorComplexWrapper {
-    pub fn from_pyany(input: &Bound<PyAny>) -> PyResult<CalculatorComplex> {
-        convert_into_calculator_complex(input).map_err(|err| {
-            PyValueError::new_err(format!("Error in convert_to_calculator_complex: {err:?}"))
+    pub fn from_pyany(input: Py<PyAny>) -> PyResult<CalculatorComplex> {
+        Python::with_gil(|py| -> PyResult<CalculatorComplex> {
+            let input = input.bind(py);
+            convert_into_calculator_complex(input).map_err(|err| {
+                PyValueError::new_err(format!("Error in convert_to_calculator_complex: {err:?}"))
+            })
         })
     }
 }
