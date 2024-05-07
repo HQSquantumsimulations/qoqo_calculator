@@ -2,6 +2,10 @@
 
 This changelog track changes to the qoqo_calculator project starting at version 0.6.0
 
+## 1.2.2
+
+* Reverts previous fix as it is no longer needed.
+
 ## 1.2.1
 
 * Fixes a compatibility issue for from_pyany with struqture and qoqo.
