@@ -240,7 +240,7 @@ limitations under the License.
 
 
 ====================================================
-bitflags 2.5.0
+bitflags 2.6.0
 https://github.com/bitflags/bitflags
 by The Rust Project Developers
 A macro to generate structures which behave like bitflags.
@@ -1395,7 +1395,7 @@ END OF TERMS AND CONDITIONS
 
 
 ====================================================
-libc 0.2.154
+libc 0.2.155
 https://github.com/rust-lang/libc
 by The Rust Project Developers
 Raw FFI bindings to platform libraries like libc.
@@ -1882,7 +1882,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 ====================================================
-num-complex 0.4.5
+num-complex 0.4.6
 https://github.com/rust-num/num-complex
 by The Rust Project Developers
 Complex numbers implementation for Rust
@@ -2603,7 +2603,7 @@ limitations under the License.
 
 
 ====================================================
-parking_lot 0.12.2
+parking_lot 0.12.3
 https://github.com/Amanieu/parking_lot
 by Amanieu d'Antras <amanieu@gmail.com>
 More compact and efficient implementations of the standard synchronization primitives.
@@ -3085,7 +3085,7 @@ limitations under the License.
 
 
 ====================================================
-portable-atomic 1.6.0
+portable-atomic 1.7.0
 https://github.com/taiki-e/portable-atomic
 by 
 Portable atomic types including support for 128-bit atomics, atomic float, etc.
@@ -3301,7 +3301,7 @@ LICENSE-APACHE:
 
 
 ====================================================
-proc-macro2 1.0.81
+proc-macro2 1.0.86
 https://github.com/dtolnay/proc-macro2
 by David Tolnay <dtolnay@gmail.com>, Alex Crichton <alex@alexcrichton.com>
 A substitute implementation of the compiler's `proc_macro` API to decouple token-based libraries from the procedural macro use case.
@@ -5298,7 +5298,7 @@ END OF TERMS AND CONDITIONS
 
 
 ====================================================
-redox_syscall 0.5.1
+redox_syscall 0.5.3
 https://gitlab.redox-os.org/redox-os/syscall
 by Jeremy Soller <jackpot51@gmail.com>
 A Rust library to access raw Redox system calls
@@ -5331,7 +5331,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
 ====================================================
-ryu 1.0.17
+ryu 1.0.18
 https://github.com/dtolnay/ryu
 by David Tolnay <dtolnay@gmail.com>
 Fast floating point to string conversion
@@ -5791,7 +5791,7 @@ limitations under the License.
 
 
 ====================================================
-serde 1.0.200
+serde 1.0.204
 https://serde.rs
 by Erick Tryzelaar <erick.tryzelaar@gmail.com>, David Tolnay <dtolnay@gmail.com>
 A generic serialization/deserialization framework
@@ -6005,7 +6005,7 @@ END OF TERMS AND CONDITIONS
 
 
 ====================================================
-serde_derive 1.0.200
+serde_derive 1.0.204
 https://serde.rs
 by Erick Tryzelaar <erick.tryzelaar@gmail.com>, David Tolnay <dtolnay@gmail.com>
 Macros 1.1 implementation of #[derive(Serialize, Deserialize)]
@@ -6219,7 +6219,7 @@ END OF TERMS AND CONDITIONS
 
 
 ====================================================
-serde_json 1.0.116
+serde_json 1.0.120
 https://github.com/serde-rs/json
 by Erick Tryzelaar <erick.tryzelaar@gmail.com>, David Tolnay <dtolnay@gmail.com>
 A JSON serialization file format
@@ -6888,7 +6888,7 @@ limitations under the License.
 
 
 ====================================================
-syn 2.0.60
+syn 2.0.72
 https://github.com/dtolnay/syn
 by David Tolnay <dtolnay@gmail.com>
 Parser for Rust source code
@@ -7102,7 +7102,7 @@ END OF TERMS AND CONDITIONS
 
 
 ====================================================
-target-lexicon 0.12.14
+target-lexicon 0.12.15
 https://github.com/bytecodealliance/target-lexicon
 by Dan Gohman <sunfish@mozilla.com>
 Targeting utilities for compilers and related tools
@@ -7333,7 +7333,7 @@ Software.
 
 
 ====================================================
-thiserror 1.0.59
+thiserror 1.0.63
 https://github.com/dtolnay/thiserror
 by David Tolnay <dtolnay@gmail.com>
 derive(Error)
@@ -7547,7 +7547,7 @@ END OF TERMS AND CONDITIONS
 
 
 ====================================================
-thiserror-impl 1.0.59
+thiserror-impl 1.0.63
 https://github.com/dtolnay/thiserror
 by David Tolnay <dtolnay@gmail.com>
 Implementation detail of the `thiserror` crate
@@ -7767,6 +7767,33 @@ by David Tolnay <dtolnay@gmail.com>
 Determine whether characters have the XID_Start or XID_Continue properties according to Unicode Standard Annex #31
 License: (MIT OR Apache-2.0) AND Unicode-DFS-2016
 ----------------------------------------------------
+LICENSE-MIT:
+
+Permission is hereby granted, free of charge, to any
+person obtaining a copy of this software and associated
+documentation files (the "Software"), to deal in the
+Software without restriction, including without
+limitation the rights to use, copy, modify, merge,
+publish, distribute, sublicense, and/or sell copies of
+the Software, and to permit persons to whom the Software
+is furnished to do so, subject to the following
+conditions:
+
+The above copyright notice and this permission notice
+shall be included in all copies or substantial portions
+of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF
+ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT
+SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR
+IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+DEALINGS IN THE SOFTWARE.
+
+----------------------------------------------------
 LICENSE-UNICODE:
 
 UNICODE, INC. LICENSE AGREEMENT - DATA FILES AND SOFTWARE
@@ -7815,33 +7842,6 @@ Except as contained in this notice, the name of a copyright holder
 shall not be used in advertising or otherwise to promote the sale,
 use or other dealings in these Data Files or Software without prior
 written authorization of the copyright holder.
-
-----------------------------------------------------
-LICENSE-MIT:
-
-Permission is hereby granted, free of charge, to any
-person obtaining a copy of this software and associated
-documentation files (the "Software"), to deal in the
-Software without restriction, including without
-limitation the rights to use, copy, modify, merge,
-publish, distribute, sublicense, and/or sell copies of
-the Software, and to permit persons to whom the Software
-is furnished to do so, subject to the following
-conditions:
-
-The above copyright notice and this permission notice
-shall be included in all copies or substantial portions
-of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF
-ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
-TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
-PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT
-SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
-CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR
-IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-DEALINGS IN THE SOFTWARE.
 
 ----------------------------------------------------
 LICENSE-APACHE:
@@ -8239,7 +8239,7 @@ END OF TERMS AND CONDITIONS
 
 
 ====================================================
-windows-targets 0.52.5
+windows-targets 0.52.6
 https://github.com/microsoft/windows-rs
 by Microsoft
 Import libs for Windows
@@ -8476,7 +8476,7 @@ license-mit:
 
 
 ====================================================
-windows_aarch64_gnullvm 0.52.5
+windows_aarch64_gnullvm 0.52.6
 https://github.com/microsoft/windows-rs
 by Microsoft
 Import lib for Windows
@@ -8713,7 +8713,7 @@ license-mit:
 
 
 ====================================================
-windows_aarch64_msvc 0.52.5
+windows_aarch64_msvc 0.52.6
 https://github.com/microsoft/windows-rs
 by Microsoft
 Import lib for Windows
@@ -8950,7 +8950,7 @@ license-mit:
 
 
 ====================================================
-windows_i686_gnu 0.52.5
+windows_i686_gnu 0.52.6
 https://github.com/microsoft/windows-rs
 by Microsoft
 Import lib for Windows
@@ -9187,7 +9187,7 @@ license-mit:
 
 
 ====================================================
-windows_i686_gnullvm 0.52.5
+windows_i686_gnullvm 0.52.6
 https://github.com/microsoft/windows-rs
 by Microsoft
 Import lib for Windows
@@ -9424,7 +9424,7 @@ license-mit:
 
 
 ====================================================
-windows_i686_msvc 0.52.5
+windows_i686_msvc 0.52.6
 https://github.com/microsoft/windows-rs
 by Microsoft
 Import lib for Windows
@@ -9661,7 +9661,7 @@ license-mit:
 
 
 ====================================================
-windows_x86_64_gnu 0.52.5
+windows_x86_64_gnu 0.52.6
 https://github.com/microsoft/windows-rs
 by Microsoft
 Import lib for Windows
@@ -9898,7 +9898,7 @@ license-mit:
 
 
 ====================================================
-windows_x86_64_gnullvm 0.52.5
+windows_x86_64_gnullvm 0.52.6
 https://github.com/microsoft/windows-rs
 by Microsoft
 Import lib for Windows
@@ -10135,7 +10135,7 @@ license-mit:
 
 
 ====================================================
-windows_x86_64_msvc 0.52.5
+windows_x86_64_msvc 0.52.6
 https://github.com/microsoft/windows-rs
 by Microsoft
 Import lib for Windows
