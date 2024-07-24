@@ -4,7 +4,7 @@ This changelog track changes to the qoqo_calculator project starting at version 
 
 ## Unreleased
 
-* Added the `pyo3 = "0.21"` line to the pyproject.toml in the build dependencies.
+* Added the `pyo3 = "0.21"` line to the Cargo.toml in the build dependencies.
 
 ## 1.2.2
 
