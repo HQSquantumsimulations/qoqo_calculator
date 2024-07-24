@@ -35,20 +35,23 @@ use std::panic::catch_unwind;
 /// `CalculatorFloat` - the input converted to CalculatorFloat
 /// `CalculatorError` - error in the conversion process
 ///
-pub fn convert_into_calculator_float(input: &PyAny) -> Result<CalculatorFloat, CalculatorError> {
-    let try_f64_conversion = input.call_method0("__float__");
+pub fn convert_into_calculator_float(
+    input: &Bound<PyAny>,
+) -> Result<CalculatorFloat, CalculatorError> {
+    let input_object = input.as_gil_ref();
+    let try_f64_conversion = input_object.call_method0("__float__");
     match try_f64_conversion {
         Ok(x) => Ok(CalculatorFloat::from(
             f64::extract(x).map_err(|_| CalculatorError::NotConvertable)?,
         )),
         _ => {
-            let try_str_conversion = input.get_type().name();
-            match try_str_conversion {
+            let try_str_conversion = input_object.get_type().name();
+            match try_str_conversion.as_deref() {
                 Ok("str") => Ok(CalculatorFloat::from(
-                    String::extract(input).map_err(|_| CalculatorError::NotConvertable)?,
+                    String::extract(input_object).map_err(|_| CalculatorError::NotConvertable)?,
                 )),
-                Ok("CalculatorFloat") => {
-                    let try_cf_conversion = input
+                Ok("qoqo_calculator_pyo3.CalculatorFloat") => {
+                    let try_cf_conversion = input_object
                         .call_method0("__str__")
                         .map_err(|_| CalculatorError::NotConvertable)?;
                     Ok(CalculatorFloat::from(
@@ -81,7 +84,7 @@ impl CalculatorFloatWrapper {
     /// `PyResult<Self>` - CalculatorFloatWrapper of converted input or corresponding Python error
     ///
     #[new]
-    fn new(input: &PyAny) -> PyResult<Self> {
+    fn new(input: &Bound<PyAny>) -> PyResult<Self> {
         let converted = convert_into_calculator_float(input)
             .map_err(|_| PyTypeError::new_err("Input can not be converted to Calculator Float"))?;
         Ok(CalculatorFloatWrapper {
@@ -159,7 +162,7 @@ impl CalculatorFloatWrapper {
     ///
     /// * `other` - Any Python object that can be converted to CalculatorFloat
     ///
-    fn atan2(&self, other: &PyAny) -> PyResult<CalculatorFloatWrapper> {
+    fn atan2(&self, other: &Bound<PyAny>) -> PyResult<CalculatorFloatWrapper> {
         let other_cf = convert_into_calculator_float(other).map_err(|_| {
             PyTypeError::new_err("Right hand side can not be converted to Calculator Float")
         })?;
@@ -169,7 +172,7 @@ impl CalculatorFloatWrapper {
     }
 
     /// Return True if self value is close to other value.
-    fn isclose(&self, other: &PyAny) -> PyResult<bool> {
+    fn isclose(&self, other: &Bound<PyAny>) -> PyResult<bool> {
         let other_cf = convert_into_calculator_float(other).map_err(|_| {
             PyTypeError::new_err("Right hand side can not be converted to Calculator Float")
         })?;
@@ -266,7 +269,7 @@ impl CalculatorFloatWrapper {
     ///
     /// `PyResult<bool>` - whether the two operations compared evaluated to True or False
     ///
-    fn __richcmp__(&self, other: &PyAny, op: CompareOp) -> PyResult<bool> {
+    fn __richcmp__(&self, other: &Bound<PyAny>, op: CompareOp) -> PyResult<bool> {
         let other_cf = convert_into_calculator_float(other).map_err(|_| {
             PyTypeError::new_err("Right hand side can not be converted to Calculator Float")
         })?;
@@ -295,7 +298,7 @@ impl CalculatorFloatWrapper {
     ///
     /// `PyResult<CalculatorFloatWrapper>` - lhs + rhs
     ///
-    fn __add__(&self, rhs: &PyAny) -> PyResult<CalculatorFloatWrapper> {
+    fn __add__(&self, rhs: &Bound<PyAny>) -> PyResult<CalculatorFloatWrapper> {
         let self_cf = self.internal.clone();
         let other_cf = convert_into_calculator_float(rhs).map_err(|_| {
             PyTypeError::new_err("Right hand side can not be converted to Calculator Float")
@@ -316,7 +319,7 @@ impl CalculatorFloatWrapper {
     ///
     /// `PyResult<CalculatorFloatWrapper>` - lhs + rhs
     ///
-    fn __radd__(&self, other: &PyAny) -> PyResult<CalculatorFloatWrapper> {
+    fn __radd__(&self, other: &Bound<PyAny>) -> PyResult<CalculatorFloatWrapper> {
         let self_cf = self.internal.clone();
         let other_cf = convert_into_calculator_float(other).map_err(|_| {
             PyTypeError::new_err("Right hand side can not be converted to Calculator Float")
@@ -334,7 +337,7 @@ impl CalculatorFloatWrapper {
     /// * `self` - the CalculatorFloatWrapper object
     /// * `other` - the CalculatorFloatWrapper object to be added to self
     ///
-    fn __iadd__(&mut self, other: &PyAny) -> PyResult<()> {
+    fn __iadd__(&mut self, other: &Bound<PyAny>) -> PyResult<()> {
         let other_cf = convert_into_calculator_float(other).map_err(|_| {
             PyTypeError::new_err("Right hand side can not be converted to Calculator Float")
         })?;
@@ -353,7 +356,7 @@ impl CalculatorFloatWrapper {
     ///
     /// `PyResult<CalculatorFloatWrapper>` - lhs - rhs
     ///
-    fn __sub__(&self, rhs: &PyAny) -> PyResult<CalculatorFloatWrapper> {
+    fn __sub__(&self, rhs: &Bound<PyAny>) -> PyResult<CalculatorFloatWrapper> {
         let self_cf = self.internal.clone();
         let other_cf = convert_into_calculator_float(rhs).map_err(|_| {
             PyTypeError::new_err("Right hand side can not be converted to Calculator Float")
@@ -374,7 +377,7 @@ impl CalculatorFloatWrapper {
     ///
     /// `PyResult<CalculatorFloatWrapper>` - lhs - rhs
     ///
-    fn __rsub__(&self, other: &PyAny) -> PyResult<CalculatorFloatWrapper> {
+    fn __rsub__(&self, other: &Bound<PyAny>) -> PyResult<CalculatorFloatWrapper> {
         let self_cf = self.internal.clone();
         let other_cf = convert_into_calculator_float(other).map_err(|_| {
             PyTypeError::new_err("Right hand side can not be converted to Calculator Float")
@@ -392,7 +395,7 @@ impl CalculatorFloatWrapper {
     /// * `self` - the CalculatorFloatWrapper object
     /// * `other` - the CalculatorFloatWrapper object to be subtracted from self
     ///
-    fn __isub__(&mut self, other: &PyAny) -> PyResult<()> {
+    fn __isub__(&mut self, other: &Bound<PyAny>) -> PyResult<()> {
         let other_cf = convert_into_calculator_float(other).map_err(|_| {
             PyTypeError::new_err("Right hand side can not be converted to Calculator Float")
         })?;
@@ -411,7 +414,7 @@ impl CalculatorFloatWrapper {
     ///
     /// `PyResult<CalculatorFloatWrapper>` - lhs * rhs
     ///
-    fn __mul__(&self, rhs: &PyAny) -> PyResult<CalculatorFloatWrapper> {
+    fn __mul__(&self, rhs: &Bound<PyAny>) -> PyResult<CalculatorFloatWrapper> {
         let self_cf = self.internal.clone();
         let other_cf = convert_into_calculator_float(rhs).map_err(|_| {
             PyTypeError::new_err("Right hand side can not be converted to Calculator Float")
@@ -432,7 +435,7 @@ impl CalculatorFloatWrapper {
     ///
     /// `PyResult<CalculatorFloatWrapper>` - lhs * rhs
     ///
-    fn __rmul__(&self, other: &PyAny) -> PyResult<CalculatorFloatWrapper> {
+    fn __rmul__(&self, other: &Bound<PyAny>) -> PyResult<CalculatorFloatWrapper> {
         let self_cf = self.internal.clone();
         let other_cf = convert_into_calculator_float(other).map_err(|_| {
             PyTypeError::new_err("Right hand side can not be converted to Calculator Float")
@@ -450,7 +453,7 @@ impl CalculatorFloatWrapper {
     /// * `self` - the CalculatorFloatWrapper object
     /// * `other` - the CalculatorFloatWrapper object to multiply self by
     ///
-    fn __imul__(&mut self, other: &PyAny) -> PyResult<()> {
+    fn __imul__(&mut self, other: &Bound<PyAny>) -> PyResult<()> {
         let other_cf = convert_into_calculator_float(other).map_err(|_| {
             PyTypeError::new_err("Right hand side can not be converted to Calculator Float")
         })?;
@@ -466,7 +469,7 @@ impl CalculatorFloatWrapper {
     ///
     fn __pow__(
         &self,
-        rhs: &PyAny,
+        rhs: &Bound<PyAny>,
         modulo: Option<CalculatorFloatWrapper>,
     ) -> PyResult<CalculatorFloatWrapper> {
         if let Some(_x) = modulo {
@@ -492,7 +495,7 @@ impl CalculatorFloatWrapper {
     ///
     /// `PyResult<CalculatorFloatWrapper>` - lhs / rhs
     ///
-    fn __truediv__(&self, rhs: &PyAny) -> PyResult<CalculatorFloatWrapper> {
+    fn __truediv__(&self, rhs: &Bound<PyAny>) -> PyResult<CalculatorFloatWrapper> {
         let self_cf = self.internal.clone();
         let other_cf = convert_into_calculator_float(rhs).map_err(|_| {
             PyTypeError::new_err("Right hand side can not be converted to Calculator Float")
@@ -515,7 +518,7 @@ impl CalculatorFloatWrapper {
     ///
     /// `PyResult<CalculatorFloatWrapper>` - lhs / rhs
     ///
-    fn __rtruediv__(&self, other: &PyAny) -> PyResult<CalculatorFloatWrapper> {
+    fn __rtruediv__(&self, other: &Bound<PyAny>) -> PyResult<CalculatorFloatWrapper> {
         let self_cf = self.internal.clone();
         let other_cf = convert_into_calculator_float(other).map_err(|_| {
             PyTypeError::new_err("Right hand side can not be converted to Calculator Float")
@@ -535,7 +538,7 @@ impl CalculatorFloatWrapper {
     /// * `self` - the CalculatorFloatWrapper object
     /// * `other` - the CalculatorFloatWrapper object to divide self by
     ///
-    fn __itruediv__(&mut self, other: &PyAny) -> PyResult<()> {
+    fn __itruediv__(&mut self, other: &Bound<PyAny>) -> PyResult<()> {
         let other_cf = convert_into_calculator_float(other).map_err(|_| {
             PyTypeError::new_err("Right hand side can not be converted to Calculator Float")
         })?;
@@ -589,12 +592,9 @@ impl CalculatorFloatWrapper {
 }
 
 impl CalculatorFloatWrapper {
-    pub fn from_pyany(input: Py<PyAny>) -> PyResult<CalculatorFloat> {
-        Python::with_gil(|py| -> PyResult<CalculatorFloat> {
-            let input = input.as_ref(py);
-            convert_into_calculator_float(input).map_err(|err| {
-                PyValueError::new_err(format!("Error in convert_to_calculator_float: {err:?}"))
-            })
+    pub fn from_pyany(input: &Bound<PyAny>) -> PyResult<CalculatorFloat> {
+        convert_into_calculator_float(input).map_err(|err| {
+            PyValueError::new_err(format!("Error in convert_to_calculator_float: {err:?}"))
         })
     }
 }
