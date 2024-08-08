@@ -2,8 +2,9 @@
 
 This changelog track changes to the qoqo_calculator project starting at version 0.6.0
 
-## Unreleased
+## 1.2.3
 
+* Updated to rust 1.70
 * Added the `pyo3 = "0.21"` line to the Cargo.toml in the build dependencies.
 
 ## 1.2.2
