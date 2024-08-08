@@ -4,20 +4,11 @@
 .. automodule:: qoqo_calculator_pyo3
 
    
-   
-   
-
-   
-   
    .. rubric:: Functions
 
    .. autosummary::
    
       parse_string_assign
-   
-   
-
-   
    
    .. rubric:: Classes
 
@@ -27,11 +18,3 @@
       CalculatorComplex
       CalculatorFloat
    
-   
-
-   
-   
-   
-
-
-
