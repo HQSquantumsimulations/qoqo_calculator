@@ -2,6 +2,10 @@
 
 This changelog track changes to the qoqo_calculator project starting at version 0.6.0
 
+## 1.2.4
+
+* Updated maturin version from 0.14-0.15 to >=1.4
+
 ## 1.2.3
 
 * Updated to rust 1.70
