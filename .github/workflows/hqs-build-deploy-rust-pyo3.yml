@@ -53,6 +53,7 @@ jobs:
       # Universal2 builds do not work with LTO at the moment and would cause inacceptable slowdown
       universal2: true
       deploy: true
+      python_3_13: true
     secrets: inherit
 
 # Build windows wheels and upload them to PyPi

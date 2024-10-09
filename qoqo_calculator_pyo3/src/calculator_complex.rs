@@ -20,6 +20,7 @@ use num_complex::Complex;
 use pyo3::class::basic::CompareOp;
 use pyo3::exceptions::{PyNotImplementedError, PyTypeError, PyValueError, PyZeroDivisionError};
 use pyo3::prelude::*;
+use pyo3::types::PyTuple;
 use pyo3::ToPyObject;
 use qoqo_calculator::{CalculatorComplex, CalculatorError, CalculatorFloat};
 use std::collections::HashMap;
@@ -40,7 +41,7 @@ use std::panic::catch_unwind;
 pub fn convert_into_calculator_complex(
     input: &Bound<PyAny>,
 ) -> Result<CalculatorComplex, CalculatorError> {
-    let try_real_part = input.as_gil_ref().getattr("real");
+    let try_real_part = input.as_ref().getattr("real");
     match try_real_part {
         Ok(x) => {
             let real_part_converted = convert_into_calculator_float(&x.as_borrowed())?;
@@ -157,10 +158,15 @@ impl CalculatorComplexWrapper {
     }
 
     /// Set real and imaginary parts of CalculatorComplexWrapper for Python.
-    fn __setstate__(&mut self, state: (&PyAny, &PyAny)) -> PyResult<()> {
-        *self =
-            CalculatorComplexWrapper::from_pair(&state.0.as_borrowed(), &state.1.as_borrowed())?;
-        Ok(())
+    fn __setstate__(&mut self, state: &Bound<PyAny>) -> PyResult<()> {
+        Python::with_gil(|py| {
+            let tuple: Py<PyTuple> = state.into_py(py).extract(py)?;
+            let bind = tuple.bind(py);
+            let arg_0 = bind.get_item(0)?;
+            let arg_1 = bind.get_item(1)?;
+            *self = CalculatorComplexWrapper::from_pair(&arg_0, &arg_1)?;
+            Ok(())
+        })
     }
 
     /// Convert contents of CalculatorComplex to a Python dictionary.
