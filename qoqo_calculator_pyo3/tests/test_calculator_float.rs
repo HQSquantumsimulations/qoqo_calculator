@@ -6,11 +6,11 @@ fn test_initialising_calculator_float() {
     Python::with_gil(|py| {
         let python_type = py.get_type_bound::<CalculatorFloatWrapper>();
         let new_result = python_type.call((1.0,), None).unwrap();
-        let float_value = f64::extract(
-            new_result
+        let float_value = f64::extract_bound(
+            &new_result
                 .downcast::<CalculatorFloatWrapper>()
                 .unwrap()
-                .as_gil_ref()
+                .as_ref()
                 .call_method0("__float__")
                 .unwrap(),
         )
