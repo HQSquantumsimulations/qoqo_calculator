@@ -5,6 +5,7 @@ This changelog track changes to the qoqo_calculator project starting at version 
 ## 1.3.0
 
 * Updated to pyo3 0.22
+* Added support for Python 3.13
 
 ## 1.2.4
 
