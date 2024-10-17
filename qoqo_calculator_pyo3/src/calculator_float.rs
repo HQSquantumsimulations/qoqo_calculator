@@ -38,24 +38,26 @@ use std::panic::catch_unwind;
 pub fn convert_into_calculator_float(
     input: &Bound<PyAny>,
 ) -> Result<CalculatorFloat, CalculatorError> {
-    let input_object = input.as_gil_ref();
-    let try_f64_conversion = input_object.call_method0("__float__");
+    let try_f64_conversion = input.call_method0("__float__");
     match try_f64_conversion {
         Ok(x) => Ok(CalculatorFloat::from(
-            f64::extract(x).map_err(|_| CalculatorError::NotConvertable)?,
+            f64::extract_bound(&x).map_err(|_| CalculatorError::NotConvertable)?,
         )),
         _ => {
-            let try_str_conversion = input_object.get_type().name();
-            match try_str_conversion.as_deref() {
+            let try_str_conversion = input
+                .get_type()
+                .name()
+                .map_err(|_| CalculatorError::NotConvertable)?;
+            match try_str_conversion.to_str() {
                 Ok("str") => Ok(CalculatorFloat::from(
-                    String::extract(input_object).map_err(|_| CalculatorError::NotConvertable)?,
+                    String::extract_bound(input).map_err(|_| CalculatorError::NotConvertable)?,
                 )),
-                Ok("qoqo_calculator_pyo3.CalculatorFloat") => {
-                    let try_cf_conversion = input_object
+                Ok("CalculatorFloat") => {
+                    let try_cf_conversion = input
                         .call_method0("__str__")
                         .map_err(|_| CalculatorError::NotConvertable)?;
                     Ok(CalculatorFloat::from(
-                        String::extract(try_cf_conversion)
+                        String::extract_bound(&try_cf_conversion)
                             .map_err(|_| CalculatorError::NotConvertable)?,
                     ))
                 }
