@@ -128,8 +128,16 @@ impl CalculatorFloatWrapper {
     fn __getnewargs_ex__(&self) -> ((PyObject,), HashMap<String, String>) {
         Python::with_gil(|py| {
             let object = match self.internal {
-                CalculatorFloat::Float(ref x) => x.to_object(py),
-                CalculatorFloat::Str(ref x) => x.to_object(py),
+                CalculatorFloat::Float(ref x) => x
+                    .into_pyobject(py)
+                    .expect("Couldn't convert Float into PyObject.")
+                    .into_any()
+                    .unbind(),
+                CalculatorFloat::Str(ref x) => x
+                    .into_pyobject(py)
+                    .expect("Couldn't convert String into PyObject.")
+                    .into_any()
+                    .unbind(),
             };
             ((object,), HashMap::new())
         })
@@ -234,8 +242,16 @@ impl CalculatorFloatWrapper {
     #[getter]
     fn value(&self) -> PyObject {
         Python::with_gil(|py| match self.internal {
-            CalculatorFloat::Float(ref x) => x.to_object(py),
-            CalculatorFloat::Str(ref x) => x.to_object(py),
+            CalculatorFloat::Float(ref x) => x
+                .into_pyobject(py)
+                .expect("Couldn't convert Float into PyObject.")
+                .into_any()
+                .unbind(),
+            CalculatorFloat::Str(ref x) => x
+                .into_pyobject(py)
+                .expect("Couldn't convert String into PyObject.")
+                .into_any()
+                .unbind(),
         })
     }
 
