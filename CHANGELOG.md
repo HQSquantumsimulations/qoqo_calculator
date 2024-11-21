@@ -2,6 +2,10 @@
 
 This changelog track changes to the qoqo_calculator project starting at version 0.6.0
 
+## 1.3.1
+
+* Loosen the dependency restriction to make `qoqo_calculator_pyo3` compatible with older versions of `qoqo_calculator`.
+
 ## 1.3.0
 
 * Updated to pyo3 0.22
