@@ -318,9 +318,7 @@ pub struct TokenIterator<'a> {
 }
 
 // Implement the Iterator Trait for TokenIterator so it can be used as standard rust iterator.
-impl<'a, 'b> Iterator for TokenIterator<'a>
-where
-    'a: 'b,
+impl Iterator for TokenIterator<'_>
 {
     type Item = Token;
 
@@ -465,7 +463,7 @@ where
             // Create symbol tokens
             let symbol = self.current_expression.chars().next().unwrap();
             self.current_expression = &self.current_expression[1..];
-            return Some(match symbol {
+            Some(match symbol {
                 '+' => Token::Plus,
                 '-' => Token::Minus,
                 '*' => match self.current_expression.chars().next().unwrap_or(' ') {
@@ -490,7 +488,7 @@ where
                     _ => Token::Factorial,
                 },
                 _ => Token::Unrecognized,
-            });
+            })
         }
     }
 }
@@ -628,26 +626,6 @@ where
             ParserEnum::ImmutableCalculator { current_token, .. } => current_token,
         }
     }
-
-    // impl<'a, 'b> Parser<'a>
-    // where
-    //     'b: 'a,
-    // {
-
-    /// Get Variable form internal
-
-    // /// Initialize a new instance of Parser.
-    // fn new(expression: &'a str, calculator: &'b mut Calculator) -> Self {
-    //     let (next_token, next_str) = (TokenIterator {
-    //         current_expression: expression,
-    //     })
-    //     .next_token_and_str();
-    //     Parser {
-    //         remaining_expression: next_str,
-    //         current_token: next_token.unwrap(),
-    //         calculator,
-    //     }
-    // }
 
     /// Get next token via TokenIterator.
     fn next_token(&mut self) {
