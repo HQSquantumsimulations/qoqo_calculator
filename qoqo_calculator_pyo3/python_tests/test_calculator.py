@@ -1,4 +1,4 @@
-# Copyright © 2019-2021 HQS Quantum Simulations GmbH. All Rights Reserved.
+# Copyright © 2019-2025 HQS Quantum Simulations GmbH. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
 # in compliance with the License. You may obtain a copy of the License at
@@ -17,11 +17,12 @@ import os
 from qoqo_calculator_pyo3 import Calculator
 import math
 
+
 def test_calculator_parse():
-    c = Calculator() 
-    c.set("a",1)
+    c = Calculator()
+    c.set("a", 1)
     assert c.parse_get("sin(a+1)") == math.sin(2)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     pytest.main(sys.argv)
