@@ -6,7 +6,6 @@ on:
     types: [created]
 
 jobs:
-
   deploy_cratesio:
     runs-on: ubuntu-latest
     steps:
@@ -29,7 +28,6 @@ jobs:
         sleep 60
         # publish second package
         cargo publish --manifest-path=qoqo_calculator_pyo3/Cargo.toml
-
 
 # Build linux wheels and upload them to PyPi
   build_maturin_builds_linux:
