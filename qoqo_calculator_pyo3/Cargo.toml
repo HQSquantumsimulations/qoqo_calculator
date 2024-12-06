@@ -24,8 +24,6 @@ crate-type = ["cdylib", "rlib"]
 [dependencies]
 num-complex = "0.4"
 qoqo_calculator = { version = ">= 1.0.0" }
-serde = "1.0"
-thiserror = "1.0"
 
 [dependencies.pyo3]
 version = "0.22"
