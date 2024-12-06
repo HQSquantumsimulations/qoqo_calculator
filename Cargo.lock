@@ -34,15 +34,15 @@ checksum = "b248f5224d1d606005e02c97f5aa4e88eeb230488bcc03bc9ca4d7991399f2b5"
 
 [[package]]
 name = "itoa"
-version = "1.0.13"
+version = "1.0.14"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "540654e97a3f4470a492cd30ff187bc95d89557a903a2bbf112e2fae98104ef2"
+checksum = "d75a2a4b1b190afb6f5425f10f6a8f959d2ea0b9c2b1d79553551850539e4674"
 
 [[package]]
 name = "libc"
-version = "0.2.164"
+version = "0.2.167"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "433bfe06b8c75da9b2e3fbea6e5329ff87748f0b144ef75306e674c3f6f7c13f"
+checksum = "09d6582e104315a817dff97f75133544b2e094ee22447d2acf4a74e189ba06fc"
 
 [[package]]
 name = "memchr"
@@ -86,15 +86,15 @@ checksum = "1261fe7e33c73b354eab43b1273a57c8f967d0391e80353e51f764ac02cf6775"
 
 [[package]]
 name = "portable-atomic"
-version = "1.9.0"
+version = "1.10.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "cc9c68a3f6da06753e9335d63e27f6b9754dd1920d941135b7ea8224f141adb2"
+checksum = "280dc24453071f1b63954171985a0b0d30058d287960968b9b2aca264c8d4ee6"
 
 [[package]]
 name = "proc-macro2"
-version = "1.0.91"
+version = "1.0.92"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "307e3004becf10f5a6e0d59d20f3cd28231b0e0827a96cd3e0ce6d14bc1e4bb3"
+checksum = "37d3544b3f2748c54e147655edb5025752e2303145b5aefb3c3ea2c78b973bb0"
 dependencies = [
  "unicode-ident",
 ]
@@ -165,17 +165,6 @@ dependencies = [
 
 [[package]]
 name = "qoqo_calculator"
-version = "1.3.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b67eeafe2b1f3f0ef15e1dfd6c1dbf06d5b52692c2a4fc2d6a9cbd64589f23b6"
-dependencies = [
- "num-complex",
- "serde",
- "thiserror",
-]
-
-[[package]]
-name = "qoqo_calculator"
 version = "1.3.1"
 dependencies = [
  "num-complex",
@@ -187,13 +176,24 @@ dependencies = [
 ]
 
 [[package]]
+name = "qoqo_calculator"
+version = "1.3.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "cc2918943b496c8a2851f284710e7f835968425b84ef3aad29e9f265ac254dfd"
+dependencies = [
+ "num-complex",
+ "serde",
+ "thiserror",
+]
+
+[[package]]
 name = "qoqo_calculator_pyo3"
 version = "1.3.1"
 dependencies = [
  "num-complex",
  "pyo3",
  "pyo3-build-config",
- "qoqo_calculator 1.3.0",
+ "qoqo_calculator 1.3.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "serde",
  "thiserror",
 ]
@@ -291,9 +291,9 @@ dependencies = [
 
 [[package]]
 name = "syn"
-version = "2.0.89"
+version = "2.0.90"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "44d46482f1c1c87acd84dea20c1bf5ebff4c757009ed6bf19cfd36fb10e92c4e"
+checksum = "919d3b74a5dd0ccd15aeb8f93e7006bd9e14c295087c9896a110f490752bcf31"
 dependencies = [
  "proc-macro2",
  "quote",
