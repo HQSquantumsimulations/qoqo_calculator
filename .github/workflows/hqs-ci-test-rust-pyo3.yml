@@ -29,4 +29,3 @@ jobs:
       macos: true
       py_interface_folder: "qoqo_calculator_pyo3"
       has_python_tests: true
-      python_3_13: true
