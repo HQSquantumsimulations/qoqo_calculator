@@ -40,9 +40,9 @@ checksum = "540654e97a3f4470a492cd30ff187bc95d89557a903a2bbf112e2fae98104ef2"
 
 [[package]]
 name = "libc"
-version = "0.2.164"
+version = "0.2.168"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "433bfe06b8c75da9b2e3fbea6e5329ff87748f0b144ef75306e674c3f6f7c13f"
+checksum = "5aaeb2981e0606ca11d79718f8bb01164f1d6ed75080182d3abf017e6d244b6d"
 
 [[package]]
 name = "memchr"
