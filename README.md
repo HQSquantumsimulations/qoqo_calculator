@@ -29,7 +29,7 @@ qoqo-calculator provides
 
 [![Crates.io](https://img.shields.io/crates/v/qoqo_calculator_pyo3)](https://crates.io/crates/qoqo_calculator_pyo3)
 [![GitHub Workflow Status](https://github.com/HQSquantumsimulations/qoqo_calculator_pyo3/workflows/ci_tests/badge.svg)](https://github.com/HQSquantumsimulations/qoqo_calculator_pyo3/actions)
-[![Documentation Status](https://img.shields.io/badge/docs-documentation-green)](https://hqsquantumsimulations.github.io/qoqo_calculaotr_pyo3/)
+[![Documentation Status](https://img.shields.io/badge/docs-documentation-green)](https://hqsquantumsimulations.github.io/qoqo_calculator_pyo3/)
 [![docs.rs](https://img.shields.io/docsrs/qoqo_calculator_pyo3)](https://docs.rs/qoqo_calculator_pyo3/)
 ![Crates.io](https://img.shields.io/crates/l/qoqo_calculator_pyo3)
 [![PyPI](https://img.shields.io/pypi/v/qoqo_calculator_pyo3)](https://pypi.org/project/qoqo_calculator_pyo3/)
