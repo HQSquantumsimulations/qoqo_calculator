@@ -2,6 +2,10 @@
 
 This changelog track changes to the qoqo_calculator project starting at version 0.6.0.
 
+## 1.4.1
+
+* Fixed 1.4.0 release issue (reusable_workflows fix)
+
 ## 1.4.0
 
 * Updated `thiserror` crate (1.0 -> 2.0) and updated github workflows to explicitly include python 3.13.
