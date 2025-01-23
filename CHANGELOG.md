@@ -5,6 +5,7 @@ This changelog track changes to the qoqo_calculator project starting at version 
 ## 1.3.2
 
 * Updated `thiserror` crate (1.0 -> 2.0) and updated github workflows to explicitly include python 3.13.
+* Updated minimum supported Rust version from 1.70 to 1.76.
 
 ## 1.3.1
 
