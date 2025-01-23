@@ -1,10 +1,10 @@
 [package]
 name = "qoqo_calculator"
-version = "1.3.1"
+version = "1.4.0"
 authors = ["HQS Quantum Simulations <info@quantumsimulations.de>"]
 license = "Apache-2.0"
 edition = "2021"
-rust-version = "1.70"
+rust-version = "1.76"
 categories = ["science", "simulation"]
 readme = "README.md"
 repository = "https://github.com/HQSquantumsimulations/qoqo_calculator"
@@ -18,7 +18,7 @@ crate-type = ["rlib"]
 [dependencies]
 num-complex = { version = "0.4", features = ['serde'] }
 serde = { version = '1.0', features = ["derive"] }
-thiserror = "1.0"
+thiserror = "2.0"
 schemars = { version = "0.8", optional = true }
 
 

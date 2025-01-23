@@ -126,7 +126,7 @@ impl<'de> Deserialize<'de> for CalculatorFloat {
         let human_readable = deserializer.is_human_readable();
         if human_readable {
             struct TemporaryVisitor;
-            impl<'de> Visitor<'de> for TemporaryVisitor {
+            impl Visitor<'_> for TemporaryVisitor {
                 type Value = CalculatorFloat;
 
                 // Visit expectation for CalculatorFloatVisitor.
@@ -262,7 +262,7 @@ impl<'de> Deserialize<'de> for CalculatorFloat {
             }
             // Visitor extracting the Variant of the serialized CalculatorFloat enum
             struct VariantVisitor;
-            impl<'de> serde::de::Visitor<'de> for VariantVisitor {
+            impl serde::de::Visitor<'_> for VariantVisitor {
                 type Value = Variant;
                 fn expecting(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
                     fmt::Formatter::write_str(formatter, "Identifier of CalculatorFloat variant")
@@ -879,7 +879,7 @@ where
 ///
 /// * `other` - Any type T for which CalculatorFloat::From<T> trait is implemented
 ///
-impl<'a, T> ops::Add<T> for &'a CalculatorFloat
+impl<T> ops::Add<T> for &CalculatorFloat
 where
     CalculatorFloat: From<T>,
 {
