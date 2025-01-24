@@ -3,7 +3,7 @@
 This changelog track changes to the qoqo_calculator project starting at version 0.6.0.
 
 
-## 1.4.1 - 1.4.3
+## 1.4.1 - 1.4.4
 
 * Fixed 1.4.0 release issue (reusable_workflows fix).
 
