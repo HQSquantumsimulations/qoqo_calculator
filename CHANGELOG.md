@@ -2,9 +2,13 @@
 
 This changelog track changes to the qoqo_calculator project starting at version 0.6.0.
 
+## 1.4.2
+
+* Fixed 1.4.1 release issue (reusable_workflows fix).
+
 ## 1.4.1
 
-* Fixed 1.4.0 release issue (reusable_workflows fix)
+* Fixed 1.4.0 release issue (reusable_workflows fix).
 
 ## 1.4.0
 
