@@ -29,18 +29,6 @@ extensions = [
     "nbsphinx",
     "myst_parser",
 ]
-extensions = [
-    "sphinx.ext.autodoc",
-    "sphinx.ext.doctest",
-    "sphinx.ext.todo",
-    "sphinx.ext.coverage",
-    "sphinx.ext.mathjax",
-    "sphinx.ext.viewcode",
-    "sphinx.ext.napoleon",
-    "sphinx.ext.autosummary",
-    "nbsphinx",
-    "myst_parser",
-]
 # automatically use sphinx-autogen
 autosummary_generate = True
 autosummary_imported_members = True
@@ -51,7 +39,6 @@ autodoc_mock_imports = alist
 # 'both': class and __init__ docstring are concatenated and inserted
 # 'class': only class docstring inserted
 # 'init': only init docstring inserted
-autoclass_content = "class"
 autoclass_content = "class"
 # This value is a list of autodoc directive flags that should be automatically applied to
 # all autodoc directives. The supported flags are 'members', 'undoc-members',
@@ -67,17 +54,6 @@ autodoc_default_options = {
     "imported-members": False,
     "private-members": False,
     "inherited-members": False,
-    "members": True,
-    "special-members": False,
-    "imported-members": False,
-    "private-members": False,
-    "inherited-members": False,
-    #    'member-order': 'bysource',
-    "special-members": False,
-    "undoc-members": False,
-    "exclude-members": "__init__",
-}
-    "special-members": False,
     "undoc-members": False,
     "exclude-members": "__init__",
 }
@@ -86,19 +62,14 @@ autodoc_default_options = {
 autodoc_inherit_docstrings = False
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]
-templates_path = ["_templates"]
 
 source_suffix = {
-    ".rst": "restructuredtext",
-    ".txt": "markdown",
-    ".md": "markdown",
     ".rst": "restructuredtext",
     ".txt": "markdown",
     ".md": "markdown",
 }
 
 # The master toctree document.
-master_doc = "index"
 master_doc = "index"
 
 # General information about the project.
@@ -117,16 +88,13 @@ release = version
 
 
 language = "English"
-language = "English"
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
 # This patterns also effect to html_static_path and html_extra_path
 exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
-exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 
 # The name of the Pygments (syntax highlighting) style to use.
-pygments_style = "default"
 pygments_style = "default"
 
 # If true, `todo` and `todoList` produce output, else they produce nothing.
@@ -156,7 +124,6 @@ html_static_path = []
 # -- Options for HTMLHelp output ------------------------------------------
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = "qoqocalculatorpyo3doc"
 htmlhelp_basename = "qoqocalculatorpyo3doc"
 
 
@@ -188,13 +155,6 @@ latex_documents = [
         "HQS Quantum Simulations GmbH",
         "manual",
     ),
-    (
-        master_doc,
-        "qoqo_calculator_pyo3.tex",
-        "qoqo_calculator_pyo3 Documentation",
-        "HQS Quantum Simulations GmbH",
-        "manual",
-    ),
 ]
 
 
@@ -203,13 +163,6 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (
-        master_doc,
-        "qoqo_calculator_pyo3",
-        "qoqo_calculator_pyo3 Documentation",
-        [author],
-        1,
-    )
     (
         master_doc,
         "qoqo_calculator_pyo3",
@@ -235,17 +188,7 @@ texinfo_documents = [
         "Fast symbolic expressions for the qoqo quantum computing toolkit",
         "Miscellaneous",
     ),
-    (
-        master_doc,
-        "qoqo_calculator_pyo3",
-        "qoqo_calculator_pyo3 Documentation",
-        author,
-        "qoqo_calculator_pyo3",
-        "Fast symbolic expressions for the qoqo quantum computing toolkit",
-        "Miscellaneous",
-    ),
 ]
 
 # Turning off executing notebooks when adding them to Documentation
-nbsphinx_execute = "never"
 nbsphinx_execute = "never"
