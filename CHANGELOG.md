@@ -5,9 +5,13 @@ This changelog track changes to the qoqo_calculator project starting at version 
 
 ## 1.4.1 - 1.4.4
 
+### Fixed in 1.4.1 - 1.4.4
+
 * Fixed 1.4.0 release issue (reusable_workflows fix).
 
 ## 1.4.0
+
+### Updated in 1.4.0
 
 * Updated `thiserror` crate (1.0 -> 2.0) and updated github workflows to explicitly include python 3.13.
 * Updated minimum supported Rust version from 1.70 to 1.76.
@@ -44,7 +48,6 @@ This changelog track changes to the qoqo_calculator project starting at version 
 ### Updated in 1.2.3
 
 * Updated to rust 1.70
-
 
 ## 1.2.2
 
