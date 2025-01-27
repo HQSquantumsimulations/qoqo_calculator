@@ -61,4 +61,5 @@ jobs:
     with: 
       py_interface_folder: "qoqo_calculator_pyo3"
       deploy: true
+      python_3_13: true
     secrets: inherit
