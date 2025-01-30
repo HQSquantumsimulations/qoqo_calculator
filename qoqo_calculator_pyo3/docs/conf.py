@@ -45,7 +45,6 @@ autoclass_content = "class"
 # 'private-members', 'special-members', 'inherited-members', 'show-inheritance',
 # 'ignore-module-all' and 'exclude-members'.
 # autodoc_default_flags = ['members', 'exclude-members']
-# autodoc_default_flags = ['members', 'exclude-members']
 # The default options for autodoc directives. They are applied to all autodoc directives
 # automatically. It must be a dictionary which maps option names to the values.
 autodoc_default_options = {
