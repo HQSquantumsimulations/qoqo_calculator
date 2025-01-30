@@ -17,11 +17,12 @@ import os
 from qoqo_calculator_pyo3 import Calculator
 import math
 
+
 def test_calculator_parse():
-    c = Calculator() 
-    c.set("a",1)
+    c = Calculator()
+    c.set("a", 1)
     assert c.parse_get("sin(a+1)") == math.sin(2)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     pytest.main(sys.argv)
