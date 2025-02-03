@@ -6,7 +6,6 @@ on:
     types: [created]
 
 jobs:
-
   deploy_cratesio:
     runs-on: ubuntu-latest
     steps:
@@ -30,7 +29,6 @@ jobs:
         # publish second package
         cargo publish --manifest-path=qoqo_calculator_pyo3/Cargo.toml
 
-
 # Build linux wheels and upload them to PyPi
   build_maturin_builds_linux:
     name: maturin_build-linux
@@ -53,7 +51,6 @@ jobs:
       # Universal2 builds do not work with LTO at the moment and would cause inacceptable slowdown
       universal2: true
       deploy: true
-      python_3_13: true
     secrets: inherit
 
 # Build windows wheels and upload them to PyPi

@@ -165,17 +165,6 @@ dependencies = [
 
 [[package]]
 name = "qoqo_calculator"
-version = "1.4.3"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1c937873c2c8759a4b7df6edf1064d3c6a8c1af5456bd959d9c3911a776a4d42"
-dependencies = [
- "num-complex",
- "serde",
- "thiserror",
-]
-
-[[package]]
-name = "qoqo_calculator"
 version = "1.4.4"
 dependencies = [
  "num-complex",
@@ -187,15 +176,24 @@ dependencies = [
 ]
 
 [[package]]
+name = "qoqo_calculator"
+version = "1.4.4"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "94d04c6f74f1ad9650b2e9e618446a4de2d8342d7a8935e08cb5c141fa2e0fa9"
+dependencies = [
+ "num-complex",
+ "serde",
+ "thiserror",
+]
+
+[[package]]
 name = "qoqo_calculator_pyo3"
 version = "1.4.4"
 dependencies = [
  "num-complex",
  "pyo3",
  "pyo3-build-config",
- "qoqo_calculator 1.4.3",
- "serde",
- "thiserror",
+ "qoqo_calculator 1.4.4 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]
