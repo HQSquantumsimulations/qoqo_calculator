@@ -9,6 +9,6 @@
 # is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
 # or implied. See the License for the specific language governing permissions and limitations under
 # the License.
-from .qoqo_calculator_pyo3 import *
+from .qoqo_calculator_pyo3 import Calculator, CalculatorFloat, CalculatorComplex, parse_string_assign
 
 __license__ = "Apache-2.0 for linked dependencies see qoqo_calculator_pyo3/LICSENSE_FOR_BINARY_DISTRIBUTION"
