@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 #
 """Configuration of sphinx documentation module"""
+
 import tomli
 
 main_version = tomli.load(open("../pyproject.toml", "rb"))["project"]["version"]
@@ -52,8 +53,6 @@ autodoc_default_options = {
     "imported-members": False,
     "private-members": False,
     "inherited-members": False,
-    #    'member-order': 'bysource',
-    "special-members": False,
     "undoc-members": False,
     "exclude-members": "__init__",
 }
@@ -74,7 +73,7 @@ master_doc = "index"
 
 # General information about the project.
 project = "qoqo_calculator_pyo3"
-copyright = "2021, HQS Quantum Simulations GmbH"
+copyright = "2025, HQS Quantum Simulations GmbH"
 author = "The qoqo developers"
 
 # The version info for the project you're documenting, acts as replacement for

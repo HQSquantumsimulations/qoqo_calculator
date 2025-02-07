@@ -1,4 +1,4 @@
-qoqo_aqt documentation
+qoqo_calculator_pyo3 documentation
 ========================
 
 .. autosummary::
