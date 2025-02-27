@@ -191,33 +191,15 @@ impl CalculatorComplexWrapper {
                     dict.insert("real".to_string(), convert_float_to_object(x, py));
                 }
                 CalculatorFloat::Str(x) => {
-                    dict.insert(
-                        "real".to_string(),
-                        x.into_pyobject(py)
-                            .expect("Couldn't convert String into PyObject.")
-                            .into_any()
-                            .unbind(),
-                    );
+                    dict.insert("real".to_string(), convert_string_to_object(x, py));
                 }
             }
             match &self.internal.im {
                 CalculatorFloat::Float(x) => {
-                    dict.insert(
-                        "imag".to_string(),
-                        x.into_pyobject(py)
-                            .expect("Couldn't convert Float into PyObject.")
-                            .into_any()
-                            .unbind(),
-                    );
+                    dict.insert("imag".to_string(), convert_float_to_object(x, py));
                 }
                 CalculatorFloat::Str(x) => {
-                    dict.insert(
-                        "imag".to_string(),
-                        x.into_pyobject(py)
-                            .expect("Couldn't convert String into PyObject.")
-                            .into_any()
-                            .unbind(),
-                    );
+                    dict.insert("imag".to_string(), convert_string_to_object(x, py));
                 }
             }
             dict
