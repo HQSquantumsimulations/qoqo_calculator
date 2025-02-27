@@ -15,7 +15,10 @@
 //! Converts the qoqo_calculator CalculatorComplex struct and methods for parsing and evaluating
 //! mathematical expressions in string form to complex into a Python class.
 
-use crate::{convert_into_calculator_float, CalculatorFloatWrapper};
+use crate::{
+    convert_float_to_object, convert_into_calculator_float, convert_string_to_object,
+    CalculatorFloatWrapper,
+};
 use num_complex::Complex;
 use pyo3::class::basic::CompareOp;
 use pyo3::exceptions::{PyNotImplementedError, PyTypeError, PyValueError, PyZeroDivisionError};
@@ -149,28 +152,12 @@ impl CalculatorComplexWrapper {
     fn __getstate__(&self) -> (PyObject, PyObject) {
         Python::with_gil(|py| {
             let object_real = match self.internal.re {
-                CalculatorFloat::Float(ref x) => x
-                    .into_pyobject(py)
-                    .expect("Couldn't convert Float into PyObject.")
-                    .into_any()
-                    .unbind(),
-                CalculatorFloat::Str(ref x) => x
-                    .into_pyobject(py)
-                    .expect("Couldn't convert String into PyObject.")
-                    .into_any()
-                    .unbind(),
+                CalculatorFloat::Float(ref x) => convert_float_to_object(x, py),
+                CalculatorFloat::Str(ref x) => convert_string_to_object(x, py),
             };
             let object_imag = match self.internal.im {
-                CalculatorFloat::Float(ref x) => x
-                    .into_pyobject(py)
-                    .expect("Couldn't convert Float into PyObject.")
-                    .into_any()
-                    .unbind(),
-                CalculatorFloat::Str(ref x) => x
-                    .into_pyobject(py)
-                    .expect("Couldn't convert String into PyObject.")
-                    .into_any()
-                    .unbind(),
+                CalculatorFloat::Float(ref x) => convert_float_to_object(x, py),
+                CalculatorFloat::Str(ref x) => convert_string_to_object(x, py),
             };
             (object_real, object_imag)
         })
@@ -201,13 +188,7 @@ impl CalculatorComplexWrapper {
             );
             match &self.internal.re {
                 CalculatorFloat::Float(x) => {
-                    dict.insert(
-                        "real".to_string(),
-                        x.into_pyobject(py)
-                            .expect("Couldn't convert Float into PyObject.")
-                            .into_any()
-                            .unbind(),
-                    );
+                    dict.insert("real".to_string(), convert_float_to_object(x, py));
                 }
                 CalculatorFloat::Str(x) => {
                     dict.insert(
