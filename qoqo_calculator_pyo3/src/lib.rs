@@ -31,6 +31,24 @@ fn parse_string_assign(expression: &str) -> PyResult<f64> {
     parse_str_assign(expression)
 }
 
+#[inline]
+fn convert_float_to_object(value: &f64, context: Python<'_>) -> Py<PyAny> {
+    value
+        .into_pyobject(context)
+        .expect("Couldn't convert Float into PyObject.")
+        .into_any()
+        .unbind()
+}
+
+#[inline]
+fn convert_string_to_object(value: &String, context: Python<'_>) -> Py<PyAny> {
+    value
+        .into_pyobject(context)
+        .expect("Couldn't convert String into PyObject.")
+        .into_any()
+        .unbind()
+}
+
 /// qoqo_calculator_pyo3 module bringing the qoqo_calculator rust library to Python.
 ///
 /// qoqo_calculator is a rust library implementing:

@@ -4,6 +4,9 @@ This changelog track changes to the qoqo_calculator project starting at version 
 
 ## Unreleased
 
+## 1.5.0
+
+* Updated to pyo3 0.23
 * Switched from general to specific imports in `__init__.py` in order to avoid nested import ModuleNotFoundError.
 
 ## 1.4.1 - 1.4.4

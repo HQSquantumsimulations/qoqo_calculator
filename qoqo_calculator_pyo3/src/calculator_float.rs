@@ -24,6 +24,8 @@ use std::collections::HashMap;
 use std::convert::From;
 use std::panic::catch_unwind;
 
+use crate::{convert_float_to_object, convert_string_to_object};
+
 /// Convert an f64 float (or any input that can be cast to float) or a string to CalculatorFloat.
 ///
 /// # Arguments
@@ -128,8 +130,8 @@ impl CalculatorFloatWrapper {
     fn __getnewargs_ex__(&self) -> ((PyObject,), HashMap<String, String>) {
         Python::with_gil(|py| {
             let object = match self.internal {
-                CalculatorFloat::Float(ref x) => x.to_object(py),
-                CalculatorFloat::Str(ref x) => x.to_object(py),
+                CalculatorFloat::Float(ref x) => convert_float_to_object(x, py),
+                CalculatorFloat::Str(ref x) => convert_string_to_object(x, py),
             };
             ((object,), HashMap::new())
         })
@@ -234,8 +236,8 @@ impl CalculatorFloatWrapper {
     #[getter]
     fn value(&self) -> PyObject {
         Python::with_gil(|py| match self.internal {
-            CalculatorFloat::Float(ref x) => x.to_object(py),
-            CalculatorFloat::Str(ref x) => x.to_object(py),
+            CalculatorFloat::Float(ref x) => convert_float_to_object(x, py),
+            CalculatorFloat::Str(ref x) => convert_string_to_object(x, py),
         })
     }
 

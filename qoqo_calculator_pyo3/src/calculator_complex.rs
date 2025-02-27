@@ -15,13 +15,16 @@
 //! Converts the qoqo_calculator CalculatorComplex struct and methods for parsing and evaluating
 //! mathematical expressions in string form to complex into a Python class.
 
-use crate::{convert_into_calculator_float, CalculatorFloatWrapper};
+use crate::{
+    convert_float_to_object, convert_into_calculator_float, convert_string_to_object,
+    CalculatorFloatWrapper,
+};
 use num_complex::Complex;
 use pyo3::class::basic::CompareOp;
 use pyo3::exceptions::{PyNotImplementedError, PyTypeError, PyValueError, PyZeroDivisionError};
-use pyo3::prelude::*;
-use pyo3::types::PyTuple;
-use pyo3::ToPyObject;
+use pyo3::types::{PyFloat, PyTuple};
+use pyo3::IntoPyObject;
+use pyo3::{prelude::*, BoundObject};
 use qoqo_calculator::{CalculatorComplex, CalculatorError, CalculatorFloat};
 use std::collections::HashMap;
 use std::convert::TryInto;
@@ -132,7 +135,10 @@ impl CalculatorComplexWrapper {
     fn __getnewargs_ex__(&self) -> ((PyObject,), HashMap<String, String>) {
         Python::with_gil(|py| {
             let x = 0.0;
-            let object = x.to_object(py);
+            let bound: Bound<PyFloat> = x
+                .into_pyobject(py)
+                .expect("Couldn't convert Float into PyObject.");
+            let object = bound.into_any().unbind();
             ((object,), HashMap::new())
         })
     }
@@ -146,12 +152,12 @@ impl CalculatorComplexWrapper {
     fn __getstate__(&self) -> (PyObject, PyObject) {
         Python::with_gil(|py| {
             let object_real = match self.internal.re {
-                CalculatorFloat::Float(ref x) => x.to_object(py),
-                CalculatorFloat::Str(ref x) => x.to_object(py),
+                CalculatorFloat::Float(ref x) => convert_float_to_object(x, py),
+                CalculatorFloat::Str(ref x) => convert_string_to_object(x, py),
             };
             let object_imag = match self.internal.im {
-                CalculatorFloat::Float(ref x) => x.to_object(py),
-                CalculatorFloat::Str(ref x) => x.to_object(py),
+                CalculatorFloat::Float(ref x) => convert_float_to_object(x, py),
+                CalculatorFloat::Str(ref x) => convert_string_to_object(x, py),
             };
             (object_real, object_imag)
         })
@@ -160,7 +166,7 @@ impl CalculatorComplexWrapper {
     /// Set real and imaginary parts of CalculatorComplexWrapper for Python.
     fn __setstate__(&mut self, state: &Bound<PyAny>) -> PyResult<()> {
         Python::with_gil(|py| {
-            let tuple: Py<PyTuple> = state.into_py(py).extract(py)?;
+            let tuple: Py<PyTuple> = state.clone().unbind().extract(py)?;
             let bind = tuple.bind(py);
             let arg_0 = bind.get_item(0)?;
             let arg_1 = bind.get_item(1)?;
@@ -173,21 +179,27 @@ impl CalculatorComplexWrapper {
     fn to_dict(&self) -> HashMap<String, PyObject> {
         Python::with_gil(|py| {
             let mut dict = HashMap::new();
-            dict.insert("is_calculator_complex".to_string(), true.to_object(py));
+            dict.insert(
+                "is_calculator_complex".to_string(),
+                true.into_pyobject(py)
+                    .expect("Couldn't convert Bool into PyObject.")
+                    .into_any()
+                    .unbind(),
+            );
             match &self.internal.re {
                 CalculatorFloat::Float(x) => {
-                    dict.insert("real".to_string(), x.to_object(py));
+                    dict.insert("real".to_string(), convert_float_to_object(x, py));
                 }
                 CalculatorFloat::Str(x) => {
-                    dict.insert("real".to_string(), x.to_object(py));
+                    dict.insert("real".to_string(), convert_string_to_object(x, py));
                 }
             }
             match &self.internal.im {
                 CalculatorFloat::Float(x) => {
-                    dict.insert("imag".to_string(), x.to_object(py));
+                    dict.insert("imag".to_string(), convert_float_to_object(x, py));
                 }
                 CalculatorFloat::Str(x) => {
-                    dict.insert("imag".to_string(), x.to_object(py));
+                    dict.insert("imag".to_string(), convert_string_to_object(x, py));
                 }
             }
             dict
