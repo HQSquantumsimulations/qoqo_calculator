@@ -1,6 +1,6 @@
 [project]
 name = "qoqo_calculator_pyo3"
-version = "1.5.1"
+version = "1.6.0"
 license = { text = "Apache-2.0 AND Apache-2.0 with LLVM-exception AND MIT AND Unicode-DFS-2016" }
 authors = [
     { name = "HQS Quantum Simulation GmbH", email = "info@quantumsimulations.de" },
