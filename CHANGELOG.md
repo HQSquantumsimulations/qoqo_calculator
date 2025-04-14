@@ -4,7 +4,7 @@ This changelog track changes to the qoqo_calculator project starting at version 
 
 ## Unreleased
 
-## 1.5.1
+## 1.6.0
 
 * Updated to Pyo3 0.24
 
