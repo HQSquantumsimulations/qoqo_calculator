@@ -7,10 +7,10 @@ on:
 
 jobs:
   linting:
-    uses: HQSquantumsimulations/reusable_workflows/.github/workflows/reusable_linting_rust_pyo3.yml@arm64
+    uses: mlodi-hqs/reusable_workflows/.github/workflows/reusable_linting_rust_pyo3.yml@arm64
 
   unittests:
-    uses: HQSquantumsimulations/reusable_workflows/.github/workflows/reusable_unittests_rust_pyo3.yml@arm64
+    uses: mlodi-hqs/reusable_workflows/.github/workflows/reusable_unittests_rust_pyo3.yml@arm64
     with:
       # Run tests also on windows runners
       windows: true
@@ -22,7 +22,7 @@ jobs:
       features: "json_schema"
 
   build_tests:
-    uses: HQSquantumsimulations/reusable_workflows/.github/workflows/reusable_build_tests_rust_pyo3.yml@arm64
+    uses: mlodi-hqs/reusable_workflows/.github/workflows/reusable_build_tests_rust_pyo3.yml@arm64
     with: 
       # Run tests also on windows runners
       windows: true
