@@ -18,8 +18,6 @@
 use crate::CalculatorError;
 use crate::CalculatorFloat;
 use num_complex::Complex;
-#[cfg(feature = "json_schema")]
-use schemars::schema::*;
 use serde::de::Deserialize;
 use serde::de::Error;
 use serde::de::{SeqAccess, Visitor};
@@ -41,12 +39,12 @@ pub struct CalculatorComplex {
 
 #[cfg(feature = "json_schema")]
 impl schemars::JsonSchema for CalculatorComplex {
-    fn schema_name() -> String {
-        "CalculatorComplex".to_string()
+    fn schema_name() -> std::borrow::Cow<'static, str> {
+        "CalculatorComplex".into()
     }
 
-    fn json_schema(gen: &mut schemars::gen::SchemaGenerator) -> Schema {
-        <(CalculatorFloat, CalculatorFloat)>::json_schema(gen)
+    fn json_schema(generator: &mut schemars::SchemaGenerator) -> schemars::Schema {
+        <(CalculatorFloat, CalculatorFloat)>::json_schema(generator)
     }
 }
 
@@ -511,11 +509,9 @@ impl CalculatorComplex {
 
 #[cfg(test)]
 mod tests {
-    use super::CalculatorComplex;
-    use super::CalculatorFloat;
+    use crate::CalculatorComplex;
+    use crate::CalculatorFloat;
     use num_complex::Complex;
-    #[cfg(feature = "json_schema")]
-    use schemars::schema_for;
     use serde_test::assert_tokens;
     use serde_test::Configure;
     use serde_test::Token;
@@ -591,7 +587,8 @@ mod tests {
     #[cfg(feature = "json_schema")]
     #[test]
     fn test_json_schema_support() {
-        let schema = schema_for!(CalculatorComplex);
+        let generator = schemars::generate::SchemaSettings::draft07().into_generator();
+        let schema = generator.into_root_schema_for::<CalculatorComplex>();
         let serialized = serde_json::to_string(&schema).unwrap();
         assert_eq!(serialized.as_str(), "{\"$schema\":\"http://json-schema.org/draft-07/schema#\",\"title\":\"CalculatorComplex\",\"type\":\"array\",\"items\":[{\"$ref\":\"#/definitions/CalculatorFloat\"},{\"$ref\":\"#/definitions/CalculatorFloat\"}],\"maxItems\":2,\"minItems\":2,\"definitions\":{\"CalculatorFloat\":{\"oneOf\":[{\"type\":\"number\",\"format\":\"double\"},{\"type\":\"string\"}]}}}");
     }

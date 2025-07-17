@@ -17,8 +17,6 @@
 
 use crate::calculator::{Token, TokenIterator};
 use crate::CalculatorError;
-#[cfg(feature = "json_schema")]
-use schemars::schema::*;
 use serde::de::{Deserializer, Error, Visitor};
 use serde::ser::Serializer;
 use serde::{Deserialize, Serialize};
@@ -48,15 +46,22 @@ pub enum CalculatorFloat {
 
 #[cfg(feature = "json_schema")]
 impl schemars::JsonSchema for CalculatorFloat {
-    fn schema_name() -> String {
-        "CalculatorFloat".to_string()
+    fn schema_name() -> std::borrow::Cow<'static, str> {
+        "CalculatorFloat".into()
     }
 
-    fn json_schema(gen: &mut schemars::gen::SchemaGenerator) -> Schema {
-        let mut return_schema = SchemaObject::default();
-        return_schema.subschemas().one_of =
-            Some(vec![<f64>::json_schema(gen), <String>::json_schema(gen)]);
-        return_schema.into()
+    fn json_schema(generator: &mut schemars::SchemaGenerator) -> schemars::Schema {
+        // Generate schemas for f64 and String
+        let f64_schema = generator.subschema_for::<f64>();
+        let string_schema = generator.subschema_for::<String>();
+
+        // Create the main schema with a oneOf subschema
+        schemars::json_schema!({
+            "oneOf": [
+                f64_schema,
+                string_schema
+            ]
+        })
     }
 }
 
@@ -1245,8 +1250,6 @@ impl ops::Neg for CalculatorFloat {
 #[cfg(test)]
 mod tests {
     use super::CalculatorFloat;
-    #[cfg(feature = "json_schema")]
-    use schemars::schema_for;
     use serde_test::{assert_tokens, Configure, Token};
     use std::{convert::TryFrom, str::FromStr};
 
@@ -1321,7 +1324,8 @@ mod tests {
     #[cfg(feature = "json_schema")]
     #[test]
     fn test_json_schema_support() {
-        let schema = schema_for!(CalculatorFloat);
+        let generator = schemars::generate::SchemaSettings::draft07().into_generator();
+        let schema = generator.into_root_schema_for::<CalculatorFloat>();
         let serialized = serde_json::to_string(&schema).unwrap();
         assert_eq!(serialized.as_str(), "{\"$schema\":\"http://json-schema.org/draft-07/schema#\",\"title\":\"CalculatorFloat\",\"oneOf\":[{\"type\":\"number\",\"format\":\"double\"},{\"type\":\"string\"}]}");
     }
