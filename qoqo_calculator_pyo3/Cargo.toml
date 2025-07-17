@@ -30,7 +30,7 @@ version = "0.24"
 features = ["num-complex"]
 
 [build-dependencies]
-pyo3-build-config = "0.24"
+pyo3-build-config = "0.25"
 pyo3 = "0.24"
 
 [features]
