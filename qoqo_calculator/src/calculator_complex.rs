@@ -512,6 +512,8 @@ mod tests {
     use crate::CalculatorComplex;
     use crate::CalculatorFloat;
     use num_complex::Complex;
+    #[cfg(feature = "json_schema")]
+    use schemars::schema_for;
     use serde_test::assert_tokens;
     use serde_test::Configure;
     use serde_test::Token;
@@ -587,10 +589,9 @@ mod tests {
     #[cfg(feature = "json_schema")]
     #[test]
     fn test_json_schema_support() {
-        let generator = schemars::generate::SchemaSettings::draft07().into_generator();
-        let schema = generator.into_root_schema_for::<CalculatorComplex>();
+        let schema = schema_for!(CalculatorComplex);
         let serialized = serde_json::to_string(&schema).unwrap();
-        assert_eq!(serialized.as_str(), "{\"$schema\":\"http://json-schema.org/draft-07/schema#\",\"title\":\"CalculatorComplex\",\"type\":\"array\",\"items\":[{\"$ref\":\"#/definitions/CalculatorFloat\"},{\"$ref\":\"#/definitions/CalculatorFloat\"}],\"maxItems\":2,\"minItems\":2,\"definitions\":{\"CalculatorFloat\":{\"oneOf\":[{\"type\":\"number\",\"format\":\"double\"},{\"type\":\"string\"}]}}}");
+        assert_eq!(serialized.as_str(), "{\"$schema\":\"https://json-schema.org/draft/2020-12/schema\",\"title\":\"CalculatorComplex\",\"type\":\"array\",\"maxItems\":2,\"minItems\":2,\"prefixItems\":[{\"$ref\":\"#/$defs/CalculatorFloat\"},{\"$ref\":\"#/$defs/CalculatorFloat\"}],\"$defs\":{\"CalculatorFloat\":{\"oneOf\":[{\"type\":\"number\",\"format\":\"double\"},{\"type\":\"string\"}]}}}");
     }
 
     // Test the initialisation of CalculatorComplex from float input

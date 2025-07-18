@@ -36,7 +36,6 @@ static RTOL: f64 = 1e-8;
 /// * `Str` - String instance
 ///
 #[derive(Debug, Clone, PartialEq)]
-// #[cfg_attr(feature = "json_schema", derive(schemars::JsonSchema))]
 pub enum CalculatorFloat {
     /// Floating point value
     Float(f64),
@@ -1250,6 +1249,8 @@ impl ops::Neg for CalculatorFloat {
 #[cfg(test)]
 mod tests {
     use super::CalculatorFloat;
+    #[cfg(feature = "json_schema")]
+    use schemars::schema_for;
     use serde_test::{assert_tokens, Configure, Token};
     use std::{convert::TryFrom, str::FromStr};
 
@@ -1324,10 +1325,9 @@ mod tests {
     #[cfg(feature = "json_schema")]
     #[test]
     fn test_json_schema_support() {
-        let generator = schemars::generate::SchemaSettings::draft07().into_generator();
-        let schema = generator.into_root_schema_for::<CalculatorFloat>();
+        let schema = schema_for!(CalculatorFloat);
         let serialized = serde_json::to_string(&schema).unwrap();
-        assert_eq!(serialized.as_str(), "{\"$schema\":\"http://json-schema.org/draft-07/schema#\",\"title\":\"CalculatorFloat\",\"oneOf\":[{\"type\":\"number\",\"format\":\"double\"},{\"type\":\"string\"}]}");
+        assert_eq!(serialized.as_str(), "{\"$schema\":\"https://json-schema.org/draft/2020-12/schema\",\"title\":\"CalculatorFloat\",\"oneOf\":[{\"type\":\"number\",\"format\":\"double\"},{\"type\":\"string\"}]}");
     }
 
     // Test the initialisation of CalculatorFloat from all possible input types
