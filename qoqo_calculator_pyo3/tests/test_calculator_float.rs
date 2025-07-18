@@ -10,7 +10,6 @@ fn test_initialising_calculator_float() {
             &new_result
                 .downcast::<CalculatorFloatWrapper>()
                 .unwrap()
-                .as_ref()
                 .call_method0("__float__")
                 .unwrap(),
         )
