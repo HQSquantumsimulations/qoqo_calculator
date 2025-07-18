@@ -7,7 +7,7 @@ This changelog track changes to the qoqo_calculator project starting at version 
 ## 1.7.0
 
 * Updated to Pyo3 0.25.
-* Updates to schemars 1.0 that uses the json_draft 2020-12.
+* Updated to schemars 1.0 that uses the json_draft 2020-12.
 
 ## 1.6.1
 
