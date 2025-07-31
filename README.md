@@ -11,7 +11,7 @@ This repository contains two components:
 
 
 [![Crates.io](https://img.shields.io/crates/v/qoqo_calculator)](https://crates.io/crates/qoqo_calculator)
-[![GitHub Workflow Status](https://github.com/HQSquantumsimulations/qoqo_calculator/workflows/ci_tests/badge.svg)](https://github.com/HQSquantumsimulations/qoqo_calculator/actions)
+[![GitHub Workflow Status](https://github.com/HQSquantumsimulations/qoqo_calculator/actions/workflows/hqs-build-deploy-rust-pyo3.yml/badge.svg)](https://github.com/HQSquantumsimulations/qoqo_calculator/actions/workflows/hqs-build-deploy-rust-pyo3.yml)
 [![docs.rs](https://img.shields.io/docsrs/qoqo_calculator)](https://docs.rs/qoqo_calculator/)
 ![Crates.io](https://img.shields.io/crates/l/qoqo_calculator)
 [![codecov](https://codecov.io/gh/HQSquantumsimulations/qoqo_calculator/branch/main/graph/badge.svg?token=2MCD6EN4UX)](https://codecov.io/gh/HQSquantumsimulations/qoqo_calculator)
@@ -24,11 +24,12 @@ qoqo-calculator provides
 * CalculatorFloat: a struct that can represent a float value or a string based symbolic expression
 * CalculatorComplex: a struct that represents complex numbers where real and imaginary parts can be CalculatorFloat
 
+The API Documentation (Rust) can be found [here](https://docs.rs/qoqo_calculator/).
 
 ## qoqo_calculator_pyo3
 
 [![Crates.io](https://img.shields.io/crates/v/qoqo_calculator_pyo3)](https://crates.io/crates/qoqo_calculator_pyo3)
-[![GitHub Workflow Status](https://github.com/HQSquantumsimulations/qoqo_calculator_pyo3/workflows/ci_tests/badge.svg)](https://github.com/HQSquantumsimulations/qoqo_calculator/actions)
+[![GitHub Workflow Status](https://github.com/HQSquantumsimulations/qoqo_calculator/actions/workflows/hqs-build-deploy-rust-pyo3.yml/badge.svg)](https://github.com/HQSquantumsimulations/qoqo_calculator/actions/workflows/hqs-build-deploy-rust-pyo3.yml)
 [![Documentation Status](https://img.shields.io/badge/docs-documentation-green)](https://hqsquantumsimulations.github.io/qoqo_calculator/)
 [![docs.rs](https://img.shields.io/docsrs/qoqo_calculator_pyo3)](https://docs.rs/qoqo_calculator_pyo3/)
 ![Crates.io](https://img.shields.io/crates/l/qoqo_calculator_pyo3)
@@ -43,6 +44,7 @@ qoqo-calculator-pyo3 provides
 * A CalculatorFloat python class that can represent a float value or a string based symbolic expression
 * A CalculatorComplex python class that represents complex numbers where real and imaginary parts can be CalculatorFloat
 
+The API Documentation (Python) can be found [here](https://hqsquantumsimulations.github.io/qoqo_calculator/).
 
 ### Installation
 
