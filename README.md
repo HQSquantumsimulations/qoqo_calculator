@@ -44,7 +44,7 @@ qoqo-calculator-pyo3 provides
 * A CalculatorFloat python class that can represent a float value or a string based symbolic expression
 * A CalculatorComplex python class that represents complex numbers where real and imaginary parts can be CalculatorFloat
 
-The API Documentation (Python) can be found [here](https://hqsquantumsimulations.github.io/qoqo_calculator/).
+The API Documentation (Python) can be found [here](https://hqsquantumsimulations.github.io/qoqo_calculator/generated/qoqo_calculator_pyo3.html).
 
 ### Installation
 
