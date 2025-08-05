@@ -4,6 +4,10 @@ This changelog track changes to the qoqo_calculator project starting at version 
 
 ## Unreleased
 
+## 1.7.1
+
+* Removed tildes `~` from `Cargo.toml`s.
+
 ## 1.7.0
 
 * Updated to Pyo3 0.25.
