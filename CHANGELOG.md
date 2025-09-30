@@ -4,6 +4,8 @@ This changelog track changes to the qoqo_calculator project starting at version 
 
 ## Unreleased
 
+* Updated minimum supported Python version from 3.9 to 3.10.
+
 ## 1.7.1
 
 * Removed tildes `~` from `Cargo.toml`s.
