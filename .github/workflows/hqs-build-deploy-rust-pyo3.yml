@@ -2,8 +2,8 @@ name: HQS build and deploy for rust pyo3 repos
 
 on:
   workflow_dispatch:
-  release:
-    types: [created]
+  pull_request:
+    branches: ["main"]
 
 jobs:
   deploy_cratesio:
@@ -36,7 +36,7 @@ jobs:
     uses: mlodi-hqs/reusable_workflows/.github/workflows/reusable_build_maturin_linux.yml@3.13_deafult
     with: 
       py_interface_folder: "qoqo_calculator_pyo3"
-      deploy: true
+      deploy: false
       # Whether to build for aarch64. Can fail if there are C/C++ dependencies
       build_for_arm: true
     secrets: inherit
@@ -49,7 +49,7 @@ jobs:
     with: 
       py_interface_folder: "qoqo_calculator_pyo3"
       universal2: true
-      deploy: true
+      deploy: false
     secrets: inherit
 
 # Build windows wheels and upload them to PyPi
@@ -59,5 +59,5 @@ jobs:
     uses: mlodi-hqs/reusable_workflows/.github/workflows/reusable_build_maturin_windows.yml@3.13_deafult
     with: 
       py_interface_folder: "qoqo_calculator_pyo3"
-      deploy: true
+      deploy: false
     secrets: inherit
