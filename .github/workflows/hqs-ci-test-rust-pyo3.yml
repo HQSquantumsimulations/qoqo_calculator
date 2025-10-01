@@ -7,10 +7,10 @@ on:
 
 jobs:
   linting:
-    uses: mlodi-hqs/reusable_workflows/.github/workflows/reusable_linting_rust_pyo3.yml@3.13_default
+    uses: mlodi-hqs/reusable_workflows/.github/workflows/reusable_linting_rust_pyo3.yml@3.13_deafult
 
   unittests:
-    uses: mlodi-hqs/reusable_workflows/.github/workflows/reusable_unittests_rust_pyo3.yml@3.13_default
+    uses: mlodi-hqs/reusable_workflows/.github/workflows/reusable_unittests_rust_pyo3.yml@3.13_deafult
     with:
       # Run tests also on windows runners
       windows: true
@@ -22,7 +22,7 @@ jobs:
       features: "json_schema"
 
   build_tests:
-    uses: mlodi-hqs/reusable_workflows/.github/workflows/reusable_build_tests_rust_pyo3.yml@3.13_default
+    uses: mlodi-hqs/reusable_workflows/.github/workflows/reusable_build_tests_rust_pyo3.yml@3.13_deafult
     with: 
       # Run tests also on windows runners
       windows: true
