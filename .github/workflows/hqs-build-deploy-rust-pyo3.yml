@@ -33,7 +33,7 @@ jobs:
   build_maturin_builds_linux:
     name: maturin_build-linux
     needs: deploy_cratesio
-    uses: HQSquantumsimulations/reusable_workflows/.github/workflows/reusable_build_maturin_linux.yml@main
+    uses: mlodi-hqs/reusable_workflows/.github/workflows/reusable_build_maturin_linux.yml@3.13_default
     with: 
       py_interface_folder: "qoqo_calculator_pyo3"
       deploy: true
@@ -45,10 +45,9 @@ jobs:
   build_maturin_builds_macos:
     name: maturin_build-macos
     needs: deploy_cratesio
-    uses: HQSquantumsimulations/reusable_workflows/.github/workflows/reusable_build_maturin_macos.yml@main
+    uses: mlodi-hqs/reusable_workflows/.github/workflows/reusable_build_maturin_macos.yml@3.13_default
     with: 
       py_interface_folder: "qoqo_calculator_pyo3"
-      # Universal2 builds do not work with LTO at the moment and would cause inacceptable slowdown
       universal2: true
       deploy: true
     secrets: inherit
@@ -57,9 +56,8 @@ jobs:
   build_maturin_builds_windows:
     name: maturin_build-windows
     needs: deploy_cratesio
-    uses: HQSquantumsimulations/reusable_workflows/.github/workflows/reusable_build_maturin_windows.yml@main
+    uses: mlodi-hqs/reusable_workflows/.github/workflows/reusable_build_maturin_windows.yml@3.13_default
     with: 
       py_interface_folder: "qoqo_calculator_pyo3"
       deploy: true
-      python_3_13: true
     secrets: inherit
