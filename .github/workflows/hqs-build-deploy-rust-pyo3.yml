@@ -47,7 +47,7 @@ jobs:
     with: 
       py_interface_folder: "qoqo_calculator_pyo3"
       # Universal2 builds do not work with LTO at the moment and would cause inacceptable slowdown
-      universal2: true
+      universal2: false
       deploy: false
     secrets: inherit
 
