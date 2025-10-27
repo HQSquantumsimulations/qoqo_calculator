@@ -26,12 +26,12 @@ num-complex = "0.4"
 qoqo_calculator = { version = "1.7", path = "../qoqo_calculator" }
 
 [dependencies.pyo3]
-version = "0.25"
+version = "0.27"
 features = ["num-complex"]
 
 [build-dependencies]
 pyo3-build-config = "0.25"
-pyo3 = "0.25"
+pyo3 = "0.27"
 
 [features]
 extension-module = ["pyo3/extension-module"]
