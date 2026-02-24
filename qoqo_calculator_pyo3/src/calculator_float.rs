@@ -43,7 +43,7 @@ pub fn convert_into_calculator_float(
     let try_f64_conversion = input.call_method0("__float__");
     match try_f64_conversion {
         Ok(x) => Ok(CalculatorFloat::from(
-            f64::extract_bound(&x).map_err(|_| CalculatorError::NotConvertable)?,
+            f64::extract(x.as_borrowed()).map_err(|_| CalculatorError::NotConvertable)?,
         )),
         _ => {
             let try_str_conversion = input
@@ -52,14 +52,15 @@ pub fn convert_into_calculator_float(
                 .map_err(|_| CalculatorError::NotConvertable)?;
             match try_str_conversion.to_str() {
                 Ok("str") => Ok(CalculatorFloat::from(
-                    String::extract_bound(input).map_err(|_| CalculatorError::NotConvertable)?,
+                    String::extract(input.as_borrowed())
+                        .map_err(|_| CalculatorError::NotConvertable)?,
                 )),
                 Ok("CalculatorFloat") => {
                     let try_cf_conversion = input
                         .call_method0("__str__")
                         .map_err(|_| CalculatorError::NotConvertable)?;
                     Ok(CalculatorFloat::from(
-                        String::extract_bound(&try_cf_conversion)
+                        String::extract(try_cf_conversion.as_borrowed())
                             .map_err(|_| CalculatorError::NotConvertable)?,
                     ))
                 }
@@ -69,7 +70,11 @@ pub fn convert_into_calculator_float(
     }
 }
 
-#[pyclass(name = "CalculatorFloat", module = "qoqo_calculator_pyo3")]
+#[pyclass(
+    from_py_object,
+    name = "CalculatorFloat",
+    module = "qoqo_calculator_pyo3"
+)]
 #[derive(Clone, Debug)]
 pub struct CalculatorFloatWrapper {
     pub internal: CalculatorFloat,
@@ -125,10 +130,10 @@ impl CalculatorFloatWrapper {
     ///
     /// # Returns
     ///
-    /// `((PyObject,), HashMap<String, String>)` - arguments of CalculatorFloat
+    /// `((Py<PyAny>,), HashMap<String, String>)` - arguments of CalculatorFloat
     ///
-    fn __getnewargs_ex__(&self) -> ((PyObject,), HashMap<String, String>) {
-        Python::with_gil(|py| {
+    fn __getnewargs_ex__(&self) -> ((Py<PyAny>,), HashMap<String, String>) {
+        Python::attach(|py| {
             let object = match self.internal {
                 CalculatorFloat::Float(ref x) => convert_float_to_object(x, py),
                 CalculatorFloat::Str(ref x) => convert_string_to_object(x, py),
@@ -234,8 +239,8 @@ impl CalculatorFloatWrapper {
 
     /// Python getter function which returns the value stored in CalculatorFloat.
     #[getter]
-    fn value(&self) -> PyObject {
-        Python::with_gil(|py| match self.internal {
+    fn value(&self) -> Py<PyAny> {
+        Python::attach(|py| match self.internal {
             CalculatorFloat::Float(ref x) => convert_float_to_object(x, py),
             CalculatorFloat::Str(ref x) => convert_string_to_object(x, py),
         })
