@@ -35,7 +35,7 @@ fn parse_string_assign(expression: &str) -> PyResult<f64> {
 fn convert_float_to_object(value: &f64, context: Python<'_>) -> Py<PyAny> {
     value
         .into_pyobject(context)
-        .expect("Couldn't convert Float into PyObject.")
+        .expect("Couldn't convert Float into Py<PyAny>.")
         .into_any()
         .unbind()
 }
@@ -44,7 +44,7 @@ fn convert_float_to_object(value: &f64, context: Python<'_>) -> Py<PyAny> {
 fn convert_string_to_object(value: &String, context: Python<'_>) -> Py<PyAny> {
     value
         .into_pyobject(context)
-        .expect("Couldn't convert String into PyObject.")
+        .expect("Couldn't convert String into Py<PyAny>.")
         .into_any()
         .unbind()
 }
