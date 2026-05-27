@@ -9,7 +9,7 @@ jobs:
   deploy_cratesio:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
     # - uses: Swatinem/rust-cache@v2
     - uses: actions-rs/toolchain@v1
       with:
@@ -61,5 +61,4 @@ jobs:
     with: 
       py_interface_folder: "qoqo_calculator_pyo3"
       deploy: true
-      python_3_13: true
     secrets: inherit

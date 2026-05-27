@@ -67,7 +67,11 @@ pub fn convert_into_calculator_complex(
     }
 }
 
-#[pyclass(name = "CalculatorComplex", module = "qoqo_calculator_pyo3")]
+#[pyclass(
+    from_py_object,
+    name = "CalculatorComplex",
+    module = "qoqo_calculator_pyo3"
+)]
 #[derive(Clone, Debug)]
 pub struct CalculatorComplexWrapper {
     pub internal: CalculatorComplex,
@@ -130,14 +134,14 @@ impl CalculatorComplexWrapper {
     ///
     /// # Returns
     ///
-    /// `((PyObject,), HashMap<String, String>)` - arguments of CalculatorComplex
+    /// `((Py<PyAny>,), HashMap<String, String>)` - arguments of CalculatorComplex
     ///
-    fn __getnewargs_ex__(&self) -> ((PyObject,), HashMap<String, String>) {
-        Python::with_gil(|py| {
+    fn __getnewargs_ex__(&self) -> ((Py<PyAny>,), HashMap<String, String>) {
+        Python::attach(|py| {
             let x = 0.0;
             let bound: Bound<PyFloat> = x
                 .into_pyobject(py)
-                .expect("Couldn't convert Float into PyObject.");
+                .expect("Couldn't convert Float into Py<PyAny>.");
             let object = bound.into_any().unbind();
             ((object,), HashMap::new())
         })
@@ -147,10 +151,10 @@ impl CalculatorComplexWrapper {
     ///
     /// # Returns
     ///
-    /// `(PyObject, PyObject)` - real and imaginary parts of CalculatorComplex
+    /// `(Py<PyAny>, Py<PyAny>)` - real and imaginary parts of CalculatorComplex
     ///
-    fn __getstate__(&self) -> (PyObject, PyObject) {
-        Python::with_gil(|py| {
+    fn __getstate__(&self) -> (Py<PyAny>, Py<PyAny>) {
+        Python::attach(|py| {
             let object_real = match self.internal.re {
                 CalculatorFloat::Float(ref x) => convert_float_to_object(x, py),
                 CalculatorFloat::Str(ref x) => convert_string_to_object(x, py),
@@ -165,7 +169,7 @@ impl CalculatorComplexWrapper {
 
     /// Set real and imaginary parts of CalculatorComplexWrapper for Python.
     fn __setstate__(&mut self, state: &Bound<PyAny>) -> PyResult<()> {
-        Python::with_gil(|py| {
+        Python::attach(|py| {
             let tuple: Py<PyTuple> = state.clone().unbind().extract(py)?;
             let bind = tuple.bind(py);
             let arg_0 = bind.get_item(0)?;
@@ -176,13 +180,13 @@ impl CalculatorComplexWrapper {
     }
 
     /// Convert contents of CalculatorComplex to a Python dictionary.
-    fn to_dict(&self) -> HashMap<String, PyObject> {
-        Python::with_gil(|py| {
+    fn to_dict(&self) -> HashMap<String, Py<PyAny>> {
+        Python::attach(|py| {
             let mut dict = HashMap::new();
             dict.insert(
                 "is_calculator_complex".to_string(),
                 true.into_pyobject(py)
-                    .expect("Couldn't convert Bool into PyObject.")
+                    .expect("Couldn't convert Bool into Py<PyAny>.")
                     .into_any()
                     .unbind(),
             );
