@@ -911,7 +911,7 @@ DEALINGS IN THE SOFTWARE.
 
 
 ====================================================
-memchr 2.8.1
+memchr 2.8.2
 https://github.com/BurntSushi/memchr
 by Andrew Gallant <jamslam@gmail.com>, bluss
 Provides extremely fast (uses SIMD on x86_64, aarch64 and wasm32) routines for
@@ -2131,7 +2131,7 @@ DEALINGS IN THE SOFTWARE.
 
 
 ====================================================
-pyo3 0.28.3
+pyo3 0.29.0
 https://github.com/pyo3/pyo3
 by PyO3 Project and Contributors <https://github.com/PyO3>
 Bindings to Python interpreter
@@ -2349,7 +2349,7 @@ DEALINGS IN THE SOFTWARE.
 
 
 ====================================================
-pyo3-build-config 0.28.3
+pyo3-build-config 0.29.0
 https://github.com/pyo3/pyo3
 by PyO3 Project and Contributors <https://github.com/PyO3>
 Build configuration for the PyO3 ecosystem
@@ -2567,7 +2567,7 @@ DEALINGS IN THE SOFTWARE.
 
 
 ====================================================
-pyo3-ffi 0.28.3
+pyo3-ffi 0.29.0
 https://github.com/pyo3/pyo3
 by PyO3 Project and Contributors <https://github.com/PyO3>
 Python-API bindings for the PyO3 ecosystem
@@ -2785,7 +2785,7 @@ DEALINGS IN THE SOFTWARE.
 
 
 ====================================================
-pyo3-macros 0.28.3
+pyo3-macros 0.29.0
 https://github.com/pyo3/pyo3
 by PyO3 Project and Contributors <https://github.com/PyO3>
 Proc macros for PyO3 package
@@ -3003,7 +3003,7 @@ DEALINGS IN THE SOFTWARE.
 
 
 ====================================================
-pyo3-macros-backend 0.28.3
+pyo3-macros-backend 0.29.0
 https://github.com/pyo3/pyo3
 by PyO3 Project and Contributors <https://github.com/PyO3>
 Code generation for PyO3 package
@@ -3221,7 +3221,7 @@ DEALINGS IN THE SOFTWARE.
 
 
 ====================================================
-qoqo_calculator 1.8.1
+qoqo_calculator 1.9.0
 https://github.com/HQSquantumsimulations/qoqo_calculator
 by HQS Quantum Simulations <info@quantumsimulations.de>
 qoqo-calculator is the calculator backend of the qoqo quantum computing toolkit by HQS Quantum Simulations
@@ -3433,7 +3433,7 @@ LICENSE:
 
 
 ====================================================
-qoqo_calculator_pyo3 1.8.1
+qoqo_calculator_pyo3 1.9.0
 https://github.com/HQSquantumsimulations/qoqo_calculator_pyo3
 by HQS Quantum Simulations <info@quantumsimulations.de>
 Python interface to qoqo calculator, the calculator backend of the qoqo quantum computing toolkit by HQS Quantum Simulations
@@ -3645,7 +3645,7 @@ LICENSE:
 
 
 ====================================================
-quote 1.0.45
+quote 1.0.46
 https://github.com/dtolnay/quote
 by David Tolnay <dtolnay@gmail.com>
 Quasi-quoting macro quote!(...)
@@ -4929,7 +4929,7 @@ DEALINGS IN THE SOFTWARE.
 
 
 ====================================================
-syn 2.0.117
+syn 2.0.118
 https://github.com/dtolnay/syn
 by David Tolnay <dtolnay@gmail.com>
 Parser for Rust source code

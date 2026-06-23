@@ -4,6 +4,10 @@ This changelog track changes to the qoqo_calculator project starting at version 
 
 ## Unreleased
 
+## 1.9.0
+
+* Updated pyo3 dependency from 0.28 to 0.29.
+
 ## 1.8.1
 
 * Added release for Python 3.14.
