@@ -671,11 +671,11 @@ impl CalculatorFloat {
         match self {
             Self::Float(x) => match other_from {
                 Self::Float(y) => CalculatorFloat::Float(x.atan2(y)),
-                Self::Str(y) => Self::Str(format!("atan2({:e}, {})", x, &y)),
+                Self::Str(y) => Self::Str(format!("atan2({:e}, {})", x, y)),
             },
             Self::Str(x) => match other_from {
                 Self::Float(y) => Self::Str(format!("atan2({x}, {y:e})")),
-                Self::Str(y) => Self::Str(format!("atan2({}, {})", x, &y)),
+                Self::Str(y) => Self::Str(format!("atan2({}, {})", x, y)),
             },
         }
     }
@@ -694,11 +694,11 @@ impl CalculatorFloat {
         match self {
             Self::Float(x) => match other_from {
                 Self::Float(y) => CalculatorFloat::Float(x.powf(y)),
-                Self::Str(y) => Self::Str(format!("({:e} ^ {})", x, &y)),
+                Self::Str(y) => Self::Str(format!("({:e} ^ {})", x, y)),
             },
             Self::Str(x) => match other_from {
                 Self::Float(y) => Self::Str(format!("({x} ^ {y:e})")),
-                Self::Str(y) => Self::Str(format!("({} ^ {})", x, &y)),
+                Self::Str(y) => Self::Str(format!("({} ^ {})", x, y)),
             },
         }
     }
@@ -797,7 +797,7 @@ where
                 Self::Float(y) => CalculatorFloat::Float(x + y),
                 Self::Str(y) => {
                     if x != 0.0 {
-                        Self::Str(format!("({:e} + {})", x, &y))
+                        Self::Str(format!("({:e} + {})", x, y))
                     } else {
                         Self::Str(y)
                     }
@@ -806,12 +806,12 @@ where
             Self::Str(x) => match other_from {
                 Self::Float(y) => {
                     if y != 0.0 {
-                        Self::Str(format!("({} + {:e})", &x, y))
+                        Self::Str(format!("({} + {:e})", x, y))
                     } else {
                         Self::Str(x)
                     }
                 }
-                Self::Str(y) => Self::Str(format!("({} + {})", &x, &y)),
+                Self::Str(y) => Self::Str(format!("({} + {})", x, y)),
             },
         }
     }
@@ -854,7 +854,7 @@ where
                 Self::Str(y) => {
                     *self = {
                         if (*x - 0.0).abs() > ATOL {
-                            Self::Str(format!("({:e} + {})", x, &y))
+                            Self::Str(format!("({:e} + {})", x, y))
                         } else {
                             Self::Str(y)
                         }
@@ -871,7 +871,7 @@ where
                         }
                     }
                 }
-                Self::Str(y) => *self = Self::Str(format!("({} + {})", x, &y)),
+                Self::Str(y) => *self = Self::Str(format!("({} + {})", x, y)),
             },
         }
     }
@@ -895,7 +895,7 @@ where
                 CalculatorFloat::Float(y) => CalculatorFloat::Float(x + y),
                 CalculatorFloat::Str(y) => {
                     if (x - 0.0).abs() > ATOL {
-                        CalculatorFloat::Str(format!("({:e} + {})", x, &y))
+                        CalculatorFloat::Str(format!("({:e} + {})", x, y))
                     } else {
                         CalculatorFloat::Str(y)
                     }
@@ -909,7 +909,7 @@ where
                         CalculatorFloat::Str(x.to_owned())
                     }
                 }
-                CalculatorFloat::Str(y) => CalculatorFloat::Str(format!("({} + {})", x, &y)),
+                CalculatorFloat::Str(y) => CalculatorFloat::Str(format!("({} + {})", x, y)),
             },
         }
     }
@@ -946,7 +946,7 @@ where
                     if x == 0.0 {
                         Self::Float(0.0)
                     } else {
-                        Self::Str(format!("({:e} / {})", x, &y))
+                        Self::Str(format!("({:e} / {})", x, y))
                     }
                 }
             },
@@ -957,10 +957,10 @@ where
                     } else if (y - 1.0).abs() < ATOL {
                         Self::Str(x)
                     } else {
-                        Self::Str(format!("({} / {:e})", &x, y))
+                        Self::Str(format!("({} / {:e})", x, y))
                     }
                 }
-                Self::Str(y) => Self::Str(format!("({} / {})", &x, &y)),
+                Self::Str(y) => Self::Str(format!("({} / {})", x, y)),
             },
         }
     }
@@ -999,7 +999,7 @@ where
                         if (*x - 0.0).abs() < ATOL {
                             Self::Float(0.0)
                         } else {
-                            Self::Str(format!("({:e} / {})", x, &y))
+                            Self::Str(format!("({:e} / {})", x, y))
                         }
                     }
                 }
@@ -1016,7 +1016,7 @@ where
                         }
                     }
                 }
-                Self::Str(y) => *self = Self::Str(format!("({} / {})", x, &y)),
+                Self::Str(y) => *self = Self::Str(format!("({} / {})", x, y)),
             },
         }
     }
@@ -1044,7 +1044,7 @@ where
                     } else if (x - 1.0).abs() < ATOL {
                         Self::Str(y)
                     } else {
-                        Self::Str(format!("({:e} * {})", x, &y))
+                        Self::Str(format!("({:e} * {})", x, y))
                     }
                 }
             },
@@ -1055,7 +1055,7 @@ where
                     } else if (y - 1.0).abs() < ATOL {
                         Self::Str(x)
                     } else {
-                        Self::Str(format!("({} * {:e})", &x, y))
+                        Self::Str(format!("({} * {:e})", x, y))
                     }
                 }
                 Self::Str(y) => Self::Str(format!("({x} * {y})")),
@@ -1086,7 +1086,7 @@ where
                     } else if (x - 1.0).abs() < ATOL {
                         CalculatorFloat::Str(y)
                     } else {
-                        CalculatorFloat::Str(format!("({:e} * {})", x, &y))
+                        CalculatorFloat::Str(format!("({:e} * {})", x, y))
                     }
                 }
             },
@@ -1097,7 +1097,7 @@ where
                     } else if (y - 1.0).abs() < ATOL {
                         CalculatorFloat::Str(x.to_string())
                     } else {
-                        CalculatorFloat::Str(format!("({} * {:e})", &x, y))
+                        CalculatorFloat::Str(format!("({} * {:e})", x, y))
                     }
                 }
                 CalculatorFloat::Str(y) => CalculatorFloat::Str(format!("({x} * {y})")),
@@ -1173,7 +1173,7 @@ where
                     if x != 0.0 {
                         CalculatorFloat::Str(format!("({x:e} - {y})"))
                     } else {
-                        CalculatorFloat::Str(format!("(-{})", &y))
+                        CalculatorFloat::Str(format!("(-{})", y))
                     }
                 }
             },
