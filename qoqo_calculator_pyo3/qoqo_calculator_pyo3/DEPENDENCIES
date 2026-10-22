@@ -695,9 +695,9 @@ DEALINGS IN THE SOFTWARE.
 
 
 ====================================================
-libc 0.2.186
+libc 0.2.191
 https://github.com/rust-lang/libc
-by The Rust Project Developers
+by 
 Raw FFI bindings to platform libraries like libc.
 License: MIT OR Apache-2.0
 ----------------------------------------------------
@@ -911,7 +911,7 @@ DEALINGS IN THE SOFTWARE.
 
 
 ====================================================
-memchr 2.8.2
+memchr 2.8.3
 https://github.com/BurntSushi/memchr
 by Andrew Gallant <jamslam@gmail.com>, bluss
 Provides extremely fast (uses SIMD on x86_64, aarch64 and wasm32) routines for
@@ -1701,7 +1701,7 @@ DEALINGS IN THE SOFTWARE.
 
 
 ====================================================
-portable-atomic 1.13.1
+portable-atomic 1.15.0
 https://github.com/taiki-e/portable-atomic
 by 
 Portable atomic types including support for 128-bit atomics, atomic float, etc.
@@ -1917,7 +1917,7 @@ DEALINGS IN THE SOFTWARE.
 
 
 ====================================================
-proc-macro2 1.0.106
+proc-macro2 1.0.107
 https://github.com/dtolnay/proc-macro2
 by David Tolnay <dtolnay@gmail.com>, Alex Crichton <alex@alexcrichton.com>
 A substitute implementation of the compiler's `proc_macro` API to decouple token-based libraries from the procedural macro use case.
@@ -2131,8 +2131,8 @@ DEALINGS IN THE SOFTWARE.
 
 
 ====================================================
-pyo3 0.29.0
-https://github.com/pyo3/pyo3
+pyo3 0.30.1
+https://pyo3.rs/
 by PyO3 Project and Contributors <https://github.com/PyO3>
 Bindings to Python interpreter
 License: MIT OR Apache-2.0
@@ -2349,8 +2349,8 @@ DEALINGS IN THE SOFTWARE.
 
 
 ====================================================
-pyo3-build-config 0.29.0
-https://github.com/pyo3/pyo3
+pyo3-build-config 0.30.1
+https://pyo3.rs/
 by PyO3 Project and Contributors <https://github.com/PyO3>
 Build configuration for the PyO3 ecosystem
 License: MIT OR Apache-2.0
@@ -2567,8 +2567,8 @@ DEALINGS IN THE SOFTWARE.
 
 
 ====================================================
-pyo3-ffi 0.29.0
-https://github.com/pyo3/pyo3
+pyo3-ffi 0.30.1
+https://pyo3.rs/
 by PyO3 Project and Contributors <https://github.com/PyO3>
 Python-API bindings for the PyO3 ecosystem
 License: MIT OR Apache-2.0
@@ -2785,8 +2785,8 @@ DEALINGS IN THE SOFTWARE.
 
 
 ====================================================
-pyo3-macros 0.29.0
-https://github.com/pyo3/pyo3
+pyo3-macros 0.30.1
+https://pyo3.rs/
 by PyO3 Project and Contributors <https://github.com/PyO3>
 Proc macros for PyO3 package
 License: MIT OR Apache-2.0
@@ -3003,8 +3003,8 @@ DEALINGS IN THE SOFTWARE.
 
 
 ====================================================
-pyo3-macros-backend 0.29.0
-https://github.com/pyo3/pyo3
+pyo3-macros-backend 0.30.1
+https://pyo3.rs/
 by PyO3 Project and Contributors <https://github.com/PyO3>
 Code generation for PyO3 package
 License: MIT OR Apache-2.0
@@ -3221,7 +3221,7 @@ DEALINGS IN THE SOFTWARE.
 
 
 ====================================================
-qoqo_calculator 1.9.0
+qoqo_calculator 1.9.1
 https://github.com/HQSquantumsimulations/qoqo_calculator
 by HQS Quantum Simulations <info@quantumsimulations.de>
 qoqo-calculator is the calculator backend of the qoqo quantum computing toolkit by HQS Quantum Simulations
@@ -3433,7 +3433,7 @@ LICENSE:
 
 
 ====================================================
-qoqo_calculator_pyo3 1.9.0
+qoqo_calculator_pyo3 1.9.1
 https://github.com/HQSquantumsimulations/qoqo_calculator_pyo3
 by HQS Quantum Simulations <info@quantumsimulations.de>
 Python interface to qoqo calculator, the calculator backend of the qoqo quantum computing toolkit by HQS Quantum Simulations
@@ -3645,7 +3645,7 @@ LICENSE:
 
 
 ====================================================
-quote 1.0.46
+quote 1.0.47
 https://github.com/dtolnay/quote
 by David Tolnay <dtolnay@gmail.com>
 Quasi-quoting macro quote!(...)
@@ -3859,7 +3859,7 @@ DEALINGS IN THE SOFTWARE.
 
 
 ====================================================
-serde 1.0.228
+serde 1.0.229
 https://serde.rs
 by Erick Tryzelaar <erick.tryzelaar@gmail.com>, David Tolnay <dtolnay@gmail.com>
 A generic serialization/deserialization framework
@@ -4073,7 +4073,7 @@ DEALINGS IN THE SOFTWARE.
 
 
 ====================================================
-serde_core 1.0.228
+serde_core 1.0.229
 https://serde.rs
 by Erick Tryzelaar <erick.tryzelaar@gmail.com>, David Tolnay <dtolnay@gmail.com>
 Serde traits only, with no support for derive -- use the `serde` crate instead
@@ -4287,7 +4287,7 @@ DEALINGS IN THE SOFTWARE.
 
 
 ====================================================
-serde_derive 1.0.228
+serde_derive 1.0.229
 https://serde.rs
 by Erick Tryzelaar <erick.tryzelaar@gmail.com>, David Tolnay <dtolnay@gmail.com>
 Macros 1.1 implementation of #[derive(Serialize, Deserialize)]
@@ -4501,9 +4501,9 @@ DEALINGS IN THE SOFTWARE.
 
 
 ====================================================
-serde_json 1.0.150
+serde_json 1.0.154
 https://github.com/serde-rs/json
-by Erick Tryzelaar <erick.tryzelaar@gmail.com>, David Tolnay <dtolnay@gmail.com>
+by 
 A JSON serialization file format
 License: MIT OR Apache-2.0
 ----------------------------------------------------
@@ -4929,7 +4929,7 @@ DEALINGS IN THE SOFTWARE.
 
 
 ====================================================
-syn 2.0.118
+syn 3.0.9
 https://github.com/dtolnay/syn
 by David Tolnay <dtolnay@gmail.com>
 Parser for Rust source code
@@ -5374,7 +5374,7 @@ Software.
 
 
 ====================================================
-thiserror 2.0.18
+thiserror 2.0.21
 https://github.com/dtolnay/thiserror
 by David Tolnay <dtolnay@gmail.com>
 derive(Error)
@@ -5588,7 +5588,7 @@ DEALINGS IN THE SOFTWARE.
 
 
 ====================================================
-thiserror-impl 2.0.18
+thiserror-impl 2.0.21
 https://github.com/dtolnay/thiserror
 by David Tolnay <dtolnay@gmail.com>
 Implementation detail of the `thiserror` crate
@@ -5802,7 +5802,7 @@ DEALINGS IN THE SOFTWARE.
 
 
 ====================================================
-unicode-ident 1.0.24
+unicode-ident 1.0.27
 https://github.com/dtolnay/unicode-ident
 by David Tolnay <dtolnay@gmail.com>
 Determine whether characters have the XID_Start or XID_Continue properties according to Unicode Standard Annex #31
@@ -6059,10 +6059,10 @@ DEALINGS IN THE SOFTWARE.
 
 
 ====================================================
-zmij 1.0.21
+zmij 1.0.23
 https://github.com/dtolnay/zmij
 by David Tolnay <dtolnay@gmail.com>
-A double-to-string conversion algorithm based on Schubfach and yy
+A double-to-string conversion algorithm based on Schubfach and xjb
 License: MIT
 ----------------------------------------------------
 LICENSE-MIT:

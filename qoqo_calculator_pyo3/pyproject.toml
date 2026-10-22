@@ -1,7 +1,7 @@
 [project]
 name = "qoqo_calculator_pyo3"
-version = "1.9.0"
-license = { text = "Apache-2.0 AND Apache-2.0 with LLVM-exception AND MIT AND Unicode-DFS-2016" }
+version = "1.9.1"
+license = { text = "Apache-2.0 AND Apache-2.0 WITH LLVM-exception AND MIT AND Unicode-DFS-2016" }
 authors = [
     { name = "HQS Quantum Simulation GmbH", email = "info@quantumsimulations.de" },
 ]
@@ -11,7 +11,7 @@ maintainers = [
 requires-python = ">=3.10"
 
 [build-system]
-requires = ["maturin>=1.4"]
+requires = ["maturin>=1.9.4"]
 build-backend = "maturin"
 
 [tool.maturin]
